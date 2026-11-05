@@ -1,0 +1,645 @@
+{
+ "_note": "Recorded from the live Netdata Cloud API on 2026-10-15 (POST /api/v3/spaces/{space}/rooms/{room}/data, the source's own group request), trimmed to the fields the adapter reads. print had system_post_update_reboot_status in WARNING (a reboot pending after updates).",
+ "api": 3,
+ "agents": [
+  {
+   "ai": 0,
+   "now": 1792077358,
+   "nm": "print"
+  },
+  {
+   "ai": 1,
+   "now": 1792077358,
+   "nm": "node-4"
+  },
+  {
+   "ai": 2,
+   "now": 1792077358,
+   "nm": "node-2"
+  },
+  {
+   "ai": 3,
+   "now": 1792077358,
+   "nm": "node-1"
+  },
+  {
+   "ai": 4,
+   "now": 1792077358,
+   "nm": "node-5"
+  },
+  {
+   "ai": 5,
+   "now": 1792077358,
+   "nm": "mac-a1.example.net"
+  },
+  {
+   "ai": 6,
+   "now": 1792077358,
+   "nm": "node-3"
+  }
+ ],
+ "summary": {
+  "nodes": [
+   {
+    "ni": 0,
+    "mg": "00000000-0000-4000-8000-000000000008",
+    "nd": "00000000-0000-4000-8000-000000000007",
+    "nm": "print",
+    "st": {
+     "ai": 0,
+     "code": 200
+    }
+   },
+   {
+    "ni": 1,
+    "mg": "00000000-0000-4000-8000-00000000000a",
+    "nd": "00000000-0000-4000-8000-000000000009",
+    "nm": "node-4",
+    "st": {
+     "ai": 1,
+     "code": 200
+    }
+   },
+   {
+    "ni": 2,
+    "mg": "00000000-0000-4000-8000-00000000000c",
+    "nd": "00000000-0000-4000-8000-00000000000b",
+    "nm": "node-2",
+    "st": {
+     "ai": 2,
+     "code": 200
+    }
+   },
+   {
+    "ni": 3,
+    "mg": "00000000-0000-4000-8000-00000000000e",
+    "nd": "00000000-0000-4000-8000-00000000000d",
+    "nm": "node-1",
+    "st": {
+     "ai": 3,
+     "code": 200
+    }
+   },
+   {
+    "ni": 4,
+    "mg": "00000000-0000-4000-8000-000000000002",
+    "nd": "00000000-0000-4000-8000-000000000001",
+    "nm": "node-5",
+    "st": {
+     "ai": 4,
+     "code": 200
+    }
+   },
+   {
+    "ni": 5,
+    "mg": "00000000-0000-4000-8000-000000000004",
+    "nd": "00000000-0000-4000-8000-000000000003",
+    "nm": "mac-a1.example.net",
+    "st": {
+     "ai": 5,
+     "code": 200
+    }
+   },
+   {
+    "ni": 6,
+    "mg": "00000000-0000-4000-8000-000000000006",
+    "nd": "00000000-0000-4000-8000-000000000005",
+    "nm": "node-3",
+    "st": {
+     "ai": 6,
+     "code": 200
+    }
+   }
+  ],
+  "instances": [
+   {
+    "id": "mem.available",
+    "ni": 6,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "mem.available",
+    "ni": 0,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "mem.available",
+    "ni": 3,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "mem.available",
+    "ni": 1,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "mem.available",
+    "ni": 2,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "mem.available",
+    "ni": 4,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "mem.hwcorrupt",
+    "ni": 0,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "mem.hwcorrupt",
+    "ni": 4,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "mem.hwcorrupt",
+    "ni": 3,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "mem.hwcorrupt",
+    "ni": 6,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "mem.hwcorrupt",
+    "ni": 1,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "mem.hwcorrupt",
+    "ni": 2,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "mem.oom_kill",
+    "ni": 2,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "mem.oom_kill",
+    "ni": 4,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "mem.oom_kill",
+    "ni": 3,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "mem.oom_kill",
+    "ni": 6,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "mem.oom_kill",
+    "ni": 1,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "mem.oom_kill",
+    "ni": 0,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "mem.swap",
+    "ni": 3,
+    "ds": {
+     "ex": 2
+    },
+    "al": {}
+   },
+   {
+    "id": "mem.swap",
+    "ni": 1,
+    "ds": {
+     "ex": 2
+    },
+    "al": {}
+   },
+   {
+    "id": "mem.swap",
+    "ni": 2,
+    "ds": {
+     "ex": 2
+    },
+    "al": {}
+   },
+   {
+    "id": "mem.swap",
+    "ni": 4,
+    "ds": {
+     "ex": 2
+    },
+    "al": {}
+   },
+   {
+    "id": "mem.swap",
+    "ni": 6,
+    "ds": {
+     "ex": 2
+    },
+    "al": {}
+   },
+   {
+    "id": "mem.swap",
+    "ni": 0,
+    "ds": {
+     "ex": 2
+    },
+    "al": {}
+   },
+   {
+    "id": "mem.swap",
+    "ni": 5,
+    "ds": {
+     "ex": 2
+    },
+    "al": {}
+   },
+   {
+    "id": "system.clock_sync_state",
+    "ni": 2,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "system.clock_sync_state",
+    "ni": 1,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "system.clock_sync_state",
+    "ni": 6,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "system.clock_sync_state",
+    "ni": 0,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "system.clock_sync_state",
+    "ni": 5,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "system.clock_sync_state",
+    "ni": 3,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "system.clock_sync_state",
+    "ni": 4,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "system.file_nr_utilization",
+    "ni": 2,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "system.file_nr_utilization",
+    "ni": 3,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "system.file_nr_utilization",
+    "ni": 4,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "system.file_nr_utilization",
+    "ni": 0,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "system.file_nr_utilization",
+    "ni": 6,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "system.file_nr_utilization",
+    "ni": 1,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "system.post_update_reboot_status",
+    "ni": 0,
+    "ds": {
+     "sl": 2,
+     "qr": 2
+    },
+    "al": {
+     "wr": 1
+    }
+   },
+   {
+    "id": "system.ram",
+    "ni": 3,
+    "ds": {
+     "ex": 4
+    },
+    "al": {}
+   },
+   {
+    "id": "system.ram",
+    "ni": 1,
+    "ds": {
+     "ex": 4
+    },
+    "al": {}
+   },
+   {
+    "id": "system.ram",
+    "ni": 0,
+    "ds": {
+     "ex": 4
+    },
+    "al": {}
+   },
+   {
+    "id": "system.ram",
+    "ni": 2,
+    "ds": {
+     "ex": 4
+    },
+    "al": {}
+   },
+   {
+    "id": "system.ram",
+    "ni": 6,
+    "ds": {
+     "ex": 4
+    },
+    "al": {}
+   },
+   {
+    "id": "system.ram",
+    "ni": 4,
+    "ds": {
+     "ex": 4
+    },
+    "al": {}
+   },
+   {
+    "id": "system.ram",
+    "ni": 5,
+    "ds": {
+     "ex": 8
+    },
+    "al": {}
+   },
+   {
+    "id": "system.uptime",
+    "ni": 2,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "system.uptime",
+    "ni": 5,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "system.uptime",
+    "ni": 1,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "system.uptime",
+    "ni": 6,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "system.uptime",
+    "ni": 3,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "system.uptime",
+    "ni": 0,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "system.uptime",
+    "ni": 4,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   }
+  ],
+  "alerts": [
+   {
+    "nm": "1hour_memory_hw_corrupted",
+    "cl": 6
+   },
+   {
+    "nm": "oom_kill",
+    "cl": 6
+   },
+   {
+    "nm": "ram_available",
+    "cl": 6
+   },
+   {
+    "nm": "ram_in_use",
+    "cl": 6
+   },
+   {
+    "nm": "system_clock_sync_state",
+    "cl": 6
+   },
+   {
+    "nm": "system_file_descriptors_utilization",
+    "cl": 6
+   },
+   {
+    "nm": "system_post_update_reboot_status",
+    "wr": 1
+   },
+   {
+    "nm": "system_reboot_detection",
+    "cl": 7
+   },
+   {
+    "nm": "used_swap",
+    "cl": 6
+   }
+  ]
+ },
+ "totals": {
+  "nodes": {
+   "sl": 1,
+   "ex": 6,
+   "qr": 1
+  },
+  "instances": {
+   "sl": 1,
+   "ex": 52,
+   "qr": 1
+  }
+ },
+ "view": {
+  "units": [
+   "seconds",
+   "percentage",
+   "status",
+   "kills/s",
+   "MiB",
+   "state"
+  ],
+  "dimensions": {
+   "grouped_by": [
+    "dimension",
+    "instance",
+    "node"
+   ],
+   "ids": [
+    "required,system.post_update_reboot_status,00000000-0000-4000-8000-000000000008",
+    "not_required,system.post_update_reboot_status,00000000-0000-4000-8000-000000000008"
+   ],
+   "names": [
+    "required,system.post_update_reboot_status,print",
+    "not_required,system.post_update_reboot_status,print"
+   ],
+   "units": [
+    "status",
+    "status"
+   ]
+  }
+ },
+ "result": {
+  "labels": [
+   "time",
+   "required,system.post_update_reboot_status,00000000-0000-4000-8000-000000000008",
+   "not_required,system.post_update_reboot_status,00000000-0000-4000-8000-000000000008"
+  ],
+  "data": [
+   [
+    1792077357,
+    [
+     1,
+     0,
+     0
+    ],
+    [
+     0,
+     0,
+     0
+    ]
+   ]
+  ]
+ }
+}

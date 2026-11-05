@@ -1,0 +1,2 @@
+# The fixture's schedule, as a project keeps one. The scan must find this line and propose a heartbeat.
+*/2 * * * * cd /srv/app && node job.mjs >> /var/log/job.log 2>&1

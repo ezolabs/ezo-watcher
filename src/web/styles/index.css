@@ -1,0 +1,97 @@
+@import 'tailwindcss';
+@import './tokens.css';
+@import './wall.css';
+@import './fleet.css';
+@import './sheet-detail.css';
+@import './agent.css';
+
+/* Base. Colour, type and spacing come from tokens.css only. */
+@layer base {
+  html {
+    background: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-ui);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    background: var(--color-bg);
+  }
+  h1,
+  h2,
+  h3,
+  p {
+    margin: 0;
+  }
+  button {
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+  }
+  ul,
+  ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  code,
+  pre,
+  .mono {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    /* a command is copied as it reads: "--max-depth" must not draw as one long dash */
+    font-variant-ligatures: none;
+  }
+  .num {
+    font-variant-numeric: tabular-nums;
+  }
+  /* On a touch pointer, sentences are one step larger and targets reach the touch floor. */
+  @media (pointer: coarse) {
+    html {
+      font-size: var(--text-title);
+      line-height: var(--text-title--line-height);
+    }
+  }
+}
+
+/* Keyboard focus: a solid ring in the foreground colour, 3:1 against both canvases.
+   (design-web templates/focus-ring.css, WCAG 2.2 SC 2.4.13.) */
+:focus-visible {
+  outline: var(--size-ring) solid var(--color-fg);
+  outline-offset: var(--size-focus-ring-offset);
+}
+.on-severity:focus-visible {
+  outline-color: var(--color-fg);
+}
+
+.sr-only {
+  position: absolute;
+  width: var(--size-hairline);
+  height: var(--size-hairline);
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Skeleton tiles: the same anatomy as a tile, static (no shimmer, so nothing to guard). */
+.skeleton {
+  background: color-mix(in oklab, var(--color-fg) calc(var(--overlay-hover) * 100%), var(--color-raised));
+  border-radius: var(--radius-8);
+}
+
+/* Reduced motion: remove position transitions entirely rather than re-curve them.
+   (design-web templates/reduced-motion.css; WCAG 2.2 SC 2.3.3.) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

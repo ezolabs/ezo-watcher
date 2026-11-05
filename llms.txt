@@ -1,0 +1,37 @@
+# EZO Watcher
+
+> Agent-first monitoring that lives in your project: an alert wall, a pager, and a `watcher` CLI whose install loop a coding agent runs end to end. Local by default; no account; config as code in `.watcher/`.
+
+EZO Watcher watches a project's real telemetry points — a dependency-gated readiness route first, heartbeats for every scheduled job, then error trackers, metrics and inbound webhooks — and proves each check can go red before calling the install done.
+
+Install (from GitHub; not yet on npm): `CI=1 npm_config_yes=true npm i -g --install-links github:ezolabs/ezo-watcher`. The one-prompt setup is in [README](README.md). The gate is `watcher doctor --live --prove --json` returning `{"ok": true, "live": true}`.
+
+## Agent entry points
+
+- [Skill: EZO Watcher](skills/ezo-watcher/SKILL.md): the install loop, the ranking, and the silence-first checklist — start here.
+- [Install](skills/ezo-watcher/references/install.md): requirements, install paths, what `watcher init` writes, exit codes, upgrade.
+- [Discover](skills/ezo-watcher/references/discover.md): the full signal catalogue, the six silence classes a scan misses, the readiness-route rule.
+- [Sources](skills/ezo-watcher/references/sources.md): every source kind (`http-probe`, `tcp-probe`, `heartbeat`, `domain-expiry`, `host`, `feed`, `sentry`, `grafana`, `vmalert`, `netdata-cloud`, `netdata-fleet`, `webhook`), its config keys, flags and an example.
+- [Channels](skills/ezo-watcher/references/channels.md): webhook, ntfy, email, SMS, web push, routes and escalation.
+- [Hosting](skills/ezo-watcher/references/hosting.md): local → service → Docker/VPS → Cloudflare Tunnel → Containers (beta).
+- [Cloudflare](skills/ezo-watcher/references/cloudflare.md): token permissions, `watcher cloudflare tunnel --hostname`, Access, failure codes.
+- [Netdata](skills/ezo-watcher/references/netdata.md): the add-on, Cloud poll and webhook paths.
+- [Fix](skills/ezo-watcher/references/fix.md): the fix loop — `get_fix_context`, repair, redeploy, `verify_fix` — and what "fixed" means per incident kind.
+- [Operate](skills/ezo-watcher/references/operate.md): the 16 MCP tools, the stdio bridge and session hook, incident triage, re-check, keeping the Watcher alive.
+
+## Repository rules
+
+- [AGENTS.md](AGENTS.md): how to work in this repository — commands, layout, tests, the leak gate, commit style.
+
+## Product docs
+
+- [README](README.md): what it is and the one copy-paste prompt.
+- [Design](docs/design.md): the wall, the layout, notifications and the decisions behind them.
+- [MCP](docs/mcp.md): the MCP endpoint, its auth and its tools.
+- [Doctor codes](docs/doctor-codes.md): every doctor code and the fix it names.
+- [Embed](docs/embed.md): the embeddable summary and incident card.
+
+## Optional
+
+- [Cloudflare Containers template](deploy/cloudflare/containers/): beta hosting for a user with no host.
+- [Netdata add-on](addons/netdata/README.md): the Netdata-side configuration and snippet.

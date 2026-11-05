@@ -1,0 +1,6 @@
+{
+ "_note": "Recorded 2026-10-15: GET .../nodes with a made-up bearer value answers HTTP 401 with this body.",
+ "errorCode": "KZYLBcsNw4-403523914",
+ "errorMsgKey": "ErrUnauthenticated",
+ "errorMessage": "malformed API token: parsing api token: token contains an invalid number of segments"
+}

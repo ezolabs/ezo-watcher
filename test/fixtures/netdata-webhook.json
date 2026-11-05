@@ -1,0 +1,183 @@
+{
+  "note": "CONSTRUCTED, not captured. Netdata publishes a field table for its Cloud webhook but no sample body (integrations/cloud-notifications/integrations/webhook.md, retrieved 2026-10-15), so every body below follows that table. The message texts are guesses at Netdata Cloud's wording: the host extractor is tested against several, and against none at all. Replace these with a captured body as soon as the first real notification reaches /ingest/netdata (the alert's Raw disclosure on the wall holds it).",
+  "verification": {
+    "message": "This is a test notification from Netdata Cloud.",
+    "token": "constructed verification value, not a real one"
+  },
+  "alerts": {
+    "s3DiskSpaceCritical": {
+      "message": "disk_space_usage on node-3 is critical: 98.9% used, 3.1 GiB available",
+      "alert": "disk_space_usage",
+      "info": "disk / space utilization",
+      "chart": "disk_space./",
+      "context": "disk.space",
+      "space": "Example space",
+      "Rooms": {
+        "All nodes": "https://app.netdata.cloud/spaces/the operator-space/rooms/all-nodes"
+      },
+      "family": "/",
+      "class": "Utilization",
+      "severity": "critical",
+      "date": "2026-10-15T14:00:00.000Z",
+      "duration": "2m",
+      "additional_active_critical_alerts": 0,
+      "additional_active_warning_alerts": 1,
+      "alert_url": "https://app.netdata.cloud/spaces/the operator-space/rooms/all-nodes/alerts/constructed-0001"
+    },
+    "s3DiskFillWarning": {
+      "message": "out_of_disk_space_time on node-3 is warning: disk will be full in 6.5 hours",
+      "alert": "out_of_disk_space_time",
+      "info": "estimated time the disk will run out of space, if the system continues to add data at the same rate for each partition",
+      "chart": "disk_space./",
+      "context": "disk.space",
+      "space": "Example space",
+      "Rooms": {
+        "All nodes": "https://app.netdata.cloud/spaces/the operator-space/rooms/all-nodes"
+      },
+      "family": "/",
+      "class": "Utilization",
+      "severity": "warning",
+      "date": "2026-10-15T13:30:00.000Z",
+      "duration": "0s",
+      "additional_active_critical_alerts": 0,
+      "additional_active_warning_alerts": 0,
+      "alert_url": "https://app.netdata.cloud/spaces/the operator-space/rooms/all-nodes/alerts/constructed-0002"
+    },
+    "s5DiskSpaceCritical": {
+      "message": "disk_space_usage on node-5 is critical: 98.4% used, 4.2 GiB available",
+      "alert": "disk_space_usage",
+      "info": "disk /var/lib/docker space utilization",
+      "chart": "disk_space./var/lib/docker",
+      "context": "disk.space",
+      "space": "Example space",
+      "Rooms": {
+        "All nodes": "https://app.netdata.cloud/spaces/the operator-space/rooms/all-nodes"
+      },
+      "family": "/var/lib/docker",
+      "class": "Utilization",
+      "severity": "critical",
+      "date": "2026-10-15T14:10:00.000Z",
+      "duration": "1m",
+      "additional_active_critical_alerts": 0,
+      "additional_active_warning_alerts": 0,
+      "alert_url": "https://app.netdata.cloud/spaces/the operator-space/rooms/all-nodes/alerts/constructed-0003"
+    },
+    "s5DiskSpaceWarning": {
+      "message": "disk_space_usage on node-5 is warning: 91.7% used, 52 GiB available",
+      "alert": "disk_space_usage",
+      "info": "disk /var/lib/docker space utilization",
+      "chart": "disk_space./var/lib/docker",
+      "context": "disk.space",
+      "space": "Example space",
+      "Rooms": {
+        "All nodes": "https://app.netdata.cloud/spaces/the operator-space/rooms/all-nodes"
+      },
+      "family": "/var/lib/docker",
+      "class": "Utilization",
+      "severity": "warning",
+      "date": "2026-10-15T13:50:00.000Z",
+      "duration": "0s",
+      "additional_active_critical_alerts": 0,
+      "additional_active_warning_alerts": 0,
+      "alert_url": "https://app.netdata.cloud/spaces/the operator-space/rooms/all-nodes/alerts/constructed-0004"
+    },
+    "s5DiskSpaceClear": {
+      "message": "disk_space_usage on node-5 recovered: 71.0% used",
+      "alert": "disk_space_usage",
+      "info": "disk /var/lib/docker space utilization",
+      "chart": "disk_space./var/lib/docker",
+      "context": "disk.space",
+      "space": "Example space",
+      "Rooms": {
+        "All nodes": "https://app.netdata.cloud/spaces/the operator-space/rooms/all-nodes"
+      },
+      "family": "/var/lib/docker",
+      "class": "Utilization",
+      "severity": "clear",
+      "date": "2026-10-15T15:00:00.000Z",
+      "duration": "1h10m",
+      "additional_active_critical_alerts": 0,
+      "additional_active_warning_alerts": 0,
+      "alert_url": "https://app.netdata.cloud/spaces/the operator-space/rooms/all-nodes/alerts/constructed-0005"
+    },
+    "s2RamCritical": {
+      "message": "ram_in_use on node-2 is critical: 96.2% used",
+      "alert": "ram_in_use",
+      "info": "system memory utilization",
+      "chart": "system.ram",
+      "context": "system.ram",
+      "space": "Example space",
+      "Rooms": {
+        "All nodes": "https://app.netdata.cloud/spaces/the operator-space/rooms/all-nodes"
+      },
+      "family": "ram",
+      "class": "Utilization",
+      "severity": "critical",
+      "date": "2026-10-15T14:20:00.000Z",
+      "duration": "5m",
+      "additional_active_critical_alerts": 0,
+      "additional_active_warning_alerts": 0,
+      "alert_url": "https://app.netdata.cloud/spaces/the operator-space/rooms/all-nodes/alerts/constructed-0006"
+    },
+    "s4BacklogWarning": {
+      "message": "10min_disk_backlog on node-4 is warning: 6200 ms average backlog",
+      "alert": "10min_disk_backlog",
+      "info": "average backlog size of the md0 disk over the last 10 minutes",
+      "chart": "disk_backlog.md0",
+      "context": "disk.backlog",
+      "space": "Example space",
+      "Rooms": {
+        "All nodes": "https://app.netdata.cloud/spaces/the operator-space/rooms/all-nodes"
+      },
+      "family": "md0",
+      "class": "Latency",
+      "severity": "warning",
+      "date": "2026-10-15T14:25:00.000Z",
+      "duration": "0s",
+      "additional_active_critical_alerts": 0,
+      "additional_active_warning_alerts": 2,
+      "alert_url": "https://app.netdata.cloud/spaces/the operator-space/rooms/all-nodes/alerts/constructed-0007"
+    },
+    "s3InodesCritical": {
+      "message": "disk_inode_usage on node-3 is critical: 99.1% of inodes used",
+      "alert": "disk_inode_usage",
+      "info": "disk /tmp inode utilization",
+      "chart": "disk_inodes./tmp",
+      "context": "disk.inodes",
+      "space": "Example space",
+      "Rooms": {
+        "All nodes": "https://app.netdata.cloud/spaces/the operator-space/rooms/all-nodes"
+      },
+      "family": "/tmp",
+      "class": "Utilization",
+      "severity": "critical",
+      "date": "2026-10-15T14:30:00.000Z",
+      "duration": "1m",
+      "additional_active_critical_alerts": 0,
+      "additional_active_warning_alerts": 0,
+      "alert_url": "https://app.netdata.cloud/spaces/the operator-space/rooms/all-nodes/alerts/constructed-0008"
+    }
+  },
+  "reachability": {
+    "s2Unreachable": {
+      "message": "Node node-2 is unreachable",
+      "url": "https://app.netdata.cloud/spaces/the operator-space/rooms/all-nodes/nodes/constructed-node-node-2",
+      "host": "node-2",
+      "severity": "critical",
+      "status": {
+        "reachable": false,
+        "text": "unreachable"
+      }
+    },
+    "s2Reachable": {
+      "message": "Node node-2 is reachable again",
+      "url": "https://app.netdata.cloud/spaces/the operator-space/rooms/all-nodes/nodes/constructed-node-node-2",
+      "host": "node-2",
+      "severity": "info",
+      "status": {
+        "reachable": true,
+        "text": "reachable"
+      }
+    }
+  }
+}

@@ -1,0 +1,187 @@
+/* The incident sheet's detail: the error hero and "What happened" as Markdown (docs/design.md, The Story layout). Every value is a token from
+   tokens.css, nothing is declared here that it does not carry. The one bold thing in the sheet is the hero: the error, large, in the
+   monospaced face, on the raised surface with the sheet's 16 px radius. Hue is severity only, and only on the hero's own hairline. */
+
+/* ---- the error hero ---------------------------------------------------------------------------------------------------- */
+.hero {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-12);
+  padding: var(--spacing-16);
+  border: var(--size-hairline) solid var(--color-line-strong);
+  border-radius: var(--radius-16);
+  background: var(--color-raised);
+}
+.hero[data-tone='page'] {
+  border-color: var(--color-danger);
+}
+.hero[data-tone='warning'] {
+  border-color: var(--color-warn);
+}
+/* the error: the largest line under the title, mono, wrapping at any point so a signature or an address never cuts or scrolls */
+.hero__line {
+  flex: 1 1 0;
+  min-width: 0;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-headline);
+  line-height: var(--text-headline--line-height);
+  font-weight: var(--text-headline--font-weight);
+  letter-spacing: var(--text-headline--letter-spacing);
+  font-variant-ligatures: none;
+  overflow-wrap: anywhere;
+}
+/* the error and its Copy control side by side: Copy takes the error, so it sits beside it */
+.hero__head {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-12);
+}
+.hero__head .btn {
+  flex: none;
+}
+/* what it is about: a row of label and value pairs, wrapping as a row */
+.hero__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-4) var(--spacing-16);
+  min-width: 0;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-code);
+  line-height: var(--text-code--line-height);
+}
+.hero__fact {
+  display: flex;
+  gap: var(--spacing-8);
+  min-width: 0;
+}
+.hero__fact dt {
+  flex: none;
+  color: var(--color-muted);
+}
+.hero__fact dd {
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* ---- What happened: Markdown, a lead line and the rest ------------------------------------------------------------------ */
+.md {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8);
+  max-width: var(--size-measure);
+  overflow-wrap: anywhere;
+}
+/* the first sentence: one step up from the body, full ink */
+.md__lead {
+  margin: 0;
+  font-size: var(--text-title);
+  line-height: var(--text-title--line-height);
+}
+.md__p {
+  margin: 0;
+  color: var(--color-fg-secondary);
+}
+.md__h {
+  margin: 0;
+  font-weight: var(--text-title--font-weight);
+}
+.md strong {
+  color: var(--color-fg);
+  font-weight: var(--text-title--font-weight);
+}
+.md code {
+  padding: 0 var(--spacing-4);
+  border-radius: var(--radius-8);
+  background: var(--color-sunken);
+  font-size: var(--text-code);
+  line-height: var(--text-code--line-height);
+  white-space: pre-wrap;
+}
+.md__list {
+  display: grid;
+  gap: var(--spacing-4);
+  margin: 0;
+  padding-left: var(--spacing-24);
+  list-style: disc;
+  color: var(--color-fg-secondary);
+}
+.md__list[data-ordered] {
+  list-style: decimal;
+}
+.md__list li::marker {
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+}
+.md__sub {
+  margin-left: var(--spacing-16);
+  list-style: circle;
+}
+/* a fenced block: the evidence block's surface, scrolling past the same number of lines */
+.md__code {
+  margin: 0;
+  padding: var(--spacing-12);
+  border: var(--size-hairline) solid var(--color-line);
+  border-radius: var(--radius-8);
+  background: var(--color-sunken);
+  /* content-box, so the 12 lines are the content and the padding sits outside them */
+  box-sizing: content-box;
+  max-height: calc(var(--text-code--line-height) * var(--output-lines));
+  overflow: auto;
+  font-size: var(--text-code);
+  line-height: var(--text-code--line-height);
+  white-space: pre-wrap;
+}
+.md__code code {
+  padding: 0;
+  background: none;
+}
+/* the rest of a long text: closed, one quiet control; open, one sentence to a line */
+.md__more > summary {
+  gap: var(--spacing-4);
+  width: max-content;
+  min-height: var(--spacing-32);
+  color: var(--color-muted);
+}
+.md__more > summary:hover {
+  color: var(--color-fg);
+}
+.md__more > summary svg {
+  flex: none;
+  width: var(--size-icon-tree);
+  height: var(--size-icon-tree);
+  transition: transform var(--duration-100) var(--ease-standard);
+}
+.md__more[open] > summary svg {
+  transform: rotate(var(--chevron-open));
+}
+.md__rest {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8);
+  padding-top: var(--spacing-4);
+}
+@media (pointer: coarse) {
+  .md__more > summary {
+    min-height: var(--size-target);
+  }
+}
+/* a phone gives the hero's text the whole width: Copy sits under it */
+@media (max-width: 40rem) {
+  .hero {
+    padding: var(--spacing-12);
+  }
+  .hero__head {
+    flex-wrap: wrap;
+  }
+  .hero__line {
+    flex-basis: 100%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .md__more > summary svg {
+    transition: none;
+  }
+}

@@ -1,0 +1,377 @@
+/* EZO Watcher design tokens. Every value below is copied into this repository, not invented: the design system's
+   neutrals, the severity hues, the type scale, the durations and easing, and the phone floors (fields, targets, the 320 px
+   row). Hex literals live ONLY in this file. The look plan (palette, two radii, hue reserved for severity) is written in
+   docs/design.md. Each line carries its source key. Layout sizes at the bottom are integer multiples of tokens, with the
+   derivation in the comment. */
+
+@theme static {
+  /* neutrals (dark) */
+  --color-bg: #0d0d0d;
+  --color-raised: #1a1a1c;
+  --color-sunken: #0a0a0b;
+  --color-line: #1e1e21;
+  --color-line-strong: #3a3b40;
+  --color-fg: #e6e8ee;
+  --color-fg-secondary: #c9ccd4;
+  --color-muted: #aeb1bc;
+  /* the severity data channel (tokens: --color-danger, --color-warn): amber and red mean a person has not taken it yet */
+  --color-danger: #f23f42;
+  --color-warn: #f0b132;
+  /* the one hue that is not severity: a parked incident (docs/design.md, Parked), one the sweep has an open verdict for that is not due yet. A calm slate blue,
+     never amber or red, so a tile in it can never be mistaken for a live problem. Dark #7f9cc9 is 6.21:1 on --color-raised and 6.94:1 on --color-bg, so its text clears
+     4.5:1 and its 1 px outline and glyph clear 3:1; the light value is the same hue (216.5 degrees) darkened to 4.94:1 on the light raised and 5.45:1 on the light canvas */
+  --color-parked: #7f9cc9;
+
+  /* type */
+  --font-ui: SF Pro Rounded, ui-rounded, Inter, system-ui, sans-serif;
+  --font-mono: ui-monospace, SF Mono, SFMono-Regular, Menlo, Consolas, Liberation Mono, monospace;
+  --text-display: 32px;
+  --text-display--line-height: 36px;
+  --text-display--font-weight: 600;
+  --text-display--letter-spacing: -0.85px;
+  --text-headline: 22px;
+  --text-headline--line-height: 28px;
+  --text-headline--font-weight: 500;
+  --text-headline--letter-spacing: -0.4px;
+  --text-title: 15px;
+  --text-title--line-height: 20px;
+  --text-title--font-weight: 500;
+  --text-title--letter-spacing: 0px;
+  --text-body: 13px;
+  --text-body--line-height: 19px;
+  --text-body--font-weight: 400;
+  --text-body--letter-spacing: 0px;
+  --text-code: 12px;
+  --text-code--line-height: 18px;
+  --text-code--font-weight: 400;
+  --text-code--letter-spacing: 0px;
+
+  /* spacing (tokens) */
+  --spacing-2: 2px;
+  --spacing-4: 4px;
+  --spacing-6: 6px;
+  --spacing-8: 8px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  --spacing-20: 20px;
+  --spacing-24: 24px;
+  --spacing-32: 32px;
+  --spacing-40: 40px;
+  --spacing-48: 48px;
+
+  /* the two radii and the pill (S1: radius-8, radius-16, radius-pill) */
+  --radius-8: 8px;
+  --radius-16: 16px;
+  --radius-pill: 9999px;
+}
+
+/* plain custom properties */
+:root {
+  color-scheme: dark;
+
+  /* overlay opacities (tokens) */
+  --overlay-hover: 0.06;
+  --overlay-row-active: 0.14;
+  --overlay-data-wash: 0.16;
+  --overlay-hit: 0.28;
+  --overlay-scrim: 0.32;
+  --overlay-figure: 0.6;
+  --overlay-lightbox: 0.8;
+  --overlay-pair-skeleton: 0.5;
+
+  /* sizes (tokens) */
+  --size-hairline: 1px;
+  --size-ring: 2px;
+  --size-ring-lg: 3px;
+  --size-focus-ring-width: 3px;
+  --size-focus-ring-offset: 2px;
+  --size-target: 44px;
+  --size-row-min: 36px;
+  --size-titlebar: 40px;
+  --size-sidebar: 240px;
+  --size-dialog-max: 512px;
+  --size-status-md: 12px;
+  --size-icon-tree: 14px;
+  --size-measure: 600px;
+
+  /* durations and easing (S3) */
+  --duration-100: 100ms;
+  --duration-150: 150ms;
+  --duration-200: 200ms;
+  --duration-250: 250ms;
+  --duration-300: 300ms;
+  /* how long a copy acknowledgment stays on its button: 5 x duration-300 (a multiple of duration-300, not a new number) */
+  --duration-ack: calc(var(--duration-300) * 5);
+  /* one turn of the re-check spinner while a check runs: 4 x duration-300, a multiple of duration-300; a full turn is the angle the spinner ends on */
+  --duration-spin: calc(var(--duration-300) * 4);
+  --turn-full: 360deg;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-standard-decelerate: cubic-bezier(0, 0, 0, 1);
+  --ease-standard-accelerate: cubic-bezier(0.3, 0, 1, 1);
+
+  /* severity tier borders, each a token multiple: page = spacing-4, warning = size-ring, quiet = size-hairline */
+  --edge-page: var(--spacing-4);
+  --edge-warning: var(--size-ring);
+  --edge-quiet: var(--size-hairline);
+
+  /* age bands raise the chroma of a tinted tile: each is an existing overlay opacity. Band 2 and 3 use the lightbox
+     opacity, not the figure one: at 0.6 the tile's dark ink on its amber is 4.25:1 and its 0.8 text 3.49:1 (axe, dark),
+     below the 4.5:1 floor. */
+  --tint-band-0: var(--overlay-data-wash);
+  --tint-band-1: var(--overlay-hit);
+  --tint-band-2: var(--overlay-lightbox);
+
+  /* wall tile minimums, token multiples:
+     firing 160x120 = spacing-40 x4 by x3, quiet 120x96 = spacing-40 x3 by spacing-24 x4 */
+  --wall-firing-min-w: calc(var(--spacing-40) * 4);
+  --wall-firing-min-h: calc(var(--spacing-40) * 3);
+  --wall-quiet-min-w: calc(var(--spacing-40) * 3);
+  --wall-quiet-min-h: calc(var(--spacing-24) * 4);
+  /* the Story rows of an incident tile (badge row 20 + two-line headline 40 + rule caption 18 + two gaps 16 + padding 24 + border 2) are 120 = spacing-40 x 3 tall;
+     the rows that are not a page's title are measured from it (--wall-title-chrome-h) */
+  --wall-incident-min-h: calc(var(--spacing-40) * 3);
+  /* THE TIER RULE (docs/design.md, The wall). With incidents on it the wall is a grid of small cells and a tile's footprint, counted in cells, is set by its
+     severity: a healthy service is one cell, a warning (acknowledged and silenced too) a block of --wall-warning-cols by --wall-warning-rows, an unattended
+     page a block --wall-page-share of the columns wide and --wall-page-rows tall (an acknowledged page --wall-page-rows-attended tall). A cell is at least
+     128 = spacing-32 x 4 wide and 74 = spacing-48 + spacing-24 + spacing-2 tall: its name (19), a gap (4), two rows of dots (12 + 4 + 12) and its padding and
+     border (16 + 2) are 69, and two rows with the gap between them, 156, hold a warning's chrome (below) and three lines of title. A row grows to
+     --wall-cell-max-h = 1.25 x the minimum (92.5) when the wall has room to spare, so a short list of tiles still nearly fills it and a warning stays compact. */
+  --wall-cell-min-w: calc(var(--spacing-32) * 4);
+  --wall-cell-min-h: calc(var(--spacing-48) + var(--spacing-24) + var(--spacing-2));
+  --wall-cell-max-h: calc(var(--wall-cell-min-h) * 1.25);
+  /* what a healthy cell draws, so the rule can tell how many dots one holds: its padding and border across (spacing-8 x 2 + the hairline x 2), one dot with its
+     gap, the "N ok" count (spacing-48 + spacing-24 = 72) and the rows of dots; a service with more dots than that takes a second or third column (at most
+     --wall-cell-max-span) before its strip gives up its cells for a count */
+  --wall-cell-chrome-w: calc(var(--spacing-8) * 2 + var(--edge-quiet) * 2);
+  --wall-cell-dot-w: calc(var(--cell) + var(--spacing-4));
+  --wall-cell-ok-w: calc(var(--spacing-48) + var(--spacing-24));
+  --wall-cell-dot-rows: 2;
+  --wall-cell-max-span: 3;
+  --wall-warning-cols: 2;
+  --wall-warning-rows: 2;
+  --wall-page-rows: 3;
+  --wall-page-rows-attended: 2;
+  --wall-page-share: 0.5;
+  --wall-page-min-cols: 3;
+  /* a page's title shows whole in up to this many lines; a warning's in --wall-warning-title-lines (an acknowledged or silenced one, which also says who has it, in
+     --wall-warning-title-lines-attended), the rest ending in an ellipsis with its full text on hover and in the sheet. Never fewer than two. */
+  --wall-title-lines: 4;
+  --wall-warning-title-lines: 3;
+  --wall-warning-title-lines-attended: 2;
+  /* what a warning spends around its title, so the rule can prove two lines always fit: its padding spacing-8 x 2 and border (--edge-warning x 2), the badge row (20),
+     the age line (18, or the two lines that say who has it, --wall-ack-h = 40, on an acknowledged one), the footer (24) and three gaps of spacing-4 = 94 (116 acknowledged) */
+  --wall-warning-chrome-h: calc(var(--spacing-8) * 2 + var(--edge-warning) * 2 + var(--spacing-20) + var(--text-code--line-height) + var(--spacing-24) + var(--spacing-4) * 3);
+  --wall-warning-chrome-h-attended: calc(var(--wall-warning-chrome-h) - var(--text-code--line-height) + var(--wall-ack-h));
+  /* the title is the tile's width less its padding and border: spacing-12 x 2 + --edge-page x 2 = 32 (a page's); a warning's is spacing-12 x 2 + --edge-warning x 2 = 28 */
+  --wall-title-chrome-w: calc(var(--spacing-12) * 2 + var(--edge-page) * 2);
+  --wall-warning-title-chrome-w: calc(var(--spacing-12) * 2 + var(--edge-warning) * 2);
+  /* an acknowledged or silenced incident tile also says who has it and since when, two code lines and a gap = 18 x 2 + 4 = 40 */
+  --wall-ack-h: calc(var(--text-code--line-height) * 2 + var(--spacing-4));
+  /* and the rows of an incident tile that are not its title: the incident minimum height less the two headline lines it holds = 80 */
+  --wall-title-chrome-h: calc(var(--wall-incident-min-h) - var(--text-title--line-height) * 2);
+  /* what a large tile adds under its title: the big age (36 + 18) and the footer (24) with their gaps (16) = 94, rounded to spacing-48 x 2 */
+  --wall-lg-extra-h: calc(var(--spacing-48) * 2);
+  /* tile content thresholds, multiples of spacing-40: xs under 120, sm under 240, md under 360, lg from 360 wide and 240 high (the age and the footer
+     never shed, so a large tile holds them under a title of up to three lines) */
+  --tile-step: var(--spacing-40);
+  --tile-xs: calc(var(--tile-step) * 3);
+  --tile-sm: calc(var(--tile-step) * 6);
+  --tile-md: calc(var(--tile-step) * 9);
+  --tile-lg-h: calc(var(--tile-step) * 6);
+  /* an incident tile shorter than this keeps a one-line headline and tighter padding: the badge row 20 + two headline lines 40 + the gap 8 +
+     padding 24 + border 2 = 94, rounded up to spacing-24 x 4 = 96 */
+  --tile-two-line-h: calc(var(--spacing-24) * 4);
+  /* phone stack height, a multiple of spacing-48: a warning 144 (a page is as tall as its rows, up to --stack-page-max-h, below) */
+  --stack-warning-h: calc(var(--spacing-48) * 3);
+  /* WALL GROUPS (docs/design.md, Wall groups). With the Group toggle on, the incidents sit in a section per category under a heading; the healthy cells are one grid
+     below. A heading is a full-width row of the grid itself, one tile step tall (--tile-step = spacing-40 = 40: the 20 px label line, the hairline under it and the air
+     above), so no card wraps a group. */
+  --wall-group-head-h: var(--tile-step);
+  /* the narrow wall (a phone, or a chat app's side panel, which is under 40rem = --bp-phone wide): a page tile is as tall as its rows up to a cap that follows the
+     visible height (the viewport's, which inside the panel's frame is the panel's): --stack-page-share of it, never under --stack-page-floor = spacing-40 x 4 = 160,
+     the least a page needs in the dense form below. 0.28 of the 835 px a panel shows on a 900 px window is 234, of a 700 px one 196, of a 600 px one 168; with the
+     bar, the Fleet strip and two pages that leaves a row of the healthy cells in the first screen at every one of them, even with the two pages in two groups. A cap under
+     --stack-page-roomy-h (spacing-48 x 4 + spacing-20 = 212: the chrome 32, the badge row 20, three title lines 60, the age 54, the footer 24 and the gaps 22) cannot
+     hold the roomy page, so the wall goes dense (data-dense): the age's figure and its word share one row, the padding and gaps tighten, the title holds two lines, and
+     the cells of the groups under it take their own height. The title is at the title step in both, three lines roomy and two dense; the full text is the link's
+     accessible name and its hover title, and the sheet. */
+  --stack-page-share: 0.28;
+  --stack-page-floor: calc(var(--spacing-40) * 4);
+  --stack-page-max-h: max(var(--stack-page-floor), calc(var(--stack-page-share) * 100dvh));
+  --stack-page-roomy-h: calc(var(--spacing-48) * 4 + var(--spacing-20));
+  --stack-page-title-lines: 3;
+  --stack-page-title-lines-dense: 2;
+  /* one cell of the proof-of-watch strip */
+  --cell: var(--size-status-md);
+  /* gutter between tiles */
+  --wall-gap: var(--spacing-8);
+  /* 1 on a phone width (the Tailwind sm breakpoint) so the layout code can read the mode without a literal */
+  --wall-stack: 0;
+  /* a text field is 16 px or more on a touch pointer, or iOS Safari zooms the page into it on focus */
+  --size-field-text: 16px;
+
+  /* the Environments pair (docs/design.md, Environments). A row is a value pair: the variable, the dev slot, a relation glyph, the prod slot, the
+     verdict, and a chevron. The glyph column is spacing-32 wide (the same square as a slot's height); the variable and the verdict take 4 parts and
+     each slot 3, so a name and a sentence each get room and every row of every group lines up under its sticky header. Under --bp-matrix-wide the
+     verdict moves to its own line under the row (the mid layout); under --bp-matrix a row stacks: dev over prod with the glyph between. */
+  --env-rel-w: var(--spacing-32);
+  --env-chev-w: var(--spacing-20);
+  --env-cols: minmax(0, 4fr) minmax(0, 3fr) var(--env-rel-w) minmax(0, 3fr) minmax(0, 4fr) var(--env-chev-w);
+  --env-cols-mid: minmax(0, 3fr) minmax(0, 3fr) var(--env-rel-w) minmax(0, 3fr) var(--env-chev-w);
+  /* the search field: spacing-48 x 6 = 288 wide on a desktop, the whole row on a phone */
+  --env-search-w: calc(var(--spacing-48) * 6);
+  /* the findings list is as wide as a line of prose and its action: --size-measure plus spacing-48 x 2 */
+  --env-findings-w: calc(var(--size-measure) + var(--spacing-48) * 2);
+  /* an opened row scrolls to rest below the sticky group head: spacing-48 x 2 */
+  --env-scroll-margin: calc(var(--spacing-48) * 2);
+  /* the skeleton shapes, each a token multiple: the drift number spacing-48 wide, a chip spacing-48 x 2, a finding line spacing-48 x 5 */
+  --env-skel-n-w: var(--spacing-48);
+  --env-skel-chip-w: calc(var(--spacing-48) * 2);
+  --env-skel-finding-w: calc(var(--spacing-48) * 5);
+  /* the skeleton lines of a name and a title: the long one takes 70% of the cell, the short one 40%; a verdict line 80%; the group heading is 12 characters wide */
+  --env-skel-text-w: 70%;
+  --env-skel-label-w: 40%;
+  --env-skel-verdict-w: 80%;
+  --env-skel-group-w: 12ch;
+  /* the sticky group header sits one layer above the rows that scroll under it */
+  --layer-sticky: 1;
+  /* two breakpoints a media or container query cannot read from a var, so env.css and wall.css repeat them as literals: the matrix lays a row out
+     as a pair from 40rem of its own width (the Tailwind sm breakpoint) and gives the verdict its own column from 64rem (the Tailwind lg
+     breakpoint); the phone bottom bar tightens its padding under 22.5rem = 360 px, where its eight labels at 12 px do not fit a 320 px screen and the bar scrolls sideways (WCAG 2.2 SC 1.4.10 Reflow, 320 CSS px; docs/design.md) */
+  --bp-matrix: 40rem;
+  --bp-matrix-wide: 64rem;
+  --bp-nav-tight: 22.5rem;
+  /* the phone breakpoint every stacked layout repeats as 40rem (the Tailwind sm breakpoint, the one --wall-stack reads) */
+  --bp-phone: 40rem;
+
+  /* the Fleet view (docs/design.md, Fleet view). the Fleet view brief, 2026-10-15: a 60 minute sparkline sits beside the CPU and memory figures;
+     the fleet disk brief, 2026-10-15: every mount that matters, the fullest one in the table and the strip. Every size is a token multiple.
+     Page sparkline 80 x 20 = spacing-48 + spacing-32 by spacing-20 (a phone row narrows it to spacing-48, and the disk's is always spacing-48, the
+     compact one); the strip's is spacing-40 x spacing-12. A strip cell is spacing-40 x 2 wide, the lead cell (the row labels CPU and Disk) spacing-48
+     x 2, so the lead and 13 nodes fill the 1152 px of a 1440 px window (96 + 13 x 80 = 1136) and a larger fleet scrolls sideways. The strip keeps its
+     height whether it shows cells, skeletons or its one sentence, so loading never moves the wall: three lines of 18 = 54, the cell padding 8, the
+     band padding 8 and the border 2 are 72 = spacing-48 + spacing-24. */
+  --fleet-spark-w: calc(var(--spacing-48) + var(--spacing-32));
+  --fleet-spark-h: var(--spacing-20);
+  --fleet-spark-w-compact: var(--spacing-48);
+  --fleet-disk-spark-w: var(--fleet-spark-w-compact);
+  /* a stacked row's CPU and memory columns are fixed so the header sits over them: a figure (spacing-32), a gap and the compact sparkline = 88 */
+  --fleet-col-metric-compact: calc(var(--spacing-32) + var(--spacing-8) + var(--fleet-spark-w-compact));
+  --fleet-strip-spark-w: var(--spacing-40);
+  --fleet-strip-spark-h: var(--spacing-12);
+  --fleet-strip-cell-w: calc(var(--spacing-40) * 2);
+  --fleet-strip-lead-w: calc(var(--spacing-48) * 2);
+  --fleet-strip-h: calc(var(--spacing-48) + var(--spacing-24));
+  /* the table's columns: server (at least spacing-40 x 3), CPU and memory (spacing-48 x 3: a 4 character figure, a gap and the sparkline), load
+     (spacing-48 x 2), disk (spacing-48 x 3: a 5 character figure, a gap, the compact sparkline, and a line of "122 GiB free of 915 GiB"), status and
+     alerts (spacing-48 x 3), the Netdata link (spacing-48 + spacing-8). The six columns, their gaps and the row padding sum to 952 px, under the
+     960 px = 60rem width --bp-fleet below which a row stacks. */
+  --fleet-col-metric: calc(var(--spacing-48) * 3);
+  --fleet-col-load: calc(var(--spacing-48) * 2);
+  --fleet-col-disk: calc(var(--spacing-48) * 3);
+  --fleet-col-status: calc(var(--spacing-48) * 3);
+  --fleet-col-link: calc(var(--spacing-48) + var(--spacing-8));
+  --fleet-cols: minmax(calc(var(--spacing-40) * 3), 1fr) var(--fleet-col-metric) var(--fleet-col-metric) var(--fleet-col-load) var(--fleet-col-disk) var(--fleet-col-status) var(--fleet-col-link);
+  /* an extra mount's line under its row: the used figure spacing-48 wide and the free text spacing-48 + spacing-40 */
+  --fleet-mount-fig-w: var(--spacing-48);
+  --fleet-mount-free-w: calc(var(--spacing-48) + var(--spacing-40));
+  /* a skeleton row's name, figure and status lines, and the width of the footnote */
+  --fleet-skel-name-w: 50%;
+  --fleet-skel-fig-w: var(--spacing-32);
+  --fleet-skel-chip-w: var(--spacing-48);
+  /* the one breakpoint a container query cannot read from a var, so fleet.css repeats it as a literal: a Fleet page narrower than 60rem of its
+     own width lays a row out as name + CPU + memory over load, disk and status (the phone layout, and a 1024 px window). */
+  --bp-fleet: 60rem;
+  /* the Fleet strip and view in the chat panel (docs/embed.md, The Fleet strip and view): the strip's lead is spacing-48 x 2 + spacing-24 = 120 wide there,
+     so "Fleet", its chevron and "none hot" share one line; the view is a layer --layer-view = one above the sticky heads, over the wall; and a table narrower
+     than 27rem of its own width stacks a row as the name over its figures, as --bp-fleet does at 60rem. A container query reads rem as the root element's
+     font size (13 px here, 15 px on a touch pointer), so 27rem is 351 px: under it the name column of the page's phone row is under 128 px (a 320 px panel is
+     293 px of table, a 360 px one 333). fleet.css and embed.css repeat it as a literal, a container query cannot read a var. */
+  --fleet-strip-lead-w-embed: calc(var(--fleet-strip-lead-w) + var(--spacing-24));
+  --layer-view: 2;
+  --bp-fleet-narrow: 27rem;
+  /* and under 20rem of table (260 px: a frame at 200% text, or a 160 px one) CPU and Mem take a line each and a mount's path a line of its own */
+  --bp-fleet-tight: 20rem;
+
+  /* the inverse control fill: foreground as fill, canvas as ink */
+  --control-fill: var(--color-fg);
+  --control-ink: var(--color-bg);
+
+  /* THE RELEASES VIEW (docs/design.md says hue is the severity channel and the chrome has no accent, so a release has none either). A release marker on History and the
+     Stable chip take the one emphatic neutral, the foreground, through this one alias: a hue for releases is a one-line change here and nowhere else. */
+  --color-marker: var(--color-fg);
+  /* a release row is the version and its kind (spacing-48 x 3 = 144: "1.0.16-dev.13528" is 16 characters of the 12 px mono, 115 px), the lede, and the time over the
+     number of changes; the notes panel is spacing-48 x 16 = 768 wide, so the text of a change keeps about 80 characters of measure beside its 24 px padding */
+  --rel-id-w: calc(var(--spacing-48) * 3);
+  --rel-panel-w: calc(var(--spacing-48) * 16);
+  /* a lede on the list shows this many lines and the notes page shows it whole */
+  --rel-lede-lines: 2;
+  /* the skeleton lines of a row: the version a spacing-48 + spacing-32 wide, the chip and the time a spacing-48, and the lead's version spacing-48 x 4; its lede lines reuse the existing skeleton widths */
+  --rel-skel-version-w: calc(var(--spacing-48) + var(--spacing-32));
+  --rel-skel-lead-w: calc(var(--spacing-48) * 4);
+  --rel-skel-chip-w: var(--spacing-48);
+  --rel-skel-time-w: var(--spacing-48);
+  --rel-skel-lede-w: var(--env-skel-verdict-w);
+  --rel-skel-lede-short-w: var(--env-skel-text-w);
+  /* the host badge on a tile and the chips of the sheet: a dark pill with light text in both schemes, neutral, so the
+     only hue on a tile is its severity (dark: sunken as fill, fg as ink; light: fg as fill, canvas as ink) */
+  --badge-fill: var(--color-sunken);
+  --badge-ink: var(--color-fg);
+  /* the disclosure chevron turns a quarter when its section opens */
+  --chevron-open: 90deg;
+  /* captured evidence output shows this many lines before it scrolls (the Story sheet brief: about 12) */
+  --output-lines: 12;
+  /* an agent's brief (the fix context, the session brief) shows this many before it scrolls: it is the thing being shown, so it gets more room */
+  --agent-lines: 20;
+  /* ink on a severity fill */
+  --on-danger: var(--color-bg);
+  --on-warn: var(--color-bg);
+
+  /* THE DEPLOYMENTS VIEW (views/Deployments.tsx, styles/deployments.css). No new colour, radius, font or duration: every size below is a multiple of a token above, and the column
+     ratios are the part counts of a row, the way --env-cols is. A single-environment row from --bp-matrix-wide of its list's own width is the asset (3 parts),
+     the deployed commit (3), the head (2), how far behind (2), the last deploy (2), the verdict (3) and the fix, whose column is --dep-fix-w; from --bp-matrix
+     it is two lines of three cells and the fix (the mid layout); under it the row stacks. A Both row is the asset (3) and a Dev and a Prod cell group (4 each),
+     from --bp-matrix. An image row is the workflow (4), its last build (3), the head (3), whether head has an image (2) and how far head is past the last green (2). */
+  --dep-fix-w: calc(var(--spacing-48) * 2 + var(--spacing-16));
+  --dep-cols: minmax(0, 3fr) minmax(0, 3fr) minmax(0, 2fr) minmax(0, 2fr) minmax(0, 2fr) minmax(0, 3fr) var(--dep-fix-w);
+  --dep-cols-mid: minmax(0, 3fr) minmax(0, 4fr) minmax(0, 3fr) var(--dep-fix-w);
+  --dep-cols-pair: minmax(0, 3fr) minmax(0, 4fr) minmax(0, 4fr);
+  --dep-cols-image: minmax(0, 4fr) minmax(0, 3fr) minmax(0, 3fr) minmax(0, 2fr) minmax(0, 2fr);
+  /* the stacked card: a label column wide enough for "Last deployed" in the 12 px code face (spacing-48 + spacing-40 = 88) */
+  --dep-label-w: calc(var(--spacing-48) + var(--spacing-40));
+  /* a commit subject shows this many lines, its full text on hover and in the opened row */
+  --dep-subject-lines: 2;
+  /* the freshness bar is one status mark tall (--size-status-md = 12); its swatches under it are the same square */
+  --dep-bar-h: var(--size-status-md);
+  /* the skeleton shapes: a sha spacing-48 + spacing-24 = 72 wide, the big figure spacing-48 x 3 = 144 */
+  --dep-skel-sha-w: calc(var(--spacing-48) + var(--spacing-24));
+  --dep-skel-fig-w: calc(var(--spacing-48) * 3);
+}
+
+@media (max-width: 40rem) {
+  :root {
+    --wall-stack: 1;
+  }
+}
+
+/* light scheme (S2): every value that differs from dark, set when the scheme is light */
+:root[data-scheme='light'] {
+  color-scheme: light;
+  --color-bg: #faf8f3;
+  --color-raised: #f0ede5;
+  --color-sunken: #f2f2f2;
+  --color-line: #e3dfd6;
+  --color-line-strong: #8a8780;
+  --color-fg: #141310;
+  --color-fg-secondary: #3d3a33;
+  --color-muted: #5f5b52;
+  --color-danger: #a84f4f;
+  --color-warn: #806218;
+  --color-parked: #43669e;
+  --on-danger: var(--color-bg);
+  /* an aged warning tile in light is a mid amber: dark ink on the 0.6 tint is 4.8:1, cream ink on any tint under 3.7:1 */
+  --on-warn: var(--color-fg);
+  --tint-band-2: var(--overlay-figure);
+  --badge-fill: var(--color-fg);
+  --badge-ink: var(--color-bg);
+}

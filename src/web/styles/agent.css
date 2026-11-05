@@ -1,0 +1,87 @@
+/* WHAT AN AGENT SEES (components/AgentView.tsx in the incident sheet, demo/AgentPanel.tsx in the demo). The agent's own text, verbatim, on
+   the sunken surface the evidence terminal uses (.term): mono, no new colour, the two radii. The brief is the thing shown, so it gets
+   --agent-lines of room before it scrolls; its count and its Copy sit under it, on the same surface. */
+
+.agent {
+  scroll-margin-top: var(--spacing-16);
+}
+.agent__out {
+  --output-lines: var(--agent-lines);
+}
+/* a command's output: each line its own block, wrapped under a hanging indent so a long one still reads as one */
+.agent__line {
+  display: block;
+  padding-left: var(--spacing-16);
+  text-indent: calc(-1 * var(--spacing-16));
+}
+.agent__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-8);
+  padding: var(--spacing-8) var(--spacing-8) var(--spacing-8) var(--spacing-12);
+  border-top: var(--size-hairline) solid var(--color-line);
+}
+.agent__count {
+  min-width: 0;
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-code);
+  line-height: var(--text-code--line-height);
+}
+.agent__foot .btn {
+  flex: none;
+  margin-left: auto;
+}
+.agent__loading {
+  display: grid;
+  gap: var(--spacing-8);
+  padding: var(--spacing-12);
+  border-top: var(--size-hairline) solid var(--color-line);
+}
+.agent__state {
+  padding: var(--spacing-8) var(--spacing-12);
+  border-top: var(--size-hairline) solid var(--color-line);
+}
+.agent__go {
+  gap: var(--spacing-4);
+}
+.agent__go svg {
+  width: var(--size-icon-tree);
+  height: var(--size-icon-tree);
+}
+
+/* The MCP tools (demo/AgentPanel.tsx): the name in mono as an agent calls it, its one line beside it; stacked on a phone. */
+.agent__tools {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  margin: 0;
+}
+.agent__tool {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  gap: var(--spacing-4) var(--spacing-16);
+  padding: var(--spacing-8) 0;
+  border-top: var(--size-hairline) solid var(--color-line);
+}
+.agent__tool:last-child {
+  border-bottom: var(--size-hairline) solid var(--color-line);
+}
+.agent__tool dt code {
+  font-family: var(--font-mono);
+  font-size: var(--text-code);
+  line-height: var(--text-code--line-height);
+  color: var(--color-fg);
+}
+.agent__tool dd {
+  margin: 0;
+  min-width: 0;
+  color: var(--color-fg-secondary);
+  text-wrap: pretty;
+}
+@media (max-width: 40rem) {
+  .agent__tools {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

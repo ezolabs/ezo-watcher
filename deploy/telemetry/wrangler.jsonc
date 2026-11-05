@@ -1,0 +1,16 @@
+// The telemetry collector Worker (docs/telemetry.md). Deploy with `node deploy/telemetry/deploy.mjs`: it finds (or makes)
+// the D1 database `ezo-watcher-telemetry` by name through the API and hands its id to wrangler in a generated config, so
+// this file carries no account-bound id. The account comes from CLOUDFLARE_ACCOUNT_ID.
+{
+  "name": "ezo-watcher-telemetry",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-11-01",
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [{ "pattern": "telemetry.ezolabs.io", "custom_domain": true }],
+  // Off on purpose: Workers Logs keep request metadata, and this Worker keeps nothing about a request but the event.
+  "observability": { "enabled": false },
+  // Retention: the daily run deletes rows past RETENTION_DAYS (src/index.ts).
+  "triggers": { "crons": ["17 4 * * *"] },
+  "d1_databases": [{ "binding": "DB", "database_name": "ezo-watcher-telemetry" }]
+}

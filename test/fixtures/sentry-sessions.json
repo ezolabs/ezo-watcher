@@ -1,0 +1,375 @@
+{
+ "groups": [
+  {
+   "by": {
+    "project": 4512239803432960,
+    "release": "acme-helper@1.0.12",
+    "environment": "production"
+   },
+   "totals": {
+    "sum(session)": 5537,
+    "crash_free_rate(session)": 1
+   }
+  },
+  {
+   "by": {
+    "project": 4512239803432960,
+    "release": "acme-helper@1.0.13",
+    "environment": "production"
+   },
+   "totals": {
+    "sum(session)": 1466,
+    "crash_free_rate(session)": 1
+   }
+  },
+  {
+   "by": {
+    "project": 4512239803432960,
+    "release": "acme-helper@1.0.14",
+    "environment": "production"
+   },
+   "totals": {
+    "sum(session)": 1223,
+    "crash_free_rate(session)": 1
+   }
+  },
+  {
+   "by": {
+    "project": 4512239803432960,
+    "release": "acme-helper@1.0.13-dev.183",
+    "environment": "dev"
+   },
+   "totals": {
+    "sum(session)": 513,
+    "crash_free_rate(session)": 1
+   }
+  },
+  {
+   "by": {
+    "project": 4512239803432960,
+    "release": "acme-helper@1.0.13-dev.203",
+    "environment": "dev"
+   },
+   "totals": {
+    "sum(session)": 380,
+    "crash_free_rate(session)": 1
+   }
+  },
+  {
+   "by": {
+    "project": 4512239803432960,
+    "release": "acme-helper@1.0.11",
+    "environment": "production"
+   },
+   "totals": {
+    "sum(session)": 300,
+    "crash_free_rate(session)": 1
+   }
+  },
+  {
+   "by": {
+    "project": 4512239803432960,
+    "release": "acme-helper@1.0.13-dev.236",
+    "environment": "dev"
+   },
+   "totals": {
+    "sum(session)": 257,
+    "crash_free_rate(session)": 1
+   }
+  },
+  {
+   "by": {
+    "project": 4512239803432960,
+    "release": "acme-helper@1.0.13-dev.168",
+    "environment": "dev"
+   },
+   "totals": {
+    "sum(session)": 250,
+    "crash_free_rate(session)": 1
+   }
+  },
+  {
+   "by": {
+    "project": 4512239803432960,
+    "release": "acme-helper@1.0.13-dev.275",
+    "environment": "dev"
+   },
+   "totals": {
+    "sum(session)": 99,
+    "crash_free_rate(session)": 1
+   }
+  },
+  {
+   "by": {
+    "project": 4512066651226112,
+    "release": "com.example.acme@1.0.13+7512",
+    "environment": "production"
+   },
+   "totals": {
+    "sum(session)": 73,
+    "crash_free_rate(session)": 1
+   }
+  },
+  {
+   "by": {
+    "project": 4512066651226112,
+    "release": "com.example.acme@1.0.12+7009",
+    "environment": "testflight"
+   },
+   "totals": {
+    "sum(session)": 33,
+    "crash_free_rate(session)": 0.9696969696969697
+   }
+  },
+  {
+   "by": {
+    "project": 4512066798288896,
+    "release": "acme-desktop@1.0.12",
+    "environment": "production"
+   },
+   "totals": {
+    "sum(session)": 13,
+    "crash_free_rate(session)": 1
+   }
+  },
+  {
+   "by": {
+    "project": 4512066651226112,
+    "release": "com.example.acme@1.0.14+7520",
+    "environment": "production"
+   },
+   "totals": {
+    "sum(session)": 11,
+    "crash_free_rate(session)": 1
+   }
+  },
+  {
+   "by": {
+    "project": 4512066651226112,
+    "release": "com.example.acme.dev@1.0.13+7353",
+    "environment": "dev"
+   },
+   "totals": {
+    "sum(session)": 9,
+    "crash_free_rate(session)": 1
+   }
+  },
+  {
+   "by": {
+    "project": 4512066651226112,
+    "release": "com.example.acme@1.0.13+7515",
+    "environment": "production"
+   },
+   "totals": {
+    "sum(session)": 6,
+    "crash_free_rate(session)": 1
+   }
+  },
+  {
+   "by": {
+    "project": 4512066651226112,
+    "release": "com.example.acme.dev@1.0.13+7503",
+    "environment": "dev"
+   },
+   "totals": {
+    "sum(session)": 5,
+    "crash_free_rate(session)": 0.8
+   }
+  },
+  {
+   "by": {
+    "project": 4512066798288896,
+    "release": "acme-desktop@1.0.8",
+    "environment": "production"
+   },
+   "totals": {
+    "sum(session)": 4,
+    "crash_free_rate(session)": 1
+   }
+  },
+  {
+   "by": {
+    "project": 4512066651226112,
+    "release": "com.example.acme.dev@1.0.13+7451",
+    "environment": "dev"
+   },
+   "totals": {
+    "sum(session)": 4,
+    "crash_free_rate(session)": 1
+   }
+  },
+  {
+   "by": {
+    "project": 4512066651226112,
+    "release": "com.example.acme@1.0.12+7009",
+    "environment": "development"
+   },
+   "totals": {
+    "sum(session)": 4,
+    "crash_free_rate(session)": 1
+   }
+  },
+  {
+   "by": {
+    "project": 4512066798288896,
+    "release": "acme-desktop@1.0.14",
+    "environment": "production"
+   },
+   "totals": {
+    "sum(session)": 3,
+    "crash_free_rate(session)": 1
+   }
+  },
+  {
+   "by": {
+    "project": 4512066798288896,
+    "release": "acme-desktop@1.0.13-dev.13075",
+    "environment": "dev"
+   },
+   "totals": {
+    "sum(session)": 3,
+    "crash_free_rate(session)": 1
+   }
+  },
+  {
+   "by": {
+    "project": 4512239803432960,
+    "release": "api-relay@1.0.12",
+    "environment": "production"
+   },
+   "totals": {
+    "sum(session)": 3,
+    "crash_free_rate(session)": 1
+   }
+  },
+  {
+   "by": {
+    "project": 4512066651226112,
+    "release": "com.example.acme@1.0.1+5790",
+    "environment": "testflight"
+   },
+   "totals": {
+    "sum(session)": 2,
+    "crash_free_rate(session)": 1
+   }
+  },
+  {
+   "by": {
+    "project": 4512066798288896,
+    "release": "acme-desktop@1.0.13",
+    "environment": "production"
+   },
+   "totals": {
+    "sum(session)": 2,
+    "crash_free_rate(session)": 1
+   }
+  },
+  {
+   "by": {
+    "project": 4512066798288896,
+    "release": "acme-desktop@1.0.7",
+    "environment": "production"
+   },
+   "totals": {
+    "sum(session)": 2,
+    "crash_free_rate(session)": 1
+   }
+  },
+  {
+   "by": {
+    "project": 4512066651226112,
+    "release": "com.example.acme@1.0.8+6368",
+    "environment": "testflight"
+   },
+   "totals": {
+    "sum(session)": 2,
+    "crash_free_rate(session)": 0
+   }
+  },
+  {
+   "by": {
+    "project": 4512066798288896,
+    "release": "acme-desktop@1.0.1",
+    "environment": "production"
+   },
+   "totals": {
+    "sum(session)": 1,
+    "crash_free_rate(session)": 1
+   }
+  },
+  {
+   "by": {
+    "project": 4512066798288896,
+    "release": "acme-desktop@1.0.13-dev.13029",
+    "environment": "dev"
+   },
+   "totals": {
+    "sum(session)": 1,
+    "crash_free_rate(session)": 1
+   }
+  },
+  {
+   "by": {
+    "project": 4512066651226112,
+    "release": "com.example.acme.dev@1.0.13+7318",
+    "environment": "dev"
+   },
+   "totals": {
+    "sum(session)": 1,
+    "crash_free_rate(session)": 1
+   }
+  },
+  {
+   "by": {
+    "project": 4512066798288896,
+    "release": "acme-desktop@1.0.13-dev.13124",
+    "environment": "dev"
+   },
+   "totals": {
+    "sum(session)": 1,
+    "crash_free_rate(session)": 1
+   }
+  },
+  {
+   "by": {
+    "project": 4512066798288896,
+    "release": "acme-desktop@1.0.13-dev.12919",
+    "environment": "dev"
+   },
+   "totals": {
+    "sum(session)": 1,
+    "crash_free_rate(session)": 1
+   }
+  }
+ ],
+ "start": "2026-10-14T20:00:00Z",
+ "end": "2026-10-15T21:00:00Z",
+ "intervals": [
+  "2026-10-14T20:00:00Z",
+  "2026-10-14T21:00:00Z",
+  "2026-10-14T22:00:00Z",
+  "2026-10-14T23:00:00Z",
+  "2026-10-15T00:00:00Z",
+  "2026-10-15T01:00:00Z",
+  "2026-10-15T02:00:00Z",
+  "2026-10-15T03:00:00Z",
+  "2026-10-15T04:00:00Z",
+  "2026-10-15T05:00:00Z",
+  "2026-10-15T06:00:00Z",
+  "2026-10-15T07:00:00Z",
+  "2026-10-15T08:00:00Z",
+  "2026-10-15T09:00:00Z",
+  "2026-10-15T10:00:00Z",
+  "2026-10-15T11:00:00Z",
+  "2026-10-15T12:00:00Z",
+  "2026-10-15T13:00:00Z",
+  "2026-10-15T14:00:00Z",
+  "2026-10-15T15:00:00Z",
+  "2026-10-15T16:00:00Z",
+  "2026-10-15T17:00:00Z",
+  "2026-10-15T18:00:00Z",
+  "2026-10-15T19:00:00Z",
+  "2026-10-15T20:00:00Z"
+ ],
+ "query": ""
+}

@@ -1,0 +1,251 @@
+{
+ "_note": "Recorded from the live Netdata Cloud API on 2026-10-15 (POST /api/v3/spaces/{space}/rooms/{room}/data, the source's own group request), trimmed to the fields the adapter reads. md.health and nvme.device_critical_warnings_state, nothing in WARNING or CRITICAL.",
+ "api": 3,
+ "agents": [
+  {
+   "ai": 0,
+   "now": 1792077357,
+   "nm": "print"
+  },
+  {
+   "ai": 1,
+   "now": 1792077357,
+   "nm": "node-4"
+  },
+  {
+   "ai": 2,
+   "now": 1792077357,
+   "nm": "node-2"
+  },
+  {
+   "ai": 3,
+   "now": 1792077357,
+   "nm": "node-1"
+  },
+  {
+   "ai": 4,
+   "now": 1792077357,
+   "nm": "node-5"
+  },
+  {
+   "ai": 5,
+   "now": 1792077357,
+   "nm": "mac-a1.example.net"
+  },
+  {
+   "ai": 6,
+   "now": 1792077357,
+   "nm": "node-3"
+  }
+ ],
+ "summary": {
+  "nodes": [
+   {
+    "ni": 0,
+    "mg": "00000000-0000-4000-8000-00000000000a",
+    "nd": "00000000-0000-4000-8000-000000000009",
+    "nm": "node-4",
+    "st": {
+     "ai": 1,
+     "code": 200
+    }
+   },
+   {
+    "ni": 1,
+    "mg": "00000000-0000-4000-8000-00000000000c",
+    "nd": "00000000-0000-4000-8000-00000000000b",
+    "nm": "node-2",
+    "st": {
+     "ai": 2,
+     "code": 200
+    }
+   },
+   {
+    "ni": 2,
+    "mg": "00000000-0000-4000-8000-00000000000e",
+    "nd": "00000000-0000-4000-8000-00000000000d",
+    "nm": "node-1",
+    "st": {
+     "ai": 3,
+     "code": 200
+    }
+   },
+   {
+    "ni": 3,
+    "mg": "00000000-0000-4000-8000-000000000002",
+    "nd": "00000000-0000-4000-8000-000000000001",
+    "nm": "node-5",
+    "st": {
+     "ai": 4,
+     "code": 200
+    }
+   },
+   {
+    "ni": 4,
+    "mg": "00000000-0000-4000-8000-000000000006",
+    "nd": "00000000-0000-4000-8000-000000000005",
+    "nm": "node-3",
+    "st": {
+     "ai": 6,
+     "code": 200
+    }
+   }
+  ],
+  "instances": [
+   {
+    "id": "mdstat.mdstat_health",
+    "ni": 0,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "mdstat.mdstat_health",
+    "ni": 1,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "mdstat.mdstat_health",
+    "ni": 3,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "mdstat.mdstat_health",
+    "ni": 2,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "mdstat.mdstat_health",
+    "ni": 4,
+    "ds": {
+     "ex": 1
+    },
+    "al": {}
+   },
+   {
+    "id": "nvme.device_nvme0_critical_warnings_state",
+    "ni": 1,
+    "ds": {
+     "ex": 6
+    },
+    "al": {}
+   },
+   {
+    "id": "nvme.device_nvme0_critical_warnings_state",
+    "ni": 4,
+    "ds": {
+     "ex": 6
+    },
+    "al": {}
+   },
+   {
+    "id": "nvme.device_nvme0_critical_warnings_state",
+    "ni": 0,
+    "ds": {
+     "ex": 6
+    },
+    "al": {}
+   },
+   {
+    "id": "nvme.device_nvme0_critical_warnings_state",
+    "ni": 3,
+    "ds": {
+     "ex": 6
+    },
+    "al": {}
+   },
+   {
+    "id": "nvme.device_nvme0_critical_warnings_state",
+    "ni": 2,
+    "ds": {
+     "ex": 6
+    },
+    "al": {}
+   },
+   {
+    "id": "nvme.device_nvme1_critical_warnings_state",
+    "ni": 3,
+    "ds": {
+     "ex": 6
+    },
+    "al": {}
+   },
+   {
+    "id": "nvme.device_nvme1_critical_warnings_state",
+    "ni": 2,
+    "ds": {
+     "ex": 6
+    },
+    "al": {}
+   },
+   {
+    "id": "nvme.device_nvme1_critical_warnings_state",
+    "ni": 0,
+    "ds": {
+     "ex": 6
+    },
+    "al": {}
+   },
+   {
+    "id": "nvme.device_nvme1_critical_warnings_state",
+    "ni": 4,
+    "ds": {
+     "ex": 6
+    },
+    "al": {}
+   },
+   {
+    "id": "nvme.device_nvme1_critical_warnings_state",
+    "ni": 1,
+    "ds": {
+     "ex": 6
+    },
+    "al": {}
+   }
+  ],
+  "alerts": [
+   {
+    "nm": "nvme_device_critical_warnings_state",
+    "cl": 10
+   }
+  ]
+ },
+ "totals": {
+  "nodes": {
+   "ex": 5
+  },
+  "instances": {
+   "ex": 15
+  }
+ },
+ "view": {
+  "units": [
+   "failed disks",
+   "state"
+  ],
+  "dimensions": {
+   "grouped_by": [
+    "dimension",
+    "instance",
+    "node"
+   ],
+   "ids": null,
+   "names": null,
+   "units": null
+  }
+ },
+ "result": {
+  "labels": [],
+  "data": []
+ }
+}

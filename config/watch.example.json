@@ -1,0 +1,136 @@
+{
+  "brand": {
+    "name": "EZO Watcher",
+    "shortName": "Watcher"
+  },
+  "baseUrl": "http://127.0.0.1:7717",
+  "embedOrigins": [],
+  "dataDir": ".watcher/data",
+  "historyHours": 24,
+  "staleAfterMisses": 3,
+  "sources": [
+    {
+      "id": "probe",
+      "type": "http-probe",
+      "pollSec": 60,
+      "failAfter": 3,
+      "targets": [
+        {
+          "id": "api-health",
+          "service": "api",
+          "url": "http://127.0.0.1:3000/healthz",
+          "expectJson": {
+            "status": "ok"
+          }
+        }
+      ]
+    },
+    {
+      "id": "webhook",
+      "type": "webhook",
+      "tokenEnv": "WATCHER_INGEST_TOKEN",
+      "staleAfterSec": 3600,
+      "presenceTtlSec": 21600
+    },
+    {
+      "id": "host",
+      "type": "host",
+      "mounts": ["/"]
+    },
+    {
+      "id": "heartbeat",
+      "type": "heartbeat",
+      "every": "5m",
+      "grace": "2m",
+      "tokenEnv": "WATCHER_HEARTBEAT_TOKEN"
+    },
+    {
+      "id": "postgres",
+      "type": "tcp-probe",
+      "targets": [
+        {
+          "id": "pg",
+          "service": "postgres",
+          "host": "127.0.0.1",
+          "port": 5432
+        }
+      ]
+    }
+  ],
+  "serviceMap": [
+    {
+      "match": {
+        "labels": {
+          "service": "^worker$"
+        }
+      },
+      "service": "worker"
+    }
+  ],
+  "channels": [
+    {
+      "id": "hook",
+      "type": "webhook",
+      "urlEnv": "WATCHER_WEBHOOK_URL"
+    },
+    {
+      "id": "ntfy",
+      "type": "ntfy",
+      "server": "https://ntfy.sh",
+      "topicEnv": "WATCHER_NTFY_TOPIC"
+    }
+  ],
+  "routes": [
+    {
+      "id": "page",
+      "match": {
+        "severity": [
+          "page"
+        ]
+      },
+      "receivers": [
+        "ntfy",
+        "hook"
+      ],
+      "mode": "ladder",
+      "groupWaitSec": 0,
+      "groupIntervalSec": 120,
+      "repeatIntervalSec": 1800,
+      "coalesce": {
+        "maxPages": 10,
+        "windowSec": 600
+      },
+      "sendResolved": true
+    },
+    {
+      "id": "warning",
+      "match": {
+        "severity": [
+          "warning"
+        ]
+      },
+      "receivers": [
+        "hook"
+      ],
+      "mode": "all",
+      "groupWaitSec": 60,
+      "groupIntervalSec": 300,
+      "repeatIntervalSec": 86400,
+      "sendResolved": true
+    },
+    {
+      "id": "wall-only",
+      "match": {
+        "severity": [
+          "info"
+        ]
+      },
+      "receivers": [],
+      "mode": "all",
+      "groupWaitSec": 0,
+      "groupIntervalSec": 300,
+      "repeatIntervalSec": 86400
+    }
+  ],
+  "quietHours": null
+}

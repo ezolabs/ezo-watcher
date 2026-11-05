@@ -1,0 +1,835 @@
+{
+  "baseUrl": "https://watch.example.com",
+  "dataDir": "/data",
+  "historyHours": 24,
+  "staleAfterMisses": 3,
+  "sources": [
+    {
+      "id": "grafana",
+      "type": "grafana",
+      "url": "http://192.0.2.10:3000",
+      "publicUrl": "https://grafana.example.com",
+      "tokenEnv": "GRAFANA_TOKEN",
+      "pollSec": 10
+    },
+    {
+      "id": "netdata-cloud",
+      "type": "netdata-cloud",
+      "url": "https://app.netdata.cloud",
+      "tokenEnv": "NETDATA_CLOUD_TOKEN",
+      "spaceId": "00000000-0000-4000-8000-00000000000f",
+      "roomId": "00000000-0000-4000-8000-000000000010",
+      "pollSec": 60,
+      "fleetNodes": [
+        "node-1",
+        "node-2",
+        "node-3",
+        "node-4",
+        "node-5",
+        "node-6",
+        "node-7",
+        "node-8",
+        "node-13",
+        "node-14",
+        "node-15"
+      ],
+      "watchOnlyNodes": [
+        "mac-a1.example.net"
+      ],
+      "ignoreNodes": {
+        "print": "print spooler, not monitored"
+      },
+      "ignoreInstances": [
+        {
+          "node": "^node-5$",
+          "instance": "^mem\\.swap$",
+          "note": "node-5 has 8 GB of swap on a 190 GB box, so Netdata's used_swap (share of swap used, warns above 90 %) fills whenever a ClickHouse scan pushes idle primary-pg pages out and then never clears: nothing faults them back. It says nothing about pressure (2026-10-17: swap 94.5 % used, MemAvailable 93 %, no swap I/O, no OOM kill). Low MemAvailable still raises through ram_available, ram_in_use, HostMemoryHot and oom_kill."
+        }
+      ],
+      "quietAlerts": [
+        "10min_disk_backlog",
+        "10min_disk_utilization",
+        "10min_cpu_iowait",
+        "20min_steal_cpu"
+      ],
+      "diskWarningFloor": {
+        "usedPct": 80,
+        "note": "No disk warning while a disk is under 80 % used; a disk projected full in under 2 hours (Netdata's critical tier) still pages at any fill."
+      },
+      "cloudUrl": "https://app.netdata.cloud/spaces/example-space/rooms/all-nodes"
+    },
+    {
+      "id": "netdata-fleet",
+      "type": "netdata-fleet",
+      "url": "https://app.netdata.cloud",
+      "tokenEnv": "NETDATA_CLOUD_TOKEN",
+      "spaceId": "00000000-0000-4000-8000-00000000000f",
+      "roomId": "00000000-0000-4000-8000-000000000010",
+      "pollSec": 60,
+      "windowMin": 60,
+      "cloudUrl": "https://app.netdata.cloud/spaces/example-space/rooms/all-nodes",
+      "fleetNodes": [
+        "node-1",
+        "node-2",
+        "node-3",
+        "node-4",
+        "node-5",
+        "node-6",
+        "node-7",
+        "node-8",
+        "node-13",
+        "node-14",
+        "node-15"
+      ],
+      "watchOnlyNodes": [
+        "mac-a1.example.net"
+      ],
+      "ignoreNodes": {
+        "print": "print spooler, not monitored"
+      },
+      "k8sNodes": [
+        "netdata-k8s-state"
+      ],
+      "rules": {
+        "cpu": {
+          "warnAbove": 80,
+          "clearBelow": 70,
+          "forMin": 10
+        },
+        "memory": {
+          "warnAbove": 85,
+          "clearBelow": 80,
+          "pageAbove": 95,
+          "pageClearBelow": 90,
+          "forMin": 10
+        },
+        "load": {
+          "warnAbove": 1.5,
+          "clearBelow": 1.2,
+          "forMin": 15
+        },
+        "coldCpuBelow": 10
+      }
+    },
+    {
+      "id": "vmalert",
+      "type": "vmalert",
+      "url": "http://127.0.0.1:8428",
+      "pollSec": 30
+    },
+    {
+      "id": "sentry",
+      "type": "sentry",
+      "url": "https://us.sentry.io",
+      "webUrl": "https://example.sentry.io",
+      "org": "example-org",
+      "tokenEnv": "SENTRY_READ_TOKEN",
+      "pollSec": 120,
+      "projects": {
+        "acme-desktop": "Acme desktop",
+        "acme-mobile": "Acme mobile",
+        "acme-helper": "Acme helper",
+        "acme-web": "Acme web"
+      },
+      "environments": [
+        "production",
+        "testflight"
+      ],
+      "pageEnvironments": [
+        "production"
+      ]
+    },
+    {
+      "id": "webhook",
+      "type": "webhook",
+      "tokenEnv": "INGEST_TOKEN"
+    },
+    {
+      "id": "sweep",
+      "type": "webhook",
+      "tokenEnv": "INGEST_TOKEN",
+      "staleAfterSec": 43200,
+      "presenceTtlSec": 86400,
+      "recheckRequests": {
+        "pickupWithinSec": 90
+      }
+    },
+    {
+      "id": "webhook-push",
+      "type": "webhook",
+      "tokenEnv": "INGEST_TOKEN",
+      "staleAfterSec": 3600,
+      "presenceTtlSec": 3600,
+      "recheckRequests": {
+        "pickupWithinSec": 120
+      }
+    },
+    {
+      "id": "netdata",
+      "type": "webhook",
+      "tokenEnv": "NETDATA_INGEST_TOKEN",
+      "presenceTtlSec": 259200
+    },
+    {
+      "id": "feed",
+      "type": "feed",
+      "url": "http://127.0.0.1:9100/alerts",
+      "tokenEnv": "FEED_TOKEN",
+      "pollSec": 60
+    },
+    {
+      "id": "ports",
+      "type": "tcp-probe",
+      "pollSec": 60,
+      "targets": [
+        {
+          "id": "postgres-port",
+          "service": "Postgres",
+          "host": "127.0.0.1",
+          "port": 5432,
+          "slowMs": 250,
+          "failAfter": 3
+        }
+      ]
+    },
+    {
+      "id": "domains",
+      "type": "domain-expiry",
+      "service": "Gateway",
+      "pollSec": 43200,
+      "warnDays": 30,
+      "pageDays": 7,
+      "domains": [
+        "example.com"
+      ]
+    },
+    {
+      "id": "nightly-sweep",
+      "type": "heartbeat",
+      "name": "nightly sweep",
+      "every": "1d",
+      "grace": "5m",
+      "tokenEnv": "HEARTBEAT_SWEEP_TOKEN",
+      "service": "Regression sweep"
+    },
+    {
+      "id": "host",
+      "type": "host",
+      "pollSec": 60,
+      "mounts": [
+        "/",
+        "/data"
+      ],
+      "pidFile": "/run/example-app.pid",
+      "thresholds": {
+        "diskFreeWarnPct": 10,
+        "diskFreePagePct": 5,
+        "memAvailableWarnPct": 10,
+        "loadPerCoreWarn": 2
+      }
+    }
+  ],
+  "serviceMap": [
+    {
+      "match": {
+        "labels": {
+          "component": "^edge"
+        }
+      },
+      "service": "API edge"
+    },
+    {
+      "match": {
+        "labels": {
+          "component": "^clickhouse"
+        }
+      },
+      "service": "ClickHouse"
+    },
+    {
+      "match": {
+        "origin": "^sweep$",
+        "rule": "^IntakeSink"
+      },
+      "service": "ClickHouse"
+    },
+    {
+      "match": {
+        "origin": "^sweep$",
+        "labels": {
+          "service": "^[Cc]lick[Hh]ouse$"
+        }
+      },
+      "service": "ClickHouse"
+    },
+    {
+      "match": {
+        "labels": {
+          "component": "^(vendor|billing)"
+        }
+      },
+      "service": "Vendors and billing"
+    },
+    {
+      "match": {
+        "labels": {
+          "component": "^cloud-computer"
+        }
+      },
+      "service": "Cloud computers"
+    },
+    {
+      "match": {
+        "rule": "^(Api|R14)"
+      },
+      "service": "API router"
+    },
+    {
+      "match": {
+        "rule": "^(Chat|Notifications|Wiring)"
+      },
+      "service": "Chat"
+    },
+    {
+      "match": {
+        "rule": "^TestAlert$"
+      },
+      "service": "Alert pipeline"
+    },
+    {
+      "match": {
+        "labels": {
+          "component": "^alert-pipeline"
+        }
+      },
+      "service": "Alert pipeline"
+    },
+    {
+      "match": {
+        "labels": {
+          "component": "^host-disk"
+        }
+      },
+      "service": "Host disks"
+    },
+    {
+      "match": {
+        "labels": {
+          "component": "^node-disk"
+        }
+      },
+      "service": "Node disk"
+    },
+    {
+      "match": {
+        "labels": {
+          "component": "^gateway"
+        }
+      },
+      "service": "Gateway gateway"
+    },
+    {
+      "match": {
+        "labels": {
+          "component": "^metrics-pipeline"
+        }
+      },
+      "service": "Metrics pipeline"
+    },
+    {
+      "match": {
+        "labels": {
+          "component": "^metrics-store"
+        }
+      },
+      "service": "Metrics store"
+    },
+    {
+      "match": {
+        "labels": {
+          "component": "^backups"
+        }
+      },
+      "service": "Backups"
+    },
+    {
+      "match": {
+        "labels": {
+          "component": "^ingest"
+        }
+      },
+      "service": "Ingest"
+    },
+    {
+      "match": {
+        "labels": {
+          "component": "^postgres"
+        }
+      },
+      "service": "Postgres"
+    },
+    {
+      "match": {
+        "labels": {
+          "component": "^clickhouse-health"
+        }
+      },
+      "service": "ClickHouse"
+    },
+    {
+      "match": {
+        "origin": "^netdata$"
+      },
+      "service": "Netdata"
+    },
+    {
+      "match": {
+        "origin": "^vmalert$"
+      },
+      "service": "API router"
+    },
+    {
+      "match": {
+        "origin": "^api-"
+      },
+      "service": "API router"
+    },
+    {
+      "match": {
+        "labels": {
+          "component": "^error-clusters$"
+        }
+      },
+      "service": "Error clusters"
+    },
+    {
+      "match": {
+        "labels": {
+          "component": "^error-breadth$"
+        }
+      },
+      "service": "Error breadth"
+    },
+    {
+      "match": {
+        "labels": {
+          "component": "^ops-slo$"
+        }
+      },
+      "service": "Ops slo"
+    },
+    {
+      "match": {
+        "labels": {
+          "component": "^ops-errors$"
+        }
+      },
+      "service": "Ops errors"
+    },
+    {
+      "match": {
+        "labels": {
+          "component": "^ops-latency$"
+        }
+      },
+      "service": "Ops latency"
+    },
+    {
+      "match": {
+        "labels": {
+          "component": "^ops-traffic$"
+        }
+      },
+      "service": "Ops traffic"
+    },
+    {
+      "match": {
+        "labels": {
+          "component": "^ops-turns$"
+        }
+      },
+      "service": "Ops turns"
+    },
+    {
+      "match": {
+        "labels": {
+          "component": "^gateway$"
+        }
+      },
+      "service": "Gateway"
+    },
+    {
+      "match": {
+        "labels": {
+          "component": "^router$"
+        }
+      },
+      "service": "Router"
+    },
+    {
+      "match": {
+        "labels": {
+          "component": "^client-link$"
+        }
+      },
+      "service": "Client link"
+    },
+    {
+      "match": {
+        "labels": {
+          "component": "^new-errors$"
+        }
+      },
+      "service": "New errors"
+    }
+  ],
+  "splitIncidents": [
+    {
+      "match": {
+        "origin": "^api-uptime$"
+      },
+      "by": "instance"
+    },
+    {
+      "match": {
+        "origin": "^sentry$"
+      },
+      "by": "instance"
+    },
+    {
+      "match": {
+        "origin": "^gateway-runway$"
+      },
+      "by": "instance"
+    }
+  ],
+  "inferredCellExclude": [
+    {
+      "origin": "^sweep$",
+      "rule": "^BugFiled",
+      "note": "Bug reports filed by people are not wanted on the wall: a finding of this class leaves no rule cell behind once it resolves."
+    },
+    {
+      "origin": "^sweep$",
+      "rule": "^GrafanaRule$",
+      "note": "Watch reads Grafana itself: the sweep no longer pushes its GrafanaRule findings or lists them as a check, so a resolved one leaves no dotted cell on the Regression sweep tile."
+    },
+    {
+      "rule": "^Zulip",
+      "note": "Zulip is no longer used (the server went on 2026-10-15) and its alert rules are deleted, so a resolved Zulip alert (Zulip backup stale, the last one) leaves no dotted cell on the Chat tile for its 30 days of history."
+    },
+    {
+      "rule": "(?:Test|^TestAlert)$",
+      "note": "Wiring and smoke-test classes (ApiAlertTest, WatchWiringTest, ChatWiringTest, ChatCutoverDevTest, TestAlert) prove a path once; they are not rules, so a resolved one leaves no dotted cell."
+    }
+  ],
+  "severityCaps": [
+    {
+      "match": {
+        "origin": "^dev$"
+      },
+      "max": "warning",
+      "note": "dev is the router's dev stack, and dev is never red on the wall: a dev outage caps at warning."
+    },
+    {
+      "match": {
+        "labels": {
+          "namespace": "^(box|worker|web)-dev$"
+        }
+      },
+      "max": "warning",
+      "note": "A dev Kubernetes namespace (dev, box-dev, web-dev), and dev is never red on the wall."
+    },
+    {
+      "match": {
+        "labels": {
+          "env": "^((box|worker|web)-)?dev$"
+        }
+      },
+      "max": "warning",
+      "note": "The alert names a dev environment in its env label, and dev is never red on the wall."
+    },
+    {
+      "match": {
+        "labels": {
+          "backend": "-dev$"
+        }
+      },
+      "max": "warning",
+      "note": "A dev router backend (web-2-dev, worker-2-dev), and dev is never red on the wall."
+    },
+    {
+      "match": {
+        "origin": "^sweep$",
+        "rule": "^Prober(TargetDown|StateStale)$",
+        "labels": {
+          "service": "(^|-)(dev|sandbox)(-|$)"
+        }
+      },
+      "max": "warning",
+      "note": "An node-2 prober target of a dev or sandbox stack (gag-core-dev-cloudflared, gag-core-sandbox-cloudflared), and dev is never red on the wall."
+    },
+    {
+      "match": {
+        "origin": "^api-uptime$",
+        "labels": {
+          "instance": "(^|-)(dev|sandbox)(-|$)"
+        }
+      },
+      "max": "warning",
+      "note": "An node-2 prober target of a dev or sandbox stack (router-dev-healthz, gag-core-dev-postgres), and dev is never red on the wall."
+    }
+  ],
+  "wallGroups": [
+    {
+      "id": "product",
+      "label": "Product",
+      "services": [
+        "API",
+        "API edge",
+        "API router",
+        "Acme desktop",
+        "Acme helper",
+        "Acme mobile",
+        "Acme web",
+        "Edge",
+        "Router",
+        "Helper",
+        "desktop app",
+        "mobile app",
+        "Docs",
+        "prod/docs",
+        "prod/scraper",
+        "Chat",
+        "Client link"
+      ]
+    },
+    {
+      "id": "notifications",
+      "label": "API router",
+      "services": [
+        "API notifications"
+      ]
+    },
+    {
+      "id": "reliability",
+      "label": "Reliability signals",
+      "services": [
+        "Ops errors",
+        "Ops slo",
+        "Ops latency",
+        "Ops traffic",
+        "Ops turns",
+        "Error clusters",
+        "Error breadth",
+        "New errors",
+        "Regression sweep"
+      ]
+    },
+    {
+      "id": "infrastructure",
+      "label": "Infrastructure",
+      "services": [
+        "Host disks",
+        "Node disk",
+        "Fleet load",
+        "Netdata",
+        "ClickHouse",
+        "Postgres",
+        "Backups",
+        "Metrics store",
+        "Metrics pipeline",
+        "Ingest",
+        "Gateway",
+        "Alert pipeline",
+        "Cloud computers",
+        "Watch sources",
+        "Watch self-test"
+      ]
+    },
+    {
+      "id": "external",
+      "label": "External and vendors",
+      "services": [
+        "Gateway gateway",
+        "Egress gateway",
+        "Vendors and billing",
+        "Uptime"
+      ]
+    }
+  ],
+  "channels": [
+    {
+      "id": "ntfy",
+      "type": "ntfy",
+      "server": "https://ntfy.sh",
+      "topicEnv": "NTFY_TOPIC",
+      "tokenEnv": "NTFY_TOKEN",
+      "self": {
+        "urlEnv": "NTFY_SELF_URL",
+        "topicEnv": "NTFY_SELF_TOPIC",
+        "tokenEnv": "NTFY_SELF_TOKEN"
+      },
+      "primaryEnv": "NTFY_PRIMARY"
+    },
+    {
+      "id": "webpush",
+      "type": "webpush",
+      "publicKeyEnv": "WEBPUSH_PUBLIC_KEY",
+      "privateKeyEnv": "WEBPUSH_PRIVATE_KEY",
+      "subject": "mailto:you@example.com"
+    },
+    {
+      "id": "sms-telnyx",
+      "type": "sms",
+      "provider": "telnyx",
+      "apiKeyEnv": "TELNYX_API_KEY",
+      "fromEnv": "TELNYX_FROM",
+      "toEnv": "WATCH_SMS_TO"
+    },
+    {
+      "id": "email",
+      "type": "email",
+      "provider": "resend",
+      "apiKeyEnv": "RESEND_API_KEY",
+      "from": "EZO Watcher <watch@alerts.example.com>",
+      "toEnv": "WATCH_EMAIL_TO"
+    },
+    {
+      "id": "hook",
+      "type": "webhook",
+      "urlEnv": "WATCHER_WEBHOOK_URL"
+    }
+  ],
+  "routes": [
+    {
+      "id": "dev-wall-only",
+      "match": {
+        "origin": [
+          "dev"
+        ]
+      },
+      "receivers": [],
+      "mode": "all",
+      "groupWaitSec": 0,
+      "groupIntervalSec": 300,
+      "repeatIntervalSec": 86400
+    },
+    {
+      "id": "netdata-unreachable",
+      "match": {
+        "severity": [
+          "page"
+        ],
+        "origin": [
+          "netdata",
+          "netdata-cloud"
+        ],
+        "labels": {
+          "alertname": "NetdataNodeUnreachable"
+        }
+      },
+      "receivers": [
+        "ntfy",
+        "webpush"
+      ],
+      "mode": "ladder",
+      "record": [],
+      "groupWaitSec": 180,
+      "groupIntervalSec": 120,
+      "repeatIntervalSec": 1800,
+      "coalesce": {
+        "maxPages": 10,
+        "windowSec": 600
+      },
+      "escalate": [
+        {
+          "afterSec": 600,
+          "receivers": [
+            "sms-telnyx"
+          ]
+        },
+        {
+          "afterSec": 3600,
+          "receivers": [
+            "email"
+          ]
+        }
+      ],
+      "sendResolved": true
+    },
+    {
+      "id": "page",
+      "match": {
+        "severity": [
+          "page"
+        ]
+      },
+      "receivers": [
+        "ntfy",
+        "webpush"
+      ],
+      "mode": "ladder",
+      "record": [],
+      "groupWaitSec": 0,
+      "groupIntervalSec": 120,
+      "repeatIntervalSec": 1800,
+      "coalesce": {
+        "maxPages": 10,
+        "windowSec": 600
+      },
+      "escalate": [
+        {
+          "afterSec": 600,
+          "receivers": [
+            "sms-telnyx"
+          ]
+        },
+        {
+          "afterSec": 3600,
+          "receivers": [
+            "email"
+          ]
+        }
+      ],
+      "sendResolved": true
+    },
+    {
+      "id": "sweep-wall-only",
+      "match": {
+        "severity": [
+          "warning"
+        ],
+        "origin": [
+          "sweep"
+        ]
+      },
+      "receivers": [],
+      "mode": "all",
+      "groupWaitSec": 0,
+      "groupIntervalSec": 300,
+      "repeatIntervalSec": 86400
+    },
+    {
+      "id": "warning",
+      "match": {
+        "severity": [
+          "warning"
+        ]
+      },
+      "receivers": [
+        "hook"
+      ],
+      "mode": "all",
+      "groupWaitSec": 60,
+      "groupIntervalSec": 300,
+      "repeatIntervalSec": 86400,
+      "sendResolved": true
+    }
+  ],
+  "quietHours": {
+    "tz": "America/Chicago",
+    "start": "22:00",
+    "end": "07:00"
+  }
+}

@@ -1,0 +1,1650 @@
+/* EZO Watcher components. Every length, colour and duration is a var() from tokens.css.
+   Look plan: neutral chrome, hue only as the severity data channel, two radii (8 controls, 16 tiles). */
+
+/* ---- shell ------------------------------------------------------------------------------------ */
+.app {
+  display: grid;
+  grid-template-columns: var(--size-sidebar) minmax(0, 1fr);
+  min-height: 100dvh;
+}
+.side {
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-24);
+  padding: var(--spacing-16);
+  border-right: var(--size-hairline) solid var(--color-line);
+  background: var(--color-bg);
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+  padding: var(--spacing-4) var(--spacing-8);
+  font-size: var(--text-title);
+  line-height: var(--text-title--line-height);
+  font-weight: 700;
+}
+.brand svg {
+  width: var(--spacing-24);
+  height: var(--spacing-24);
+}
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+.nav a,
+.nav button {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-12);
+  min-height: var(--size-row-min);
+  padding: 0 var(--spacing-8);
+  border: 0;
+  border-radius: var(--radius-8);
+  background: transparent;
+  color: var(--color-muted);
+  text-decoration: none;
+  font-weight: 500;
+  text-align: left;
+}
+.nav a:hover,
+.nav button:hover {
+  background: color-mix(in oklab, var(--color-fg) calc(var(--overlay-hover) * 100%), transparent);
+  color: var(--color-fg);
+}
+.nav a[aria-current='page'] {
+  background: color-mix(in oklab, var(--color-fg) calc(var(--overlay-row-active) * 100%), transparent);
+  color: var(--color-fg);
+}
+.nav svg {
+  width: var(--spacing-20);
+  height: var(--spacing-20);
+  flex: none;
+}
+.nav .count {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: var(--text-code);
+  font-variant-numeric: tabular-nums;
+}
+.side-foot {
+  margin-top: auto;
+}
+.main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 100dvh;
+  padding: var(--spacing-16) var(--spacing-24) var(--spacing-24);
+  padding-left: max(var(--spacing-24), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--spacing-24), env(safe-area-inset-right, 0px));
+  gap: var(--spacing-16);
+}
+.page-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--spacing-12) var(--spacing-24);
+}
+.page-title {
+  font-size: var(--text-headline);
+  line-height: var(--text-headline--line-height);
+  font-weight: var(--text-headline--font-weight);
+  letter-spacing: var(--text-headline--letter-spacing);
+}
+.statusline {
+  margin-top: var(--spacing-4);
+  color: var(--color-muted);
+  max-width: var(--size-measure);
+}
+.statusline strong {
+  color: var(--color-fg);
+  font-weight: 500;
+}
+.statusline[data-stale='true'] strong {
+  text-decoration: underline;
+  text-underline-offset: var(--spacing-4);
+}
+/* what the four shapes of a cell say: one line under the status line on a wide screen, wrapping between items on a narrow one. The
+   swatch and its shape word are held together, so a line never ends on a bare cell. */
+.legend {
+  margin-top: var(--spacing-4);
+  color: var(--color-muted);
+  font-size: var(--text-code);
+  line-height: var(--text-code--line-height);
+}
+.legend__key {
+  white-space: nowrap;
+}
+.legend .cell {
+  display: inline-block;
+  vertical-align: middle;
+  margin-inline-end: var(--spacing-4);
+}
+.tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-8);
+}
+
+@media (max-width: 40rem) {
+  .app {
+    grid-template-columns: minmax(0, 1fr);
+    padding-bottom: calc(var(--size-target) + var(--spacing-24) + env(safe-area-inset-bottom, 0px));
+  }
+  .side {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 5;
+    height: auto;
+    flex-direction: row;
+    gap: 0;
+    padding: var(--spacing-4) var(--spacing-8);
+    padding-bottom: max(var(--spacing-4), env(safe-area-inset-bottom, 0px));
+    border-right: 0;
+    border-top: var(--size-hairline) solid var(--color-line);
+  }
+  .brand,
+  .side-foot {
+    display: none;
+  }
+  .nav {
+    flex: 1;
+    flex-direction: row;
+    gap: var(--spacing-4);
+    /* the nav's items need more than the 413 px of labels at 12 px, more than a 360 px bar: the bar scrolls sideways, every item keeps its whole
+       label, and App.tsx brings the current one into view. The block padding with the matching negative margin leaves room for the focus ring the scroll box would clip. */
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-block: var(--spacing-4);
+    margin-block: calc(var(--spacing-4) * -1);
+  }
+  /* the row is sized by its labels ("Notifications" is the widest at 12 px), the slack is shared when there is some, an item
+     never shrinks under its label, and none is narrower than a finger */
+  .nav a {
+    flex: 1 0 auto;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--spacing-2);
+    min-height: var(--size-target);
+    min-width: var(--size-target);
+    padding: var(--spacing-4);
+    font-size: var(--text-code);
+    line-height: var(--text-code--line-height);
+    white-space: nowrap;
+  }
+  .nav .count {
+    display: none;
+  }
+  .main {
+    padding: var(--spacing-12);
+    padding-left: max(var(--spacing-12), env(safe-area-inset-left, 0px));
+    padding-right: max(var(--spacing-12), env(safe-area-inset-right, 0px));
+  }
+}
+
+/* a 320 px screen: the labels of ten items need more than the screen has (the bar scrolls sideways), so the bar and its items give up their padding (--bp-nav-tight) */
+@media (max-width: 22.5rem) {
+  .side {
+    padding-left: var(--spacing-4);
+    padding-right: var(--spacing-4);
+  }
+  .nav {
+    gap: var(--spacing-2);
+  }
+  .nav a {
+    padding: var(--spacing-4) var(--spacing-2);
+  }
+}
+
+/* ---- controls --------------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-8);
+  min-height: var(--spacing-32);
+  padding: 0 var(--spacing-12);
+  border: var(--size-hairline) solid var(--color-line-strong);
+  border-radius: var(--radius-8);
+  background: transparent;
+  color: var(--color-fg);
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color var(--duration-100) var(--ease-standard);
+}
+.btn svg {
+  width: var(--size-icon-tree);
+  height: var(--size-icon-tree);
+  flex: none;
+}
+.btn:hover {
+  background: color-mix(in oklab, var(--color-fg) calc(var(--overlay-hover) * 100%), transparent);
+}
+.btn:active {
+  background: color-mix(in oklab, var(--color-fg) calc(var(--overlay-row-active) * 100%), transparent);
+}
+.btn[data-variant='primary'] {
+  background: var(--control-fill);
+  color: var(--control-ink);
+  border-color: transparent;
+}
+.btn[data-variant='primary']:hover,
+.btn[data-variant='primary']:active {
+  background: color-mix(in oklab, var(--control-fill) calc((1 - var(--overlay-hover)) * 100%), var(--control-ink));
+}
+.btn:disabled {
+  color: var(--color-muted);
+  cursor: default;
+}
+.seg {
+  display: inline-flex;
+  border: var(--size-hairline) solid var(--color-line-strong);
+  border-radius: var(--radius-8);
+  overflow: hidden;
+}
+.seg button {
+  min-height: var(--spacing-32);
+  padding: 0 var(--spacing-12);
+  border: 0;
+  background: transparent;
+  color: var(--color-muted);
+  font-weight: 500;
+}
+.seg button[aria-pressed='true'] {
+  background: color-mix(in oklab, var(--color-fg) calc(var(--overlay-row-active) * 100%), transparent);
+  color: var(--color-fg);
+}
+@media (pointer: coarse) {
+  .btn,
+  .seg button {
+    min-height: var(--size-target);
+    min-width: var(--size-target);
+  }
+  .nav a,
+  .nav button {
+    min-height: var(--size-target);
+  }
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  padding: 0 var(--spacing-8);
+  min-height: var(--spacing-20);
+  max-width: 100%;
+  border: var(--size-hairline) solid currentColor;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-code);
+  line-height: var(--text-code--line-height);
+  overflow-wrap: anywhere;
+}
+.chip__when {
+  white-space: nowrap;
+}
+.chip[data-tone='muted'] {
+  color: var(--color-muted);
+  border-color: var(--color-line-strong);
+}
+/* a park's chip in the sheet: the parked hue as text and as its hairline, like the tile's outline */
+.chip[data-tone='parked'] {
+  color: var(--color-parked);
+}
+.chip svg {
+  width: var(--size-icon-tree);
+  height: var(--size-icon-tree);
+}
+.link {
+  color: var(--color-fg);
+  text-decoration: underline;
+  text-underline-offset: var(--spacing-4);
+}
+
+/* ---- the wall --------------------------------------------------------------------------------- */
+.wall-host {
+  position: relative;
+  flex: 1;
+  min-height: calc(var(--tile-step) * 8);
+  /* the wall measures its room with this element's min-height cleared and sets it back (Wall.tsx measure): a transition on it would be read half way. Under
+     reduced motion the global guard gives every element a 0.01 ms duration on `transition-property: all`, which made the wall measure two heights in turn and
+     flip between them (found at 1440 x 900 with six incidents), so it has none. */
+  transition: none;
+}
+.wall {
+  /* the lines a page's title may take; a warning's are --wall-warning-title-lines (the compact rule below) */
+  --title-lines: var(--wall-title-lines);
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+}
+.wall[data-stack='true'] {
+  position: static;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--wall-gap);
+}
+.tile {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8);
+  padding: var(--spacing-12);
+  border: var(--edge-quiet) solid var(--color-line);
+  border-radius: var(--radius-16);
+  background: var(--color-raised);
+  color: var(--color-fg);
+  overflow: hidden;
+  container-type: normal;
+  transition: transform var(--duration-250) var(--ease-standard);
+}
+/* Every part of a tile keeps its own height. A tile is a fixed box: when its content is too tall, useFit sheds whole optional
+   rows (links, instance rows, cells, the summary), so no line is ever squeezed to a sliver. Left to shrink, the meta line
+   (overflow hidden) went to 0 to 2.5 px high on a tight wall (found on the live wall, 1440 x 600 fixture), and useFit, which
+   measures only the footer, never saw an overflow to shed. */
+.tile > * {
+  flex-shrink: 0;
+}
+.wall[data-stack='true'] .tile {
+  position: relative;
+  grid-column: span 1;
+}
+.wall[data-stack='true'] .tile[data-tier='page'] {
+  grid-column: 1 / -1;
+  /* a page is as tall as its rows, never more than --stack-page-max-h (a share of the visible height, so the groups under the band stay in view); useFit sheds the
+     rows the cap leaves no room for. Its title is at the title step, in --stack-page-title-lines lines (the whole text is the link's name and hover title). */
+  max-height: var(--stack-page-max-h);
+  --title-lines: var(--stack-page-title-lines);
+}
+/* The dense page (Wall.tsx sets data-dense when the cap is under --stack-page-roomy-h, a panel under about 760 px tall): the age's figure keeps its size and shares a
+   row with its word, the padding and the gaps tighten, the title holds two lines, and the cells under the groups take the height of their own rows, so two pages, the
+   Fleet strip, the first group's heading and a row of its cells are all in the first screen. */
+.wall[data-stack='true'][data-dense='true'] .tile[data-tier='page'] {
+  --title-lines: var(--stack-page-title-lines-dense);
+  gap: var(--spacing-4);
+  padding: var(--spacing-8) var(--spacing-12);
+}
+.wall[data-stack='true'][data-dense='true'] .tile[data-tier='page'] .tile__hero {
+  flex-direction: row;
+  align-items: baseline;
+  gap: var(--spacing-8);
+}
+.wall[data-stack='true'][data-dense='true'] .tile[data-tier='page'] .tile__hero + .tile__foot {
+  margin-top: 0;
+}
+.wall[data-stack='true'][data-dense='true'] .tile[data-size='cell'] {
+  min-height: 0;
+}
+/* and a group's heading takes the height of its own line (the label, its padding and the hairline: about --spacing-24) instead of the grid's --wall-group-head-h, so the
+   headings of two groups of pages do not push the first healthy row out of a 600 px panel */
+.wall[data-stack='true'][data-dense='true'] .wall__group {
+  min-height: 0;
+}
+.wall[data-stack='true'] .tile[data-tier='warning'] {
+  grid-column: 1 / -1;
+  min-height: var(--stack-warning-h);
+}
+.wall[data-stack='true'] .tile[data-tier='quiet'] {
+  min-height: var(--wall-quiet-min-h);
+}
+/* a healthy cell on a phone: two to a row, and one with more dots than half a row holds takes the whole row (Wall.tsx sets data-wide) */
+.wall[data-stack='true'] .tile[data-size='cell'] {
+  min-height: var(--wall-cell-min-h);
+}
+.wall[data-stack='true'] .tile[data-size='cell'][data-wide='true'] {
+  grid-column: 1 / -1;
+}
+/* a silenced incident is a problem, not a healthy service: it has the row to itself so its title is whole, like a warning's */
+.wall[data-stack='true'] .tile[data-tier='quiet']:not([data-kind='service']) {
+  grid-column: 1 / -1;
+  min-height: var(--stack-warning-h);
+}
+/* ---- wall groups (docs/design.md, Wall groups) ---------------------------------------------------------------------------- */
+/* A group's heading is a full-width row of the grid, a real h2, over the incidents of that group (the healthy cells are one grid with no headings): the group's name,
+   then its incident counts in the mono face ("2 firing, 1 acknowledged"). Quiet: neutral ink, a hairline under it, no card around the tiles that follow. On the grid it
+   is placed like a tile (the layout gives it a row of its own, --wall-group-head-h). */
+.wall__group {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 var(--spacing-4) var(--spacing-4);
+  border-bottom: var(--size-hairline) solid var(--color-line);
+  transition: transform var(--duration-250) var(--ease-standard);
+}
+/* the Parked section's hairline is the parked hue, the colour of the outline of the tiles under it */
+.wall__group[data-group='parked'] {
+  border-bottom-color: var(--color-parked);
+}
+.wall__group-title {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0 var(--spacing-12);
+  min-width: 0;
+  margin: 0;
+  font-size: var(--text-title);
+  line-height: var(--text-title--line-height);
+  font-weight: var(--text-title--font-weight);
+  color: var(--color-fg);
+}
+.wall__group-count {
+  font-family: var(--font-mono);
+  font-size: var(--text-code);
+  line-height: var(--text-code--line-height);
+  font-weight: var(--text-body--font-weight);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-fg);
+}
+.wall[data-stack='true'] .wall__group {
+  position: relative;
+  grid-column: 1 / -1;
+  min-height: var(--wall-group-head-h);
+}
+/* the group an incident tile names, first in its breadcrumb: one quiet label that is never shed, cut with an ellipsis (its full name is its title) when the row is narrower */
+.tile__crumb--group {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media (prefers-reduced-motion: reduce) {
+  .wall__group {
+    transition: none;
+  }
+}
+
+.tile[data-tier='page'] {
+  background: var(--color-danger);
+  color: var(--on-danger);
+  border: var(--edge-page) solid var(--color-fg);
+}
+.tile[data-tier='warning'] {
+  --tint: var(--tint-band-0);
+  border: var(--edge-warning) solid var(--color-warn);
+  background: color-mix(in oklch, var(--color-warn) calc(var(--tint) * 100%), var(--color-raised));
+}
+.tile[data-tier='warning'][data-band='1'] {
+  --tint: var(--tint-band-1);
+}
+.tile[data-tier='warning'][data-band='2'],
+.tile[data-tier='warning'][data-band='3'] {
+  --tint: var(--tint-band-2);
+}
+.tile[data-tier='warning'][data-band='2'],
+.tile[data-tier='warning'][data-band='3'] {
+  color: var(--on-warn);
+}
+/* An acknowledged incident: someone has it. The severity hue stays, but as the outline (the tier's own thickness) and on the check-circle, and
+   the fill that says nobody has it is gone, so the tiles still waiting for a person are the loud ones. Silenced keeps its dotted border. */
+.tile[data-attention='acked'][data-tier='page'],
+.tile[data-attention='acked'][data-tier='warning'] {
+  background: var(--color-raised);
+  color: var(--color-fg);
+}
+.tile[data-attention='acked'][data-tier='page'] {
+  border: var(--edge-page) solid var(--color-danger);
+}
+.tile[data-attention='acked'][data-tier='warning'] {
+  border: var(--edge-warning) solid var(--color-warn);
+}
+.tile[data-attention='acked'][data-tier='page'] .glyph {
+  color: var(--color-danger);
+}
+.tile[data-attention='acked'][data-tier='warning'] .glyph {
+  color: var(--color-warn);
+}
+/* the one line that says who has it and since when: one line, whole, an ellipsis last (the full text is its title) */
+.tile__ack {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  font-size: var(--text-code);
+  line-height: var(--text-code--line-height);
+}
+/* who has it, then when. Neither is ever cut by an ellipsis: an agent's name can be 64 characters, so it wraps (and tile fit sheds the rows below it
+   if the box is short), and the time stays one piece on its own line. */
+.tile__ack-who,
+.tile__ack-when {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.tile__ack-when {
+  white-space: nowrap;
+}
+.tile__ack-who {
+  font-weight: var(--text-title--font-weight);
+}
+.tile[data-attention='silenced'] {
+  border-style: dotted;
+}
+/* A parked incident: the sweep has an open verdict for it that is not due yet (docs/design.md, Parked). It is handled and waiting, so it takes the raised surface like an
+   acknowledged one, with one hairline of the parked hue (a calm slate blue, never amber or red) for its outline and a pause in a circle in that hue for its glyph. The
+   severity outline and the check say a person has it, the dotted border says it is silenced; this says it is waiting for a date. No amber anywhere on it. */
+.tile[data-attention='parked'] {
+  border: var(--size-hairline) solid var(--color-parked);
+  background: var(--color-raised);
+  color: var(--color-fg);
+}
+.tile[data-attention='parked'] .glyph,
+.tile[data-attention='parked'] .tile__ack-who {
+  color: var(--color-parked);
+}
+/* the reason and the ticket can be long (a ticket id is up to 64 characters), so unlike an acknowledgement's time they may wrap */
+.tile[data-attention='parked'] .tile__ack-when {
+  white-space: normal;
+}
+.tile[data-tier='quiet'][data-kind='service'] {
+  color: var(--color-muted);
+}
+.tile[data-selected='true'] {
+  outline: var(--size-ring) solid var(--color-fg);
+  outline-offset: calc(var(--size-ring) * -1);
+}
+.tile__open {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+}
+.tile__open::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+.tile__open:focus-visible {
+  /* the ring is drawn on the whole tile by the :has() rule below */
+  outline: var(--size-ring) solid transparent;
+}
+.tile:has(.tile__open:focus-visible) {
+  outline: var(--size-ring-lg) solid var(--color-fg);
+  outline-offset: var(--size-focus-ring-offset);
+}
+.tile__head {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-8);
+}
+.tile__head svg {
+  flex: none;
+  width: var(--spacing-20);
+  height: var(--spacing-20);
+  margin-top: var(--spacing-2);
+}
+.tile[data-tier='quiet'] .tile__title {
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
+}
+/* the four lines of the Story (where, headline, rule class, proof) read as one block: a tighter gap than the rows around it, which keeps the
+   proof-of-watch cells, the age and the footer on a tile that is not tall */
+.tile__story {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  min-width: 0;
+}
+/* line 1 of an incident tile: the severity glyph and the host badge, with the breadcrumb (system / service / component) beside them when
+   a part of it fits there and on the next line when none does (useFit sets data-crumbs), so it is never dropped for width. The breadcrumb
+   is one line that sheds whole parts and, in a tile too short for it, goes whole after the evidence line. The count sits in the corner. */
+.tile__where {
+  position: relative;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: var(--spacing-4) var(--spacing-8);
+  min-width: 0;
+  padding-right: var(--spacing-24);
+  overflow: hidden;
+  font-size: var(--text-code);
+  line-height: var(--text-code--line-height);
+}
+.tile__where[data-crumbs='below'] {
+  flex-wrap: wrap;
+}
+.tile__where[data-crumbs='below'] .tile__crumbs {
+  flex-basis: 100%;
+}
+.tile__where > * {
+  flex: none;
+}
+.tile__where svg {
+  width: var(--spacing-20);
+  height: var(--spacing-20);
+}
+.tile__where .tile__count {
+  position: absolute;
+  top: 0;
+  right: 0;
+  line-height: var(--spacing-20);
+}
+.tile__crumbs {
+  display: flex;
+  flex: 0 1 auto;
+  gap: var(--spacing-8);
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.tile__crumb {
+  flex: none;
+  opacity: var(--overlay-lightbox);
+}
+/* the separator belongs to the part that follows a visible part, so a shed part never leaves a stray slash */
+.tile__crumb:not([hidden]) ~ .tile__crumb:not([hidden])::before {
+  content: '/';
+  margin-right: var(--spacing-8);
+}
+.tile[data-tier='page'] .tile__crumb {
+  opacity: 1;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--spacing-20);
+  padding: 0 var(--spacing-8);
+  border-radius: var(--radius-pill);
+  background: var(--badge-fill);
+  color: var(--badge-ink);
+  font-size: var(--text-code);
+  line-height: var(--text-code--line-height);
+  font-weight: 500;
+  white-space: nowrap;
+}
+/* a name longer than the tile is the one thing that may wrap, and only between the parts of its own name */
+.badge[data-wrap='true'] {
+  flex: 0 1 auto;
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.tile__title {
+  font-size: var(--text-title);
+  line-height: var(--text-title--line-height);
+  font-weight: var(--text-title--font-weight);
+  min-width: 0;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--title-lines);
+  /* a title wraps between words only: FitTitle offers the joints of a hostname or a CamelCase name, and ends a long title
+     after a whole word. The browser is never allowed to break inside one. */
+  overflow-wrap: normal;
+}
+/* a healthy service's name keeps two lines whatever the wall is told about incident titles */
+.tile[data-kind='service'] .tile__title {
+  -webkit-line-clamp: 2;
+}
+/* A healthy service on a wall that holds incidents is a cell (docs/design.md, The wall): its name on one line (the full name on hover when it is cut), then
+   the dots and the summary it has always had. One that needs a look has the stronger border and a heavier name, so it stays distinct from the all-ok ones
+   by its dots and its weight, with no hue of its own. */
+.tile[data-kind='service'][data-size='cell'] {
+  gap: var(--spacing-4);
+  padding: var(--spacing-8);
+}
+.tile[data-kind='service'][data-size='cell'] .tile__title {
+  -webkit-line-clamp: 1;
+}
+.tile[data-kind='service'][data-size='cell'][data-look='true'] {
+  border-color: var(--color-line-strong);
+  color: var(--color-fg);
+}
+.tile[data-kind='service'][data-size='cell'][data-look='true'] .tile__title {
+  font-weight: var(--text-display--font-weight);
+}
+/* A warning (and an acknowledged or silenced incident) is a compact tile: its badge row, its title in two or three lines (two once it also says who has it),
+   the age it has gone unattended in one small line, and the receipt. The page's age is the big figure; this is the same words at the code size. */
+.tile[data-size='compact'] {
+  gap: var(--spacing-4);
+  padding: var(--spacing-8) var(--spacing-12);
+}
+.tile[data-size='compact'] .tile__title {
+  -webkit-line-clamp: var(--wall-warning-title-lines);
+}
+.tile[data-size='compact'][data-attention='acked'] .tile__title,
+.tile[data-size='compact'][data-attention='silenced'] .tile__title,
+.tile[data-size='compact'][data-attention='parked'] .tile__title {
+  -webkit-line-clamp: var(--wall-warning-title-lines-attended);
+}
+.tile__hero.tile__hero--small {
+  flex-direction: row;
+  align-items: baseline;
+  gap: var(--spacing-8);
+}
+.tile__hero--small .tile__age {
+  font-size: var(--text-code);
+  line-height: var(--text-code--line-height);
+  font-weight: var(--text-title--font-weight);
+  letter-spacing: var(--text-code--letter-spacing);
+}
+.tile__hero.tile__hero--small + .tile__foot {
+  margin-top: 0;
+}
+/* the larger title sizes need room: Wall.tsx sets data-title-style to the largest size that holds the whole title in the tile (the display
+   size for the lead tile, the headline size for a large page or warning), so a bigger face never costs a line of the title */
+.tile[data-title-style='display'] .tile__title {
+  font-size: var(--text-display);
+  line-height: var(--text-display--line-height);
+  font-weight: var(--text-display--font-weight);
+  letter-spacing: var(--text-display--letter-spacing);
+}
+.tile[data-title-style='headline'] .tile__title {
+  font-size: var(--text-headline);
+  line-height: var(--text-headline--line-height);
+  letter-spacing: var(--text-headline--letter-spacing);
+}
+.tile__count {
+  margin-left: auto;
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: var(--text-code);
+  font-variant-numeric: tabular-nums;
+}
+.tile__meta {
+  font-size: var(--text-code);
+  line-height: var(--text-code--line-height);
+  opacity: var(--overlay-lightbox);
+}
+.tile__summary[data-tight='true'] {
+  -webkit-line-clamp: 2;
+}
+/* secondary text on a page tile is full strength: at 0.8 the dark ink on the danger red is 4.21:1 in the dark scheme (axe), below
+   the 4.5:1 floor, and at 1 it is 5.1:1 */
+.tile[data-tier='page'] .tile__meta,
+.tile[data-tier='page'] .tile__age-label,
+.tile[data-tier='page'] .tile__receipt {
+  opacity: 1;
+}
+/* the caption row of an incident tile: the rule class, then (on a tile too small for the age) the time since it fired. Each is whole;
+   when they do not fit side by side the time drops to its own line, and a rule class wider than the tile breaks between its words. */
+.tile__caption {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--spacing-8);
+}
+.tile__caption:not(:has(> :not([hidden]))) {
+  display: none;
+}
+.tile__rule {
+  min-width: 0;
+  font-weight: var(--text-title--font-weight);
+}
+.tile__time {
+  white-space: nowrap;
+}
+.tile[data-tier='quiet'] .tile__meta {
+  opacity: 1;
+  color: var(--color-muted);
+}
+.tile__summary {
+  flex: none;
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  max-width: var(--size-measure);
+}
+.tile__line[data-kind='output'],
+.tile__line[data-kind='command'],
+.tile__line[data-kind='value'] {
+  font-family: var(--font-mono);
+  font-variant-ligatures: none;
+  font-size: var(--text-code);
+  line-height: var(--text-code--line-height);
+}
+.tile__instances {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  font-family: var(--font-mono);
+  font-size: var(--text-code);
+  line-height: var(--text-code--line-height);
+}
+.tile__instances li {
+  display: flex;
+  gap: var(--spacing-8);
+  min-width: 0;
+}
+.tile__instances span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tile__more {
+  color: var(--color-muted);
+}
+.tile__more[hidden] {
+  display: none;
+}
+/* an instance named by its summary reads as a sentence, not a host: UI face, up to two lines, then an ellipsis */
+.tile__instances li[data-label='summary'] {
+  font-family: var(--font-ui);
+}
+.tile__instances li[data-label='summary'] span:first-child {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+/* The footer is one line and keeps its height: the receipt gives way with an ellipsis (its full text is in the title)
+   and optional rows above it are shed whole by useFit, so no footer is ever wrapped or cut. */
+.tile__foot {
+  margin-top: auto;
+  flex: none;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: var(--spacing-8);
+  min-height: var(--spacing-24);
+  font-size: var(--text-code);
+  line-height: var(--text-code--line-height);
+}
+.tile__foot .btn {
+  flex: none;
+}
+.tile [data-shed][hidden],
+.tile [data-shed-x][hidden] {
+  display: none;
+}
+.tile__instances:not(:has(li:not([hidden]))) {
+  display: none;
+}
+.tile__foot .btn {
+  position: relative;
+  z-index: 1;
+  min-height: var(--spacing-24);
+  padding: 0 var(--spacing-8);
+  border-color: currentColor;
+  color: inherit;
+}
+.tile__receipt {
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  opacity: var(--overlay-lightbox);
+}
+.tile[data-tier='quiet'] .tile__receipt {
+  opacity: 1;
+  color: var(--color-muted);
+}
+
+/* proof-of-watch cells: one per rule that is not ok, no hue, shape and fill carry the state; the rest are one count ("99 ok") that
+   closes the strip. A tile too small for it lets useFit set data-fit: 'bare' drops the count, 'text' swaps the cells for one line. */
+.cells {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-4);
+  align-content: flex-start;
+  align-items: center;
+  min-width: 0;
+}
+.cells__ok,
+.cells__text {
+  font-family: var(--font-mono);
+  font-size: var(--text-code);
+  line-height: var(--cell);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.cells__ok {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+.cells__text {
+  display: none;
+}
+.cells[data-fit='bare'] .cells__ok {
+  display: none;
+}
+.cells[data-fit='text'] .cell,
+.cells[data-fit='text'] .cells__ok {
+  display: none;
+}
+.cells[data-fit='text'] .cells__text {
+  display: inline;
+}
+.cell {
+  position: relative;
+  width: var(--cell);
+  height: var(--cell);
+  flex: none;
+  border: var(--size-hairline) solid currentColor;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.cell[data-state='ok'] {
+  background: color-mix(in oklab, currentColor calc(var(--overlay-figure) * 100%), transparent);
+}
+.cell[data-state='firing'] {
+  background: currentColor;
+}
+.cell[data-state='pending']::after {
+  content: '';
+  position: absolute;
+  inset: 50% 0 0 0;
+  background: currentColor;
+}
+.cell[data-state='nodata'],
+.cell[data-state='error'],
+.cell[data-state='stale'] {
+  border-style: dashed;
+}
+.cell[data-state='inferred'] {
+  border-style: dotted;
+}
+
+/* ---- lists, rows, sections ------------------------------------------------------------------- */
+.rows {
+  display: flex;
+  flex-direction: column;
+  border-top: var(--size-hairline) solid var(--color-line);
+}
+.row {
+  display: grid;
+  grid-template-columns: var(--spacing-20) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--spacing-12);
+  min-height: var(--size-row-min);
+  padding: var(--spacing-8) var(--spacing-4);
+  border-bottom: var(--size-hairline) solid var(--color-line);
+  background: transparent;
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+  color: inherit;
+  text-align: left;
+  width: 100%;
+}
+button.row:hover {
+  background: color-mix(in oklab, var(--color-fg) calc(var(--overlay-hover) * 100%), transparent);
+}
+.row__title {
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+.row__sub {
+  color: var(--color-muted);
+  font-size: var(--text-code);
+  line-height: var(--text-code--line-height);
+  overflow-wrap: anywhere;
+}
+.row__aside {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--spacing-8);
+  color: var(--color-muted);
+  font-size: var(--text-code);
+}
+/* A history row on a phone: the time and the length drop under the sentence instead of squeezing it to a third of the width. */
+@media (max-width: 40rem) {
+  .row[data-stacked] {
+    grid-template-columns: var(--spacing-20) minmax(0, 1fr);
+    row-gap: var(--spacing-4);
+  }
+  .row[data-stacked] .row__aside {
+    grid-column: 2;
+    justify-content: flex-start;
+  }
+}
+.row svg.glyph {
+  width: var(--spacing-20);
+  height: var(--spacing-20);
+}
+.row[data-tone='page'] svg.glyph {
+  color: var(--color-danger);
+}
+.row[data-tone='warning'] svg.glyph {
+  color: var(--color-warn);
+}
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8);
+}
+.section__title {
+  font-size: var(--text-title);
+  line-height: var(--text-title--line-height);
+  font-weight: var(--text-title--font-weight);
+}
+.note {
+  color: var(--color-muted);
+  max-width: var(--size-measure);
+}
+.kv {
+  display: grid;
+  grid-template-columns: minmax(0, max-content) minmax(0, 1fr);
+  gap: var(--spacing-4) var(--spacing-16);
+  font-family: var(--font-mono);
+  font-size: var(--text-code);
+  line-height: var(--text-code--line-height);
+}
+.kv dt {
+  color: var(--color-muted);
+}
+.kv dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.raw {
+  margin: 0;
+  padding: var(--spacing-12);
+  border: var(--size-hairline) solid var(--color-line);
+  border-radius: var(--radius-8);
+  background: var(--color-sunken);
+  font-size: var(--text-code);
+  line-height: var(--text-code--line-height);
+  overflow-x: auto;
+  max-height: calc(var(--tile-step) * 10);
+}
+details > summary {
+  cursor: pointer;
+  min-height: var(--size-row-min);
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+}
+
+/* ---- empty and loading ----------------------------------------------------------------------- */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-12);
+  padding: var(--spacing-24) 0;
+  max-width: var(--size-measure);
+}
+.skel-wall {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--wall-quiet-min-w), 1fr));
+  gap: var(--wall-gap);
+}
+.skel-wall .tile {
+  position: relative;
+  min-height: var(--wall-quiet-min-h);
+}
+.skel-wall .tile:first-child {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+.skel-line {
+  height: var(--spacing-12);
+}
+
+/* ---- the drill sheet ------------------------------------------------------------------------- */
+dialog.sheet {
+  margin: 0 0 0 auto;
+  padding: 0;
+  width: min(var(--size-dialog-max), 100vw);
+  max-width: 100vw;
+  height: 100dvh;
+  max-height: 100dvh;
+  border: 0;
+  border-left: var(--size-hairline) solid var(--color-line-strong);
+  background: var(--color-bg);
+  color: var(--color-fg);
+  overflow: hidden;
+  transform: translateX(0);
+  transition:
+    transform var(--duration-250) var(--ease-standard-decelerate),
+    overlay var(--duration-250) allow-discrete,
+    display var(--duration-250) allow-discrete;
+}
+dialog.sheet:not([open]) {
+  transform: translateX(100%);
+}
+@starting-style {
+  dialog.sheet[open] {
+    transform: translateX(100%);
+  }
+}
+dialog.sheet::backdrop {
+  background: color-mix(in oklab, black calc(var(--overlay-scrim) * 100%), transparent);
+}
+@media (prefers-reduced-motion: reduce) {
+  dialog.sheet,
+  .tile {
+    transition: none;
+  }
+}
+.sheet__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-24);
+  height: 100%;
+  overflow-y: auto;
+  padding: var(--spacing-16);
+  padding-bottom: max(var(--spacing-24), env(safe-area-inset-bottom, 0px));
+}
+.sheet__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-12);
+}
+.sheet__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-8);
+}
+.sheet__lead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-8);
+  min-width: 0;
+}
+.sheet__title {
+  font-size: var(--text-headline);
+  line-height: var(--text-headline--line-height);
+  font-weight: var(--text-headline--font-weight);
+  letter-spacing: var(--text-headline--letter-spacing);
+  overflow-wrap: anywhere;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-8);
+}
+/* ---- the Story sheet: what happened, where, evidence, what to do, then the debug material folded ------------- */
+.prose {
+  max-width: var(--size-measure);
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+/* a command inside a sentence or a step: the monospaced face on the sunken surface, never a different colour */
+.prose code,
+.steps code {
+  padding: 0 var(--spacing-4);
+  border-radius: var(--radius-8);
+  background: var(--color-sunken);
+  font-size: var(--text-code);
+  line-height: var(--text-code--line-height);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-8);
+}
+/* the where chips: neutral pills, no hue (hue is the severity channel); the host is the dark badge, the rest are outlined */
+.chips .chip {
+  min-height: var(--spacing-24);
+  padding: 0 var(--spacing-12);
+}
+.chip[data-kind] {
+  border-color: var(--color-line-strong);
+  color: var(--color-fg);
+}
+.chip[data-kind='host'] {
+  background: var(--badge-fill);
+  color: var(--badge-ink);
+}
+/* a command and what it printed, one surface: the command wraps whole, the output scrolls past --output-lines */
+.term {
+  border: var(--size-hairline) solid var(--color-line);
+  border-radius: var(--radius-8);
+  background: var(--color-sunken);
+  overflow: hidden;
+}
+.term__cmd {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-8);
+  padding: var(--spacing-8) var(--spacing-8) var(--spacing-8) var(--spacing-12);
+}
+.term__prompt,
+.term__text {
+  padding-top: var(--spacing-6);
+  font-size: var(--text-code);
+  line-height: var(--text-code--line-height);
+}
+.term__prompt {
+  flex: none;
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+}
+.term__text {
+  flex: 1 1 0;
+  min-width: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.term__cmd .btn {
+  flex: none;
+}
+.term__out {
+  margin: 0;
+  padding: var(--spacing-12);
+  border-top: var(--size-hairline) solid var(--color-line);
+  max-height: calc(var(--text-code--line-height) * var(--output-lines) + var(--spacing-12) * 2);
+  overflow: auto;
+  font-size: var(--text-code);
+  line-height: var(--text-code--line-height);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.term > :first-child:is(.term__out) {
+  border-top: 0;
+}
+.term__note {
+  padding: 0 var(--spacing-12) var(--spacing-8);
+  color: var(--color-muted);
+  font-size: var(--text-code);
+  line-height: var(--text-code--line-height);
+}
+.vals dd {
+  font-weight: 500;
+}
+.steps {
+  display: grid;
+  gap: var(--spacing-4);
+  padding-left: var(--spacing-24);
+  max-width: var(--size-measure);
+  list-style: decimal;
+}
+.steps li {
+  padding-left: var(--spacing-4);
+  overflow-wrap: anywhere;
+}
+.steps li::marker {
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+}
+/* Labels (n) and Raw (n): closed disclosures with a chevron that turns a quarter when open */
+.fold {
+  border-top: var(--size-hairline) solid var(--color-line);
+}
+.fold:last-of-type {
+  border-bottom: var(--size-hairline) solid var(--color-line);
+}
+.fold > summary {
+  gap: var(--spacing-8);
+}
+.fold > summary svg {
+  flex: none;
+  width: var(--size-icon-tree);
+  height: var(--size-icon-tree);
+  transition: transform var(--duration-100) var(--ease-standard);
+}
+.fold[open] > summary svg {
+  transform: rotate(var(--chevron-open));
+}
+.fold__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-12);
+  padding: var(--spacing-4) 0 var(--spacing-12);
+}
+.fold__title {
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
+  font-weight: var(--text-title--font-weight);
+}
+@media (pointer: coarse) {
+  .fold > summary {
+    min-height: var(--size-target);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fold > summary svg {
+    transition: none;
+  }
+}
+/* the one line that points out of the page: small, quiet, last */
+.also {
+  color: var(--color-muted);
+  font-size: var(--text-code);
+  line-height: var(--text-code--line-height);
+}
+.also .link {
+  color: var(--color-fg);
+}
+/* a finger needs a 44 px target even in a sentence: on touch the line becomes a row of tall links */
+@media (pointer: coarse) {
+  .also {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: var(--spacing-4);
+  }
+  .also .link {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--size-target);
+  }
+}
+
+/* ---- the instances of an incident, worst first ------------------------------------------------------ */
+.insts {
+  display: flex;
+  flex-direction: column;
+  border-top: var(--size-hairline) solid var(--color-line);
+}
+.inst {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  padding: var(--spacing-4) var(--spacing-4) var(--spacing-8);
+  border-bottom: var(--size-hairline) solid var(--color-line);
+}
+.inst__head {
+  display: grid;
+  grid-template-columns: var(--spacing-20) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--spacing-12);
+  min-height: var(--size-row-min);
+  color: inherit;
+  text-decoration: none;
+}
+.inst__head:hover .inst__name {
+  text-decoration: underline;
+  text-underline-offset: var(--spacing-4);
+}
+.inst__name {
+  font-weight: 500;
+  min-width: 0;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+.inst__since {
+  color: var(--color-muted);
+  font-size: var(--text-code);
+}
+.inst__status,
+.inst__links {
+  margin: 0;
+  padding-left: calc(var(--spacing-20) + var(--spacing-12));
+}
+.inst__status {
+  color: var(--color-fg-secondary);
+  overflow-wrap: anywhere;
+}
+.inst__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-8);
+}
+.inst__links > .btn {
+  max-width: 100%;
+}
+.inst svg.glyph {
+  width: var(--spacing-20);
+  height: var(--spacing-20);
+}
+.inst[data-tone='page'] svg.glyph {
+  color: var(--color-danger);
+}
+.inst[data-tone='warning'] svg.glyph {
+  color: var(--color-warn);
+}
+@media (pointer: coarse) {
+  .inst__head {
+    min-height: var(--size-target);
+  }
+}
+/* on a phone the rows use the full width: the glyph sits in the head only, and the sheet packs a little tighter so
+   the evidence of the first three instances stays above the fold */
+@media (max-width: 40rem) {
+  .inst__status,
+  .inst__links {
+    padding-left: 0;
+  }
+  .sheet__body {
+    gap: var(--spacing-16);
+  }
+}
+.actions--state {
+  align-items: center;
+}
+.sheet__more {
+  margin-left: var(--spacing-4);
+  color: var(--color-muted);
+  font-size: var(--text-title);
+  line-height: var(--text-title--line-height);
+  font-weight: 400;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+.timeline li {
+  display: grid;
+  grid-template-columns: calc(var(--spacing-48) * 2) minmax(0, 1fr);
+  gap: var(--spacing-8);
+  padding: var(--spacing-4) 0;
+  font-size: var(--text-code);
+  line-height: var(--text-code--line-height);
+}
+.timeline time {
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+}
+
+/* ---- comments on an incident: a hairline list like the rows, the author in the title weight, the time muted, the text as written ---- */
+.comments {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  border-top: var(--size-hairline) solid var(--color-line);
+}
+.comment {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  padding: var(--spacing-8) 0;
+  border-bottom: var(--size-hairline) solid var(--color-line);
+}
+.comment__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--spacing-4) var(--spacing-12);
+}
+.comment__by {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-weight: var(--text-title--font-weight);
+}
+.comment__time {
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-code);
+  line-height: var(--text-code--line-height);
+}
+.comment__text {
+  margin: 0;
+  max-width: var(--size-measure);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.tile__open {
+  text-decoration: none;
+}
+.kbd-hint {
+  margin-top: auto;
+}
+@media (pointer: coarse) {
+  .kbd-hint {
+    display: none;
+  }
+}
+
+.tile__hero {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+.tile__age {
+  font-family: var(--font-mono);
+  font-size: var(--text-display);
+  line-height: var(--text-display--line-height);
+  font-weight: var(--text-display--font-weight);
+  letter-spacing: var(--text-display--letter-spacing);
+  font-variant-numeric: tabular-nums;
+}
+.tile__age-label {
+  font-size: var(--text-code);
+  line-height: var(--text-code--line-height);
+  opacity: var(--overlay-lightbox);
+}
+.tile__hero + .tile__foot {
+  margin-top: var(--spacing-8);
+}
+
+/* ---- re-check: the wall's control and each alert's, with what they found beside them ------------------------------------ */
+.recheck {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-8) var(--spacing-12);
+  min-width: 0;
+}
+.recheck__stack {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  max-width: calc(var(--spacing-48) * 6);
+}
+.recheck__text {
+  min-width: 0;
+  max-width: var(--size-measure);
+}
+.recheck__fresh,
+.recheck__line,
+.recheck__note {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: var(--text-code);
+  line-height: var(--text-code--line-height);
+  overflow-wrap: anywhere;
+}
+/* the finding is in full ink: no hue, because hue is the severity channel */
+.recheck__line {
+  color: var(--color-fg);
+}
+/* a live region with nothing to say yet stays in the accessibility tree and takes no room, unless a standing note sits beside it */
+.recheck__text:not(:has(.recheck__line:not(:empty), .recheck__note)) {
+  position: absolute;
+  width: var(--size-hairline);
+  height: var(--size-hairline);
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+/* working: the pressed fill and a turning glyph, with "Checking" beside it. The press itself only paints this. */
+.recheck__btn[aria-busy='true'] {
+  background: color-mix(in oklab, var(--color-fg) calc(var(--overlay-row-active) * 100%), transparent);
+  cursor: progress;
+}
+.recheck__btn[aria-busy='true'] svg {
+  animation: recheck-spin var(--duration-spin) linear infinite;
+}
+@keyframes recheck-spin {
+  to {
+    transform: rotate(var(--turn-full));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .recheck__btn[aria-busy='true'] svg {
+    animation: none;
+  }
+}
+/* an alert row's control sits under its status, in line with it */
+.inst__recheck {
+  padding-left: calc(var(--spacing-20) + var(--spacing-12));
+}
+.inst[data-cleared] .inst__name {
+  color: var(--color-muted);
+}
+@media (max-width: 40rem) {
+  .inst__recheck {
+    padding-left: 0;
+  }
+}
+
+/* ---- the name prompt and the name field ------------------------------------------------------------------------------- */
+dialog.prompt {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  padding: var(--spacing-24);
+  width: min(var(--size-dialog-max), calc(100vw - var(--spacing-32)));
+  height: fit-content;
+  max-height: calc(100dvh - var(--spacing-32));
+  overflow-y: auto;
+  border: var(--size-hairline) solid var(--color-line-strong);
+  border-radius: var(--radius-16);
+  background: var(--color-raised);
+  color: var(--color-fg);
+}
+dialog.prompt::backdrop {
+  background: color-mix(in oklab, black calc(var(--overlay-scrim) * 100%), transparent);
+}
+.prompt__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-16);
+}
+.prompt__title {
+  font-size: var(--text-headline);
+  line-height: var(--text-headline--line-height);
+  font-weight: var(--text-headline--font-weight);
+  letter-spacing: var(--text-headline--letter-spacing);
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8);
+}
+.field__label {
+  font-weight: var(--text-title--font-weight);
+}
+.field__input {
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+  max-width: calc(var(--spacing-48) * 6);
+  min-height: var(--spacing-32);
+  padding: 0 var(--spacing-12);
+  border: var(--size-hairline) solid var(--color-line-strong);
+  border-radius: var(--radius-8);
+  appearance: none;
+  background: transparent;
+  color: var(--color-fg);
+  font: inherit;
+}
+@media (pointer: coarse) {
+  .field__input {
+    min-height: var(--size-target);
+    font-size: var(--size-field-text);
+  }
+}

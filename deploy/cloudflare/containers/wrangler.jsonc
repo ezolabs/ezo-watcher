@@ -1,0 +1,27 @@
+{
+  // BETA template: EZO Watcher on Cloudflare Containers. See README.md for the limits.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "ezo-watcher",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-11-01",
+  "observability": { "enabled": true },
+  "containers": [
+    {
+      "class_name": "WatcherContainer",
+      "image": "../../Dockerfile",
+      "max_instances": 1,
+      "instance_type": "lite"
+    }
+  ],
+  "durable_objects": {
+    "bindings": [{ "name": "WATCHER", "class_name": "WatcherContainer" }]
+  },
+  "exports": {
+    "WatcherContainer": { "type": "durable-object", "storage": "sqlite" }
+  },
+  "vars": {
+    // Put the project's config here (one-line JSON) or mount it; the container reads
+    // /app/.watcher/config.json. See ../../../config/watch.example.json.
+    "WATCHER_CONFIG_JSON": "{\"brand\":{\"name\":\"EZO Watcher\"},\"baseUrl\":\"https://watcher.example.com\",\"dataDir\":\"/app/.watcher/data\",\"sources\":[],\"serviceMap\":[],\"channels\":[],\"routes\":[],\"quietHours\":null}"
+  }
+}

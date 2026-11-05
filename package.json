@@ -1,0 +1,65 @@
+{
+  "name": "ezo-watcher",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Agentic LiveOps monitoring: your coding agent installs the checks, proves each one can fail, takes the page and ships the fix. Open source, self-hosted, MCP-native, no account.",
+  "engines": {
+    "node": ">=24"
+  },
+  "bin": {
+    "watcher": "bin/watcher.mjs",
+    "ezo-watcher": "bin/watcher.mjs"
+  },
+  "files": [
+    "bin/",
+    "dist/",
+    "src/",
+    "skills/",
+    "config/watch.example.json",
+    "docs/",
+    "addons/",
+    "deploy/",
+    "README.md",
+    "AGENTS.md",
+    "llms.txt"
+  ],
+  "scripts": {
+    "dev": "node --experimental-strip-types --watch src/server/main.ts",
+    "dev:web": "vite",
+    "build": "vite build && node scripts/build-server.mjs",
+    "build:demo": "vite build --config vite.demo.config.ts",
+    "preview:demo": "vite preview --config vite.demo.config.ts",
+    "demo:record": "node scripts/demo-record.mjs",
+    "deploy:demo": "npm run build:demo && npx -y wrangler@4 pages deploy dist/demo --project-name ezo-watcher-demo --branch main",
+    "prepare": "node scripts/build-server.mjs --prepare",
+    "prepack": "npm run build",
+    "test": "vitest run",
+    "test:acceptance": "node test/acceptance/run.mjs",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.sw.json"
+  },
+  "dependencies": {
+    "@block65/webcrypto-web-push": "2.0.0",
+    "@hono/node-server": "^2.1.5",
+    "@modelcontextprotocol/sdk": "1.32.1",
+    "hono": "^4.13.13",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "clsx": "^2.1.1",
+    "esbuild": "^0.28.2",
+    "lucide-react": "^1.57.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "tailwind-merge": "^3.7.0",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4",
+    "vitest": "^5.0.4"
+  }
+}

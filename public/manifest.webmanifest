@@ -1,0 +1,16 @@
+{
+  "id": "/",
+  "name": "EZO Watcher",
+  "short_name": "Watcher",
+  "description": "Agentic LiveOps monitoring: your coding agent installs the checks, proves each one can fail, takes the page and ships the fix. Open source, self-hosted, MCP-native, no account.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0d0d0d",
+  "theme_color": "#0d0d0d",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

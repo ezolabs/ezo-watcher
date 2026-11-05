@@ -1,0 +1,112 @@
+# Continuous integration: types and tests in one lane, the built tree and its leak gate in another. The two lanes share only
+# `npm ci` (and the setup-node cache makes the second one cheap), so they run at the same time rather than one after the other.
+#
+# The leak gate's tier 1 is generic and needs no secret; tier 2 is the plaintext LEAK_DENYLIST repository secret, which never
+# enters the tree. A push to main requires it (--require-denylist, exit 3 when it is missing); a fork's pull request gets no
+# secret, so tier 2 is skipped with a printed note and tier 1 still runs.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+env:
+  WATCHER_TELEMETRY_DISABLED: '1'
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: typecheck and tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out
+        uses: actions/checkout@v7
+
+      - name: Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      # Two workers: the suite is fast and the runner is shared. A test that needs more has grown wrong.
+      - name: Tests
+        run: npx vitest run --maxWorkers=2
+
+      # The deterministic one-prompt transcript (test/acceptance/): SKILL.md's command sequence, run by a script against a
+      # tiny fixture app — init, scan, add a source, a heartbeat and a channel, run, doctor --live --prove, then a negative
+      # run that makes the field red and requires an incident and a page. It exits 0 with a SKIP line when bin/watcher.mjs
+      # is not in the tree (the CLI ships separately), so a checkout without it stays green.
+      - name: One-prompt acceptance
+        run: node test/acceptance/run.mjs
+
+      # The same transcript against the packed tarball installed into a temp prefix (`npm pack` + `npm i -g <tgz>`):
+      # the install path, not this checkout's bin. It proves dist/cli/main.mjs and dist/server/main.mjs run from
+      # node_modules, where Node refuses to strip the TypeScript in src/.
+      - name: One-prompt acceptance from a packed tarball
+        run: node test/acceptance/run.mjs --from-tarball
+
+      # The documented one-liner, against a local bare mirror of this checkout: `npm i -g --install-links <git url>`.
+      # A git install is its own path: npm 11 otherwise reifies a git dependency that has a build script as a symlink
+      # to its cache temp clone and deletes the clone when the install ends, leaving a dangling `<prefix>/bin/watcher`.
+      # The mode fails on that symlink, so a documented command that loses --install-links fails here.
+      - name: A local bare mirror of this checkout, for the git install
+        run: git clone --bare --no-local . .tmp/acceptance-remote.git
+
+      - name: One-prompt acceptance from a git install
+        run: node test/acceptance/run.mjs --from-git "git+file://$PWD/.tmp/acceptance-remote.git"
+
+  leak:
+    name: build and leak gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out with full history, so the gate reads every commit message
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      # The tree, the commit messages this event adds and dist/web/ — the bundle a browser receives, where a build-time config
+      # module that reaches it is caught (the UptimeFlare class). --github turns each finding into an annotation on the file
+      # and line. A push to main owns the secret: a missing one is a broken configuration and the gate says so (exit 3).
+      - name: Leak gate (main, denylist required)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: node scripts/leak-scan.mjs --github --history range --require-denylist
+        env:
+          LEAK_HISTORY_RANGE: ${{ github.event.before && format('{0}..{1}', github.event.before, github.sha) }}
+          LEAK_DENYLIST: ${{ secrets.LEAK_DENYLIST }}
+
+      # A pull request has no guaranteed secret: tier 1 always runs, and tier 2 runs when the secret is present. The scanner
+      # prints the skip when it is not, so a green run never pretends tier 2 ran.
+      - name: Leak gate (pull request, tier 2 when the secret is present)
+        if: github.event_name != 'push' || github.ref != 'refs/heads/main'
+        run: node scripts/leak-scan.mjs --github --history range
+        env:
+          LEAK_HISTORY_RANGE: ${{ github.event.before && format('{0}..{1}', github.event.before, github.sha) || (github.base_ref && format('origin/{0}..HEAD', github.base_ref)) }}
+          LEAK_DENYLIST: ${{ secrets.LEAK_DENYLIST }}

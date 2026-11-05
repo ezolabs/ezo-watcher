@@ -1,0 +1,8 @@
+{
+  "name": "next-app",
+  "private": true,
+  "dependencies": {
+    "next": "^15.0.0",
+    "@sentry/nextjs": "^8.0.0"
+  }
+}

@@ -1,0 +1,80 @@
+# Hostnames the leak gate accepts in this tree: public, structural and documentation names that identify nobody.
+#
+# One name per line; a name accepts itself and every subdomain of it (`ntfy.sh` accepts `docs.ntfy.sh`).
+#   ip:<address>   accepts one IP address (documentation ranges need no entry: they are accepted already)
+#   hex:<value>    accepts one long hex run that is data, not a secret (a documented fixture id)
+#
+# The gate denies every other hostname, so this is the one place to add a public service. A private host, a machine name on
+# someone's LAN, a tenant's subdomain or an address that belongs to an owner is exactly what the list must never accept.
+
+# Reserved for documentation and tests (RFC 2606): these names cannot identify a private system.
+example.com
+example.org
+example.net
+localhost
+
+# Public products and projects this tree names in code, tests and package metadata.
+github.com
+modelcontextprotocol.io
+nodejs.org
+w3.org
+k8s.io
+kubernetes.io
+ntfy.sh
+netdata.cloud
+fly.io
+sentry.io
+stripe.com
+datadoghq.com
+customer.io
+healthchecks.io
+shields.io
+incident.io
+swmansion.com
+opencollective.com
+tidelift.com
+
+# Public registry and documentation services named in the design.
+rdap.org
+rdap.verisign.com
+cloudflare.com
+cfargotunnel.com
+trycloudflare.com
+
+# Public documentation and content hosts cited in the skills, the CLI and the README.
+code.claude.com
+developers.openai.com
+llmstxt.org
+raw.githubusercontent.com
+
+# The public DTD host an Apple plist names, and only that host.
+www.apple.com
+
+# A public suffix, not a host: `co.uk` and `org.uk` name the registrable root of any British site, and the CLI lists both when it
+# derives a zone's apex.
+org.uk
+
+# The notification providers the built-in channels call.
+openphone.com
+quo.com
+resend.com
+telnyx.com
+
+# A public demonstration site and a public government domain used as scraping and title test values.
+api.gg
+mas.gov
+
+# Addresses that are boundary constants or well-known public resolvers rather than anyone's host.
+ip:8.8.8.8
+ip:100.63.255.255
+ip:100.64.0.1
+ip:100.64.1.2
+ip:100.128.0.1
+ip:172.15.0.1
+ip:172.32.0.1
+ip:192.169.0.1
+ip:1.3.5.17
+
+# A Sentry event id recorded in a fixture: opaque data, not a credential.
+hex:dc5e10386888aad564c275ab3c595f974b097871
+ezo-watcher-demo.pages.dev

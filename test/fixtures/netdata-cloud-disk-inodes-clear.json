@@ -1,0 +1,478 @@
+{
+ "_note": "Recorded from the live Netdata Cloud API on 2026-10-15 (POST /api/v3/spaces/{space}/rooms/{room}/data, the source's own group request), trimmed to the fields the adapter reads. Nothing in WARNING or CRITICAL: every instance is excluded by the selector.",
+ "api": 3,
+ "agents": [
+  {
+   "ai": 0,
+   "now": 1792077357,
+   "nm": "print"
+  },
+  {
+   "ai": 1,
+   "now": 1792077357,
+   "nm": "node-4"
+  },
+  {
+   "ai": 2,
+   "now": 1792077357,
+   "nm": "node-2"
+  },
+  {
+   "ai": 3,
+   "now": 1792077357,
+   "nm": "node-1"
+  },
+  {
+   "ai": 4,
+   "now": 1792077357,
+   "nm": "node-5"
+  },
+  {
+   "ai": 5,
+   "now": 1792077357,
+   "nm": "mac-a1.example.net"
+  },
+  {
+   "ai": 6,
+   "now": 1792077357,
+   "nm": "node-3"
+  }
+ ],
+ "summary": {
+  "nodes": [
+   {
+    "ni": 0,
+    "mg": "00000000-0000-4000-8000-000000000008",
+    "nd": "00000000-0000-4000-8000-000000000007",
+    "nm": "print",
+    "st": {
+     "ai": 0,
+     "code": 200
+    }
+   },
+   {
+    "ni": 1,
+    "mg": "00000000-0000-4000-8000-00000000000a",
+    "nd": "00000000-0000-4000-8000-000000000009",
+    "nm": "node-4",
+    "st": {
+     "ai": 1,
+     "code": 200
+    }
+   },
+   {
+    "ni": 2,
+    "mg": "00000000-0000-4000-8000-00000000000c",
+    "nd": "00000000-0000-4000-8000-00000000000b",
+    "nm": "node-2",
+    "st": {
+     "ai": 2,
+     "code": 200
+    }
+   },
+   {
+    "ni": 3,
+    "mg": "00000000-0000-4000-8000-00000000000e",
+    "nd": "00000000-0000-4000-8000-00000000000d",
+    "nm": "node-1",
+    "st": {
+     "ai": 3,
+     "code": 200
+    }
+   },
+   {
+    "ni": 4,
+    "mg": "00000000-0000-4000-8000-000000000002",
+    "nd": "00000000-0000-4000-8000-000000000001",
+    "nm": "node-5",
+    "st": {
+     "ai": 4,
+     "code": 200
+    }
+   },
+   {
+    "ni": 5,
+    "mg": "00000000-0000-4000-8000-000000000004",
+    "nd": "00000000-0000-4000-8000-000000000003",
+    "nm": "mac-a1.example.net",
+    "st": {
+     "ai": 5,
+     "code": 200
+    }
+   },
+   {
+    "ni": 6,
+    "mg": "00000000-0000-4000-8000-000000000006",
+    "nd": "00000000-0000-4000-8000-000000000005",
+    "nm": "node-3",
+    "st": {
+     "ai": 6,
+     "code": 200
+    }
+   }
+  ],
+  "instances": [
+   {
+    "id": "disk_inodes./",
+    "ni": 2,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./",
+    "ni": 3,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./",
+    "ni": 0,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./",
+    "ni": 1,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./",
+    "ni": 6,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./",
+    "ni": 5,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./",
+    "ni": 4,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./Volumes/Google Chrome",
+    "nm": "disk_inodes./Volumes/Google_Chrome",
+    "ni": 5,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./Volumes/OWC Express 1M2",
+    "nm": "disk_inodes./Volumes/OWC_Express_1M2",
+    "ni": 5,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./Volumes/Ollama",
+    "ni": 5,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./Volumes/msu-target-9B18NOaC",
+    "ni": 5,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./Volumes/msu-target-FEHMfvMN",
+    "ni": 5,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./Volumes/msu-target-JtugM1F4",
+    "ni": 5,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./Volumes/msu-target-T7PZANTh",
+    "ni": 5,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./Volumes/qual",
+    "ni": 5,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./boot",
+    "ni": 0,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./data/ssd1",
+    "ni": 2,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./data/ssd1",
+    "ni": 3,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./data/ssd2",
+    "ni": 3,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./data/ssd2",
+    "ni": 2,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./data/ssd3",
+    "ni": 2,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./data/ssd3",
+    "ni": 3,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./data/ssd4",
+    "ni": 3,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./data/ssd4",
+    "ni": 2,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./data/ssd5",
+    "ni": 3,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./data/ssd5",
+    "ni": 2,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./data/ssd6",
+    "ni": 3,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./data/ssd6",
+    "ni": 2,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./run",
+    "ni": 4,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./run",
+    "ni": 0,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./run",
+    "ni": 2,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./run",
+    "ni": 6,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./run",
+    "ni": 3,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./run",
+    "ni": 1,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./tmp",
+    "ni": 2,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./tmp",
+    "ni": 4,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./tmp",
+    "ni": 3,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./tmp",
+    "ni": 6,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./tmp",
+    "ni": 1,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   },
+   {
+    "id": "disk_inodes./var/lib/fleet-data",
+    "ni": 6,
+    "ds": {
+     "ex": 3
+    },
+    "al": {}
+   }
+  ],
+  "alerts": [
+   {
+    "nm": "disk_inode_rate",
+    "ot": 40
+   },
+   {
+    "nm": "disk_inode_usage",
+    "cl": 34
+   },
+   {
+    "nm": "out_of_disk_inodes_time",
+    "cl": 40
+   }
+  ]
+ },
+ "totals": {
+  "nodes": {
+   "ex": 7
+  },
+  "instances": {
+   "ex": 40
+  }
+ },
+ "view": {
+  "units": "inodes",
+  "dimensions": {
+   "grouped_by": [
+    "dimension",
+    "instance",
+    "node"
+   ],
+   "ids": null,
+   "names": null,
+   "units": null
+  }
+ },
+ "result": {
+  "labels": [],
+  "data": []
+ }
+}

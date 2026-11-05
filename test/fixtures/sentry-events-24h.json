@@ -1,0 +1,133 @@
+{
+ "data": [
+  {
+   "issue.id": 7772034447,
+   "release": "com.example.acme@1.0.13+7512",
+   "project": "acme-mobile",
+   "environment": "production",
+   "count()": 1,
+   "count_unique(user)": 0,
+   "max(timestamp)": "2026-10-15T16:25:07+00:00",
+   "issue": "APP-MOBILE-1G"
+  },
+  {
+   "issue.id": 7793917340,
+   "release": "com.example.acme.dev@1.0.13+7503",
+   "project": "acme-mobile",
+   "environment": "dev",
+   "count()": 1,
+   "count_unique(user)": 0,
+   "max(timestamp)": "2026-10-15T10:00:22+00:00",
+   "issue": "APP-MOBILE-23"
+  },
+  {
+   "issue.id": 7793573186,
+   "release": "com.example.acme.dev@1.0.13+7451",
+   "project": "acme-mobile",
+   "environment": "dev",
+   "count()": 2,
+   "count_unique(user)": 0,
+   "max(timestamp)": "2026-10-15T05:57:31+00:00",
+   "issue": "APP-MOBILE-22"
+  },
+  {
+   "issue.id": 7793228935,
+   "release": "acme-server@dc5e10386888aad564c275ab3c595f974b097871",
+   "project": "acme-server",
+   "environment": "prod",
+   "count()": 2,
+   "count_unique(user)": 0,
+   "max(timestamp)": "2026-10-15T00:54:19+00:00",
+   "issue": "APP-SERVER-3"
+  },
+  {
+   "issue.id": 7772034447,
+   "release": "com.example.acme@1.0.12+7009",
+   "project": "acme-mobile",
+   "environment": "development",
+   "count()": 1,
+   "count_unique(user)": 0,
+   "max(timestamp)": "2026-10-14T22:29:45+00:00",
+   "issue": "APP-MOBILE-1G"
+  },
+  {
+   "issue.id": 7793077663,
+   "release": "com.example.acme@1.0.12+7009",
+   "project": "acme-mobile",
+   "environment": "development",
+   "count()": 1,
+   "count_unique(user)": 0,
+   "max(timestamp)": "2026-10-14T22:29:31+00:00",
+   "issue": "APP-MOBILE-21"
+  },
+  {
+   "issue.id": 7772034447,
+   "release": "com.example.acme@1.0.12+7009",
+   "project": "acme-mobile",
+   "environment": "testflight",
+   "count()": 6,
+   "count_unique(user)": 0,
+   "max(timestamp)": "2026-10-14T21:39:51+00:00",
+   "issue": "APP-MOBILE-1G"
+  },
+  {
+   "issue.id": 7792962164,
+   "release": "com.example.acme@1.0.8+6368",
+   "project": "acme-mobile",
+   "environment": "testflight",
+   "count()": 2,
+   "count_unique(user)": 0,
+   "max(timestamp)": "2026-10-14T21:23:51+00:00",
+   "issue": "APP-MOBILE-20"
+  },
+  {
+   "issue.id": 7792614878,
+   "release": "com.example.acme@1.0.12+7009",
+   "project": "acme-mobile",
+   "environment": "testflight",
+   "count()": 1,
+   "count_unique(user)": 0,
+   "max(timestamp)": "2026-10-14T20:44:30+00:00",
+   "issue": "APP-MOBILE-1Y"
+  },
+  {
+   "issue.id": 7792645732,
+   "release": "com.example.acme@1.0.12+7009",
+   "project": "acme-mobile",
+   "environment": "testflight",
+   "count()": 1,
+   "count_unique(user)": 0,
+   "max(timestamp)": "2026-10-14T20:42:52+00:00",
+   "issue": "APP-MOBILE-1Z"
+  }
+ ],
+ "meta": {
+  "fields": {
+   "issue.id": "integer",
+   "release": "string",
+   "project": "string",
+   "environment": "string",
+   "count()": "integer",
+   "count_unique(user)": "integer",
+   "max(timestamp)": "date"
+  },
+  "units": {
+   "issue.id": null,
+   "release": null,
+   "project": null,
+   "environment": null,
+   "count()": null,
+   "count_unique(user)": null,
+   "max(timestamp)": null
+  },
+  "isMetricsData": false,
+  "isMetricsExtractedData": false,
+  "tips": {
+   "query": null,
+   "columns": null
+  },
+  "datasetReason": "unchanged",
+  "dataset": "errors",
+  "dataScanned": "full"
+ }
+}

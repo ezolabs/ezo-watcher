@@ -1,0 +1,26 @@
+services:
+  watcher:
+    build: .
+    restart: unless-stopped
+    env_file:
+      - .watcher/.env
+    environment:
+      WATCHER_CONFIG: /app/.watcher/config.json
+      WATCHER_DATA_DIR: /app/.watcher/data
+      WATCHER_HOST: 0.0.0.0
+      WATCHER_PORT: "7717"
+    ports:
+      - "7717:7717"
+    volumes:
+      - ./.watcher/data:/app/.watcher/data
+      - ./.watcher/config.json:/app/.watcher/config.json:ro
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:7717/healthz').then((r) => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s

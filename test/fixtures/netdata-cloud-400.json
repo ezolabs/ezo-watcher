@@ -1,0 +1,6 @@
+{
+ "_note": "Recorded 2026-10-15: POST .../data with a malformed query answers HTTP 400 with this body.",
+ "errorMsgKey": "ErrBadRequest",
+ "errorMessage": "Bad Request",
+ "errorCode": "hEMTX9KIV8-367974734"
+}

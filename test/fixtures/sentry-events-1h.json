@@ -1,0 +1,32 @@
+{
+ "data": [],
+ "meta": {
+  "fields": {
+   "project": "string",
+   "issue.id": "integer",
+   "environment": "string",
+   "release": "string",
+   "max(timestamp)": "date",
+   "count_unique(user)": "integer",
+   "count()": "integer"
+  },
+  "units": {
+   "project": null,
+   "issue.id": null,
+   "environment": null,
+   "release": null,
+   "max(timestamp)": null,
+   "count_unique(user)": null,
+   "count()": null
+  },
+  "isMetricsData": false,
+  "isMetricsExtractedData": false,
+  "tips": {
+   "query": null,
+   "columns": null
+  },
+  "datasetReason": "unchanged",
+  "dataset": "errors",
+  "dataScanned": "full"
+ }
+}

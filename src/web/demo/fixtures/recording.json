@@ -1,0 +1,5577 @@
+{
+ "recordedAt": "2026-11-05T15:30:00.000Z",
+ "instance": {
+  "brand": {
+   "name": "EZO Watcher",
+   "shortName": "Watcher"
+  },
+  "features": []
+ },
+ "state": {
+  "generatedAt": "2026-11-05T15:30:00.000Z",
+  "header": {
+   "rulesWatched": 40,
+   "firing": 3,
+   "acknowledged": 1,
+   "parked": 1,
+   "oldestEvaluationAt": null,
+   "lastIncidentAt": "2026-11-05T15:09:00.000Z",
+   "stale": false
+  },
+  "sources": [
+   {
+    "id": "uptime",
+    "kind": "http-probe",
+    "name": "uptime",
+    "state": "ok",
+    "lastOk": "2026-11-05T15:30:00.000Z",
+    "lastAttempt": "2026-11-05T15:30:00.000Z",
+    "error": null,
+    "firing": 1,
+    "rules": 21,
+    "misses": 0,
+    "asserted": 16
+   },
+   {
+    "id": "datastores",
+    "kind": "tcp-probe",
+    "name": "datastores",
+    "state": "ok",
+    "lastOk": "2026-11-05T15:30:00.000Z",
+    "lastAttempt": "2026-11-05T15:30:00.000Z",
+    "error": null,
+    "firing": 0,
+    "rules": 7,
+    "misses": 0,
+    "asserted": 7
+   },
+   {
+    "id": "usage-rollup",
+    "kind": "heartbeat",
+    "name": "usage-rollup",
+    "state": "ok",
+    "lastOk": "2026-11-05T15:30:00.000Z",
+    "lastAttempt": "2026-11-05T15:30:00.000Z",
+    "error": null,
+    "firing": 1,
+    "rules": 1,
+    "misses": 0,
+    "asserted": 1
+   },
+   {
+    "id": "invoice-run",
+    "kind": "heartbeat",
+    "name": "invoice-run",
+    "state": "ok",
+    "lastOk": "2026-11-05T15:30:00.000Z",
+    "lastAttempt": "2026-11-05T15:30:00.000Z",
+    "error": null,
+    "firing": 0,
+    "rules": 1,
+    "misses": 0,
+    "asserted": 1
+   },
+   {
+    "id": "db-backup",
+    "kind": "heartbeat",
+    "name": "db-backup",
+    "state": "ok",
+    "lastOk": "2026-11-05T15:30:00.000Z",
+    "lastAttempt": "2026-11-05T15:30:00.000Z",
+    "error": null,
+    "firing": 0,
+    "rules": 1,
+    "misses": 0,
+    "asserted": 1
+   },
+   {
+    "id": "worker-02",
+    "kind": "host",
+    "name": "worker-02",
+    "state": "ok",
+    "lastOk": "2026-11-05T15:30:00.000Z",
+    "lastAttempt": "2026-11-05T15:30:00.000Z",
+    "error": null,
+    "firing": 1,
+    "rules": 4,
+    "misses": 0,
+    "asserted": 4
+   },
+   {
+    "id": "domains",
+    "kind": "domain-expiry",
+    "name": "domains",
+    "state": "ok",
+    "lastOk": "2026-11-05T15:29:00.000Z",
+    "lastAttempt": "2026-11-05T15:29:00.000Z",
+    "error": null,
+    "firing": 0,
+    "rules": 2,
+    "misses": 0,
+    "asserted": 2
+   },
+   {
+    "id": "payments",
+    "kind": "webhook",
+    "name": "payments",
+    "state": "ok",
+    "lastOk": "2026-11-05T15:30:00.000Z",
+    "lastAttempt": "2026-11-05T15:30:00.000Z",
+    "error": null,
+    "firing": 1,
+    "rules": 3,
+    "misses": 0,
+    "asserted": 0,
+    "staleAfterSec": 900
+   }
+  ],
+  "incidents": [
+   {
+    "key": "Billing jobs|HeartbeatDown",
+    "service": "Billing jobs",
+    "rule": "HeartbeatDown",
+    "instance": null,
+    "summary": "usage-rollup missed a scheduled run",
+    "severity": "warning",
+    "state": {
+     "tier": "warning",
+     "R": 6,
+     "band": 1,
+     "attention": "none",
+     "firing": true,
+     "instances": 1,
+     "park": null,
+     "unattendedSinceMs": 1793889600000
+    },
+    "startsAt": "2026-11-05T14:40:00.000Z",
+    "alerts": [
+     {
+      "key": "usage-rollup:32c2ccf9",
+      "origin": "usage-rollup",
+      "fingerprint": "32c2ccf9bba31501",
+      "rule": "HeartbeatDown",
+      "service": "Billing jobs",
+      "host": "usage-rollup",
+      "severity": "warning",
+      "severityLabel": "page",
+      "labels": {
+       "alertname": "HeartbeatDown",
+       "severity": "page",
+       "job": "usage-rollup",
+       "instance": "usage-rollup",
+       "service": "Billing jobs"
+      },
+      "annotations": {
+       "summary": "usage-rollup missed a scheduled run",
+       "description": "Watch expects the job usage-rollup to ping every 1h, and pages when a run is later than its grace. An ok ping resolves this; /fail or a non-zero exit status raises it at once. the run due at 2026-11-05T14:40:00.000Z is 50m overdue (grace 10m)",
+       "page_reason": "usage-rollup missed a scheduled run",
+       "watch_capped": "Sent as page, shown as warning: A late usage rollup catches up on its next run; it never wakes anyone."
+      },
+      "startsAt": "2026-11-05T14:40:00.000Z",
+      "endsAt": "2026-11-02T14:30:00.000Z",
+      "status": {
+       "state": "active",
+       "silencedBy": [],
+       "inhibitedBy": [],
+       "mutedBy": []
+      },
+      "links": {},
+      "via": [
+       {
+        "source": "usage-rollup",
+        "kind": "heartbeat",
+        "lastSeen": "2026-11-05T15:30:00.000Z"
+       }
+      ],
+      "firstSeen": "2026-11-05T14:51:00.000Z",
+      "lastSeen": "2026-11-05T15:30:00.000Z",
+      "resolvedAt": null
+     }
+    ],
+    "ackedBy": null,
+    "ackedAt": null,
+    "silencedUntil": null,
+    "silencedBy": null,
+    "silenceCarried": false,
+    "cells": [
+     {
+      "id": "heartbeat:usage-rollup",
+      "source": "usage-rollup",
+      "name": "usage-rollup",
+      "service": "Billing jobs",
+      "state": "firing",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "intervalSec": 3600,
+      "staleAfterSec": 4200,
+      "detail": "the run due at 2026-11-05T14:40:00.000Z is 50m overdue (grace 10m)",
+      "checkId": "HeartbeatDown",
+      "asserts": [
+       "heartbeat:on-time"
+      ]
+     },
+     {
+      "id": "heartbeat:invoice-run",
+      "source": "invoice-run",
+      "name": "invoice-run",
+      "service": "Billing jobs",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "intervalSec": 86400,
+      "staleAfterSec": 93600,
+      "detail": "the last run was ok; the next run is due at 2026-11-06T09:08:00.000Z",
+      "checkId": "HeartbeatDown",
+      "asserts": [
+       "heartbeat:on-time"
+      ]
+     }
+    ],
+    "receipt": {
+     "at": "2026-11-05T14:53:00.000Z",
+     "channel": "team-email",
+     "ok": true,
+     "status": "200",
+     "latencyMs": 784
+    },
+    "nextStep": null,
+    "heldUntil": null,
+    "wallOnly": false
+   },
+   {
+    "key": "Checkout API|ProbeDown",
+    "service": "Checkout API",
+    "rule": "ProbeDown",
+    "instance": null,
+    "summary": "checkout-api is down: HTTP 503 in 3023ms, expected 200",
+    "severity": "page",
+    "state": {
+     "tier": "page",
+     "R": 6,
+     "band": 1,
+     "attention": "none",
+     "firing": true,
+     "instances": 1,
+     "park": null,
+     "unattendedSinceMs": 1793891340000
+    },
+    "startsAt": "2026-11-05T15:09:00.000Z",
+    "alerts": [
+     {
+      "key": "uptime:5031202c",
+      "origin": "uptime",
+      "fingerprint": "5031202c3e969c30",
+      "rule": "ProbeDown",
+      "service": "Checkout API",
+      "host": "checkout-api",
+      "severity": "page",
+      "severityLabel": "page",
+      "labels": {
+       "alertname": "ProbeDown",
+       "severity": "page",
+       "service": "Checkout API",
+       "instance": "checkout-api",
+       "url": "https://api.acme.example/checkout/readyz"
+      },
+      "annotations": {
+       "summary": "checkout-api is down: HTTP 503 in 3023ms, expected 200",
+       "description": "Watch GETs https://api.acme.example/checkout/readyz every 60 s and expects HTTP 200 with ok, db.ok as configured, without following a redirect. It has failed 25 polls in a row; it pages after 3 and resolves on the first success.",
+       "page_reason": "checkout-api is down: HTTP 503 in 3023ms, expected 200"
+      },
+      "startsAt": "2026-11-05T15:09:00.000Z",
+      "endsAt": null,
+      "generatorURL": "https://api.acme.example/checkout/readyz",
+      "status": {
+       "state": "active",
+       "silencedBy": [],
+       "inhibitedBy": [],
+       "mutedBy": []
+      },
+      "value": "HTTP 503 in 3083ms, expected 200",
+      "links": {
+       "generator": "https://api.acme.example/checkout/readyz"
+      },
+      "via": [
+       {
+        "source": "uptime",
+        "kind": "http-probe",
+        "lastSeen": "2026-11-05T15:30:00.000Z",
+        "url": "https://api.acme.example/checkout/readyz"
+       }
+      ],
+      "firstSeen": "2026-11-05T15:09:00.000Z",
+      "lastSeen": "2026-11-05T15:30:00.000Z",
+      "resolvedAt": null
+     }
+    ],
+    "ackedBy": null,
+    "ackedAt": null,
+    "silencedUntil": null,
+    "silencedBy": null,
+    "silenceCarried": false,
+    "cells": [
+     {
+      "id": "check:uptime:Checkout API/ProbeDown/checkout-api",
+      "source": "uptime",
+      "name": "checkout-api",
+      "service": "Checkout API",
+      "state": "firing",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "ProbeDown",
+      "detail": "HTTP 503 in 3023ms, expected 200 (25 failed polls in a row)",
+      "asserts": [
+       "status 200",
+       "body.ok = true",
+       "body.db.ok = true"
+      ],
+      "url": "https://api.acme.example/checkout/readyz"
+     },
+     {
+      "id": "check:uptime:Checkout API/ProbeSlow/checkout-api",
+      "source": "uptime",
+      "name": "checkout-api",
+      "service": "Checkout API",
+      "state": "nodata",
+      "staleAfterSec": 300,
+      "checkId": "ProbeSlow",
+      "detail": "not timed: the probe failed",
+      "asserts": [
+       "answer under 800ms"
+      ],
+      "url": "https://api.acme.example/checkout/readyz"
+     },
+     {
+      "id": "check:uptime:Checkout API/CertExpiring/checkout-api",
+      "source": "uptime",
+      "name": "checkout-api",
+      "service": "Checkout API",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "CertExpiring",
+      "detail": "certificate valid for 47 days (2026-12-22)",
+      "asserts": [
+       "certificate valid for at least 14 days"
+      ],
+      "url": "https://api.acme.example/checkout/readyz"
+     }
+    ],
+    "receipt": {
+     "at": "2026-11-05T15:24:00.000Z",
+     "channel": "oncall-sms",
+     "ok": true,
+     "status": "200",
+     "latencyMs": 717
+    },
+    "nextStep": null,
+    "heldUntil": null,
+    "wallOnly": false
+   },
+   {
+    "key": "Payments|StripeWebhookStale",
+    "service": "Payments",
+    "rule": "StripeWebhookStale",
+    "instance": null,
+    "summary": "No Stripe webhook event has been accepted since the endpoint secret was rotated; Stripe is retrying deliveries.",
+    "severity": "warning",
+    "state": {
+     "tier": "quiet",
+     "R": 1,
+     "band": 0,
+     "attention": "parked",
+     "firing": false,
+     "instances": 1,
+     "park": {
+      "state": "fixed_undeployed",
+      "until": "2026-11-05T21:30:00.000Z",
+      "since": "2026-11-05T13:10:00.000Z",
+      "ref": "PAY-318",
+      "note": "Fix merged, waiting on the payments deploy",
+      "by": "agent: claude",
+      "alertKeys": [
+       "payments:69330c2c"
+      ]
+     },
+     "unattendedSinceMs": 1793881800000
+    },
+    "startsAt": "2026-11-05T12:30:00.000Z",
+    "alerts": [
+     {
+      "key": "payments:69330c2c",
+      "origin": "payments",
+      "fingerprint": "69330c2c2fad2666",
+      "rule": "StripeWebhookStale",
+      "service": "Payments",
+      "host": "stripe-events",
+      "severity": "warning",
+      "severityLabel": "warning",
+      "labels": {
+       "alertname": "StripeWebhookStale",
+       "severity": "warning",
+       "service": "Payments",
+       "instance": "stripe-events"
+      },
+      "annotations": {
+       "summary": "No Stripe webhook event has been accepted since the endpoint secret was rotated; Stripe is retrying deliveries.",
+       "description": "Every delivery to /webhooks/stripe answers 400 \"signature mismatch\". Stripe retries for up to three days, so no event is lost yet."
+      },
+      "startsAt": "2026-11-05T12:30:00.000Z",
+      "endsAt": "2026-11-04T19:43:00.000Z",
+      "generatorURL": "https://payments.acme.example/admin/health",
+      "status": {
+       "state": "active",
+       "silencedBy": [],
+       "inhibitedBy": [],
+       "mutedBy": []
+      },
+      "links": {
+       "generator": "https://payments.acme.example/admin/health"
+      },
+      "via": [
+       {
+        "source": "payments",
+        "kind": "webhook",
+        "lastSeen": "2026-11-05T15:30:00.000Z"
+       }
+      ],
+      "firstSeen": "2026-11-05T12:30:00.000Z",
+      "lastSeen": "2026-11-05T15:30:00.000Z",
+      "resolvedAt": null
+     }
+    ],
+    "ackedBy": null,
+    "ackedAt": null,
+    "silencedUntil": null,
+    "silencedBy": null,
+    "silenceCarried": false,
+    "cells": [
+     {
+      "id": "check:payments:Payments/StripeWebhookStale/stripe-events",
+      "source": "payments",
+      "name": "stripe-events",
+      "service": "Payments",
+      "state": "firing",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 900,
+      "checkId": "StripeWebhookStale",
+      "detail": "Last event accepted before the secret rotation"
+     },
+     {
+      "id": "check:payments:Payments/PayoutReconcile/payouts",
+      "source": "payments",
+      "name": "payouts",
+      "service": "Payments",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 900,
+      "checkId": "PayoutReconcile",
+      "detail": "Reconciled 1283 payouts, 0 mismatches"
+     },
+     {
+      "id": "check:payments:Payments/RefundQueue/refunds",
+      "source": "payments",
+      "name": "refunds",
+      "service": "Payments",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 900,
+      "checkId": "RefundQueue",
+      "detail": "0 refunds waiting"
+     }
+    ],
+    "receipt": {
+     "at": "2026-11-04T19:35:00.000Z",
+     "channel": "team-email",
+     "ok": true,
+     "status": "200",
+     "latencyMs": 623
+    },
+    "nextStep": null,
+    "heldUntil": null,
+    "wallOnly": false
+   },
+   {
+    "key": "Worker hosts|HostDiskFree",
+    "service": "Worker hosts",
+    "rule": "HostDiskFree",
+    "instance": null,
+    "summary": "/var/lib/queue on worker-02 has 8.1% free",
+    "severity": "warning",
+    "state": {
+     "tier": "warning",
+     "R": 2,
+     "band": 1,
+     "attention": "acked",
+     "firing": true,
+     "instances": 1,
+     "park": null,
+     "unattendedSinceMs": 1793884800000
+    },
+    "startsAt": "2026-11-05T13:20:00.000Z",
+    "alerts": [
+     {
+      "key": "worker-02:68d0d105",
+      "origin": "worker-02",
+      "fingerprint": "68d0d1054ed5dd0f",
+      "rule": "HostDiskFree",
+      "service": "Worker hosts",
+      "host": "/var/lib/queue",
+      "severity": "warning",
+      "severityLabel": "warning",
+      "labels": {
+       "alertname": "HostDiskFree",
+       "severity": "warning",
+       "service": "Worker hosts",
+       "instance": "/var/lib/queue",
+       "host": "worker-02"
+      },
+      "annotations": {
+       "summary": "/var/lib/queue on worker-02 has 8.1% free",
+       "description": "Watch reads the free space of /var/lib/queue every 60 s with statfs. Under 10% free is a warning and under 5% a page; a reading near either line says nothing about the disk's health beyond this instant."
+      },
+      "startsAt": "2026-11-05T13:20:00.000Z",
+      "endsAt": null,
+      "status": {
+       "state": "active",
+       "silencedBy": [],
+       "inhibitedBy": [],
+       "mutedBy": []
+      },
+      "value": "8.1% free",
+      "links": {},
+      "via": [
+       {
+        "source": "worker-02",
+        "kind": "host",
+        "lastSeen": "2026-11-05T15:30:00.000Z"
+       }
+      ],
+      "firstSeen": "2026-11-05T13:20:00.000Z",
+      "lastSeen": "2026-11-05T15:30:00.000Z",
+      "resolvedAt": null
+     }
+    ],
+    "ackedBy": "agent: claude",
+    "ackedAt": "2026-11-05T13:50:00.000Z",
+    "silencedUntil": null,
+    "silencedBy": null,
+    "silenceCarried": false,
+    "cells": [
+     {
+      "id": "check:worker-02:Worker hosts/HostDiskFree//",
+      "source": "worker-02",
+      "name": "/",
+      "service": "Worker hosts",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "HostDiskFree",
+      "detail": "60.0% free (96.0 GB of 160.0 GB)",
+      "asserts": [
+       "disk:/ free>5%"
+      ]
+     },
+     {
+      "id": "check:worker-02:Worker hosts/HostDiskFree//var/lib/queue",
+      "source": "worker-02",
+      "name": "/var/lib/queue",
+      "service": "Worker hosts",
+      "state": "firing",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "HostDiskFree",
+      "detail": "8.1% free (32.4 GB of 400.0 GB), under 10%",
+      "asserts": [
+       "disk:/var/lib/queue free>5%"
+      ]
+     },
+     {
+      "id": "check:worker-02:Worker hosts/HostMemoryFree/memory",
+      "source": "worker-02",
+      "name": "memory",
+      "service": "Worker hosts",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "HostMemoryFree",
+      "detail": "43.4% available (13.9 GB of 32.0 GB, MemAvailable)",
+      "asserts": [
+       "mem:available>10%"
+      ]
+     },
+     {
+      "id": "check:worker-02:Worker hosts/HostLoadHigh/load",
+      "source": "worker-02",
+      "name": "load",
+      "service": "Worker hosts",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "HostLoadHigh",
+      "detail": "2.28 load5 on 8 cores (0.28 per core)",
+      "asserts": [
+       "load:5m/core<2"
+      ]
+     }
+    ],
+    "receipt": {
+     "at": "2026-11-05T13:22:00.000Z",
+     "channel": "team-email",
+     "ok": true,
+     "status": "200",
+     "latencyMs": 592
+    },
+    "nextStep": null,
+    "heldUntil": null,
+    "wallOnly": false
+   }
+  ],
+  "health": [
+   {
+    "service": "Accounts API",
+    "cells": [
+     {
+      "id": "check:uptime:Accounts API/ProbeDown/accounts-api",
+      "source": "uptime",
+      "name": "accounts-api",
+      "service": "Accounts API",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "ProbeDown",
+      "detail": "HTTP 200 in 126ms",
+      "asserts": [
+       "status 200",
+       "body.status = \"ok\""
+      ],
+      "url": "https://api.acme.example/accounts/healthz"
+     },
+     {
+      "id": "check:uptime:Accounts API/CertExpiring/accounts-api",
+      "source": "uptime",
+      "name": "accounts-api",
+      "service": "Accounts API",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "CertExpiring",
+      "detail": "certificate valid for 47 days (2026-12-22)",
+      "asserts": [
+       "certificate valid for at least 14 days"
+      ],
+      "url": "https://api.acme.example/accounts/healthz"
+     }
+    ],
+    "firing": 0
+   },
+   {
+    "service": "Admin console",
+    "cells": [
+     {
+      "id": "check:uptime:Admin console/ProbeDown/admin",
+      "source": "uptime",
+      "name": "admin",
+      "service": "Admin console",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "ProbeDown",
+      "detail": "HTTP 200 in 66ms",
+      "asserts": [
+       "status 200"
+      ],
+      "url": "https://admin.acme.example/healthz"
+     },
+     {
+      "id": "check:uptime:Admin console/CertExpiring/admin",
+      "source": "uptime",
+      "name": "admin",
+      "service": "Admin console",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "CertExpiring",
+      "detail": "certificate valid for 39 days (2026-12-14)",
+      "asserts": [
+       "certificate valid for at least 14 days"
+      ],
+      "url": "https://admin.acme.example/healthz"
+     }
+    ],
+    "firing": 0
+   },
+   {
+    "service": "Backups",
+    "cells": [
+     {
+      "id": "heartbeat:db-backup",
+      "source": "db-backup",
+      "name": "db-backup",
+      "service": "Backups",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "intervalSec": 21600,
+      "staleAfterSec": 23400,
+      "detail": "the last run was ok; the next run is due at 2026-11-05T19:15:00.000Z",
+      "checkId": "HeartbeatDown",
+      "asserts": [
+       "heartbeat:on-time"
+      ]
+     }
+    ],
+    "firing": 0
+   },
+   {
+    "service": "Billing jobs",
+    "cells": [
+     {
+      "id": "heartbeat:usage-rollup",
+      "source": "usage-rollup",
+      "name": "usage-rollup",
+      "service": "Billing jobs",
+      "state": "firing",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "intervalSec": 3600,
+      "staleAfterSec": 4200,
+      "detail": "the run due at 2026-11-05T14:40:00.000Z is 50m overdue (grace 10m)",
+      "checkId": "HeartbeatDown",
+      "asserts": [
+       "heartbeat:on-time"
+      ]
+     },
+     {
+      "id": "heartbeat:invoice-run",
+      "source": "invoice-run",
+      "name": "invoice-run",
+      "service": "Billing jobs",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "intervalSec": 86400,
+      "staleAfterSec": 93600,
+      "detail": "the last run was ok; the next run is due at 2026-11-06T09:08:00.000Z",
+      "checkId": "HeartbeatDown",
+      "asserts": [
+       "heartbeat:on-time"
+      ]
+     }
+    ],
+    "firing": 1
+   },
+   {
+    "service": "CDN",
+    "cells": [
+     {
+      "id": "check:uptime:CDN/ProbeDown/cdn",
+      "source": "uptime",
+      "name": "cdn",
+      "service": "CDN",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "ProbeDown",
+      "detail": "HTTP 200 in 30ms",
+      "asserts": [
+       "status 200"
+      ],
+      "url": "https://cdn.acme.example/health.txt"
+     },
+     {
+      "id": "check:uptime:CDN/CertExpiring/cdn",
+      "source": "uptime",
+      "name": "cdn",
+      "service": "CDN",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "CertExpiring",
+      "detail": "certificate valid for 82 days (2027-01-26)",
+      "asserts": [
+       "certificate valid for at least 14 days"
+      ],
+      "url": "https://cdn.acme.example/health.txt"
+     }
+    ],
+    "firing": 0
+   },
+   {
+    "service": "Checkout API",
+    "cells": [
+     {
+      "id": "check:uptime:Checkout API/ProbeSlow/checkout-api",
+      "source": "uptime",
+      "name": "checkout-api",
+      "service": "Checkout API",
+      "state": "nodata",
+      "staleAfterSec": 300,
+      "checkId": "ProbeSlow",
+      "detail": "not timed: the probe failed",
+      "asserts": [
+       "answer under 800ms"
+      ],
+      "url": "https://api.acme.example/checkout/readyz"
+     },
+     {
+      "id": "check:uptime:Checkout API/ProbeDown/checkout-api",
+      "source": "uptime",
+      "name": "checkout-api",
+      "service": "Checkout API",
+      "state": "firing",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "ProbeDown",
+      "detail": "HTTP 503 in 3023ms, expected 200 (25 failed polls in a row)",
+      "asserts": [
+       "status 200",
+       "body.ok = true",
+       "body.db.ok = true"
+      ],
+      "url": "https://api.acme.example/checkout/readyz"
+     },
+     {
+      "id": "check:uptime:Checkout API/CertExpiring/checkout-api",
+      "source": "uptime",
+      "name": "checkout-api",
+      "service": "Checkout API",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "CertExpiring",
+      "detail": "certificate valid for 47 days (2026-12-22)",
+      "asserts": [
+       "certificate valid for at least 14 days"
+      ],
+      "url": "https://api.acme.example/checkout/readyz"
+     }
+    ],
+    "firing": 1
+   },
+   {
+    "service": "Docs site",
+    "cells": [
+     {
+      "id": "check:uptime:Docs site/ProbeDown/docs",
+      "source": "uptime",
+      "name": "docs",
+      "service": "Docs site",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "ProbeDown",
+      "detail": "HTTP 200 in 171ms",
+      "asserts": [
+       "status 200"
+      ],
+      "url": "https://docs.acme.example/"
+     },
+     {
+      "id": "check:uptime:Docs site/CertExpiring/docs",
+      "source": "uptime",
+      "name": "docs",
+      "service": "Docs site",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "CertExpiring",
+      "detail": "certificate valid for 66 days (2027-01-10)",
+      "asserts": [
+       "certificate valid for at least 14 days"
+      ],
+      "url": "https://docs.acme.example/"
+     }
+    ],
+    "firing": 0
+   },
+   {
+    "service": "Domains",
+    "cells": [
+     {
+      "id": "check:domains:Domains/DomainExpiring/acme-status.example",
+      "source": "domains",
+      "name": "acme-status.example",
+      "service": "Domains",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:29:00.000Z",
+      "staleAfterSec": 172800,
+      "checkId": "DomainExpiring",
+      "detail": "expires in 412 days (2027-12-22)",
+      "asserts": [
+       "rdap:expires>7d"
+      ],
+      "url": "https://rdap.org/domain/acme-status.example"
+     },
+     {
+      "id": "check:domains:Domains/DomainExpiring/acme.example",
+      "source": "domains",
+      "name": "acme.example",
+      "service": "Domains",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:29:00.000Z",
+      "staleAfterSec": 172800,
+      "checkId": "DomainExpiring",
+      "detail": "expires in 241 days (2027-07-04)",
+      "asserts": [
+       "rdap:expires>7d"
+      ],
+      "url": "https://rdap.org/domain/acme.example"
+     }
+    ],
+    "firing": 0
+   },
+   {
+    "service": "Email relay",
+    "cells": [
+     {
+      "id": "check:datastores:Email relay/ProbeDown/smtp-relay",
+      "source": "datastores",
+      "name": "smtp-relay",
+      "service": "Email relay",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "ProbeDown",
+      "detail": "TLS connect in 67ms",
+      "asserts": [
+       "tcp:connect"
+      ]
+     },
+     {
+      "id": "check:datastores:Email relay/CertExpiring/smtp-relay",
+      "source": "datastores",
+      "name": "smtp-relay",
+      "service": "Email relay",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "CertExpiring",
+      "detail": "certificate valid for 44 days (2026-12-19)",
+      "asserts": [
+       "tls:expires>3d"
+      ]
+     }
+    ],
+    "firing": 0
+   },
+   {
+    "service": "Message queue",
+    "cells": [
+     {
+      "id": "check:datastores:Message queue/ProbeDown/rabbitmq",
+      "source": "datastores",
+      "name": "rabbitmq",
+      "service": "Message queue",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "ProbeDown",
+      "detail": "TLS connect in 4ms",
+      "asserts": [
+       "tcp:connect"
+      ]
+     },
+     {
+      "id": "check:datastores:Message queue/CertExpiring/rabbitmq",
+      "source": "datastores",
+      "name": "rabbitmq",
+      "service": "Message queue",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "CertExpiring",
+      "detail": "certificate valid for 120 days (2027-03-05)",
+      "asserts": [
+       "tls:expires>3d"
+      ]
+     }
+    ],
+    "firing": 0
+   },
+   {
+    "service": "Outbound webhooks",
+    "cells": [
+     {
+      "id": "check:uptime:Outbound webhooks/ProbeDown/webhooks-out",
+      "source": "uptime",
+      "name": "webhooks-out",
+      "service": "Outbound webhooks",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "ProbeDown",
+      "detail": "HTTP 200 in 120ms",
+      "asserts": [
+       "status 200",
+       "body.ok = true"
+      ],
+      "url": "https://hooks.acme.example/healthz"
+     },
+     {
+      "id": "check:uptime:Outbound webhooks/CertExpiring/webhooks-out",
+      "source": "uptime",
+      "name": "webhooks-out",
+      "service": "Outbound webhooks",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "CertExpiring",
+      "detail": "certificate valid for 58 days (2027-01-02)",
+      "asserts": [
+       "certificate valid for at least 14 days"
+      ],
+      "url": "https://hooks.acme.example/healthz"
+     }
+    ],
+    "firing": 0
+   },
+   {
+    "service": "Payments",
+    "cells": [
+     {
+      "id": "check:payments:Payments/StripeWebhookStale/stripe-events",
+      "source": "payments",
+      "name": "stripe-events",
+      "service": "Payments",
+      "state": "firing",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 900,
+      "checkId": "StripeWebhookStale",
+      "detail": "Last event accepted before the secret rotation"
+     },
+     {
+      "id": "check:payments:Payments/PayoutReconcile/payouts",
+      "source": "payments",
+      "name": "payouts",
+      "service": "Payments",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 900,
+      "checkId": "PayoutReconcile",
+      "detail": "Reconciled 1283 payouts, 0 mismatches"
+     },
+     {
+      "id": "check:payments:Payments/RefundQueue/refunds",
+      "source": "payments",
+      "name": "refunds",
+      "service": "Payments",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 900,
+      "checkId": "RefundQueue",
+      "detail": "0 refunds waiting"
+     }
+    ],
+    "firing": 1
+   },
+   {
+    "service": "Postgres",
+    "cells": [
+     {
+      "id": "check:datastores:Postgres/ProbeDown/postgres-primary",
+      "source": "datastores",
+      "name": "postgres-primary",
+      "service": "Postgres",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "ProbeDown",
+      "detail": "TCP connect in 5ms",
+      "asserts": [
+       "tcp:connect"
+      ]
+     },
+     {
+      "id": "check:datastores:Postgres/ProbeDown/postgres-replica",
+      "source": "datastores",
+      "name": "postgres-replica",
+      "service": "Postgres",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "ProbeDown",
+      "detail": "TCP connect in 8ms",
+      "asserts": [
+       "tcp:connect"
+      ]
+     }
+    ],
+    "firing": 0
+   },
+   {
+    "service": "Redis",
+    "cells": [
+     {
+      "id": "check:datastores:Redis/ProbeDown/redis",
+      "source": "datastores",
+      "name": "redis",
+      "service": "Redis",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "ProbeDown",
+      "detail": "TCP connect in 4ms",
+      "asserts": [
+       "tcp:connect"
+      ]
+     }
+    ],
+    "firing": 0
+   },
+   {
+    "service": "Search",
+    "cells": [
+     {
+      "id": "check:uptime:Search/ProbeDown/search-api",
+      "source": "uptime",
+      "name": "search-api",
+      "service": "Search",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "ProbeDown",
+      "detail": "HTTP 200 in 260ms",
+      "asserts": [
+       "status 200",
+       "body.ok = true",
+       "body.index.ready = true"
+      ],
+      "url": "https://search.acme.example/healthz"
+     },
+     {
+      "id": "check:uptime:Search/ProbeSlow/search-api",
+      "source": "uptime",
+      "name": "search-api",
+      "service": "Search",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "ProbeSlow",
+      "detail": "HTTP 200 in 260ms, under 1200ms",
+      "asserts": [
+       "answer under 1200ms"
+      ],
+      "url": "https://search.acme.example/healthz"
+     },
+     {
+      "id": "check:uptime:Search/CertExpiring/search-api",
+      "source": "uptime",
+      "name": "search-api",
+      "service": "Search",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "CertExpiring",
+      "detail": "certificate valid for 73 days (2027-01-17)",
+      "asserts": [
+       "certificate valid for at least 14 days"
+      ],
+      "url": "https://search.acme.example/healthz"
+     }
+    ],
+    "firing": 0
+   },
+   {
+    "service": "Status page",
+    "cells": [
+     {
+      "id": "check:uptime:Status page/ProbeDown/status-page",
+      "source": "uptime",
+      "name": "status-page",
+      "service": "Status page",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "ProbeDown",
+      "detail": "HTTP 200 in 170ms",
+      "asserts": [
+       "status 200"
+      ],
+      "url": "https://status.acme.example/"
+     },
+     {
+      "id": "check:uptime:Status page/CertExpiring/status-page",
+      "source": "uptime",
+      "name": "status-page",
+      "service": "Status page",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "CertExpiring",
+      "detail": "certificate valid for 55 days (2026-12-30)",
+      "asserts": [
+       "certificate valid for at least 14 days"
+      ],
+      "url": "https://status.acme.example/"
+     }
+    ],
+    "firing": 0
+   },
+   {
+    "service": "Storefront",
+    "cells": [
+     {
+      "id": "check:uptime:Storefront/ProbeDown/storefront",
+      "source": "uptime",
+      "name": "storefront",
+      "service": "Storefront",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "ProbeDown",
+      "detail": "HTTP 200 in 291ms",
+      "asserts": [
+       "status 200"
+      ],
+      "url": "https://www.acme.example/"
+     },
+     {
+      "id": "check:uptime:Storefront/ProbeSlow/storefront",
+      "source": "uptime",
+      "name": "storefront",
+      "service": "Storefront",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "ProbeSlow",
+      "detail": "HTTP 200 in 291ms, under 1500ms",
+      "asserts": [
+       "answer under 1500ms"
+      ],
+      "url": "https://www.acme.example/"
+     },
+     {
+      "id": "check:uptime:Storefront/CertExpiring/storefront",
+      "source": "uptime",
+      "name": "storefront",
+      "service": "Storefront",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "CertExpiring",
+      "detail": "certificate valid for 61 days (2027-01-05)",
+      "asserts": [
+       "certificate valid for at least 14 days"
+      ],
+      "url": "https://www.acme.example/"
+     }
+    ],
+    "firing": 0
+   },
+   {
+    "service": "Worker hosts",
+    "cells": [
+     {
+      "id": "check:worker-02:Worker hosts/HostDiskFree//var/lib/queue",
+      "source": "worker-02",
+      "name": "/var/lib/queue",
+      "service": "Worker hosts",
+      "state": "firing",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "HostDiskFree",
+      "detail": "8.1% free (32.4 GB of 400.0 GB), under 10%",
+      "asserts": [
+       "disk:/var/lib/queue free>5%"
+      ]
+     },
+     {
+      "id": "check:worker-02:Worker hosts/HostDiskFree//",
+      "source": "worker-02",
+      "name": "/",
+      "service": "Worker hosts",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "HostDiskFree",
+      "detail": "60.0% free (96.0 GB of 160.0 GB)",
+      "asserts": [
+       "disk:/ free>5%"
+      ]
+     },
+     {
+      "id": "check:worker-02:Worker hosts/HostLoadHigh/load",
+      "source": "worker-02",
+      "name": "load",
+      "service": "Worker hosts",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "HostLoadHigh",
+      "detail": "2.28 load5 on 8 cores (0.28 per core)",
+      "asserts": [
+       "load:5m/core<2"
+      ]
+     },
+     {
+      "id": "check:worker-02:Worker hosts/HostMemoryFree/memory",
+      "source": "worker-02",
+      "name": "memory",
+      "service": "Worker hosts",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "HostMemoryFree",
+      "detail": "43.4% available (13.9 GB of 32.0 GB, MemAvailable)",
+      "asserts": [
+       "mem:available>10%"
+      ]
+     }
+    ],
+    "firing": 1
+   }
+  ],
+  "channels": [
+   {
+    "id": "phones",
+    "type": "ntfy",
+    "enabled": true,
+    "lastTestAt": "2026-11-03T17:36:00.000Z",
+    "lastTestOk": true,
+    "lastTest": "passed"
+   },
+   {
+    "id": "team-chat",
+    "type": "webhook",
+    "enabled": true,
+    "lastTestAt": "2026-11-03T17:36:00.000Z",
+    "lastTestOk": true,
+    "lastTest": "passed"
+   },
+   {
+    "id": "oncall-sms",
+    "type": "sms",
+    "enabled": true,
+    "lastTestAt": "2026-11-03T17:36:00.000Z",
+    "lastTestOk": true,
+    "lastTest": "passed"
+   },
+   {
+    "id": "team-email",
+    "type": "email",
+    "enabled": true,
+    "lastTestAt": "2026-11-03T17:36:00.000Z",
+    "lastTestOk": true,
+    "lastTest": "passed"
+   }
+  ],
+  "wallGroups": [
+   {
+    "id": "customer",
+    "label": "Customer-facing",
+    "services": [
+     "Storefront",
+     "Checkout API",
+     "Accounts API",
+     "Search",
+     "CDN",
+     "Status page",
+     "Docs site"
+    ]
+   },
+   {
+    "id": "money",
+    "label": "Payments and billing",
+    "services": [
+     "Payments",
+     "Billing jobs"
+    ]
+   },
+   {
+    "id": "data",
+    "label": "Data",
+    "services": [
+     "Postgres",
+     "Redis",
+     "Message queue",
+     "Backups"
+    ]
+   },
+   {
+    "id": "infra",
+    "label": "Infrastructure",
+    "services": [
+     "Worker hosts",
+     "Email relay",
+     "Outbound webhooks",
+     "Admin console",
+     "Domains"
+    ]
+   }
+  ]
+ },
+ "incidents": {
+  "Billing jobs|HeartbeatDown": {
+   "incident": {
+    "key": "Billing jobs|HeartbeatDown",
+    "service": "Billing jobs",
+    "rule": "HeartbeatDown",
+    "instance": null,
+    "summary": "usage-rollup missed a scheduled run",
+    "severity": "warning",
+    "state": {
+     "tier": "warning",
+     "R": 6,
+     "band": 1,
+     "attention": "none",
+     "firing": true,
+     "instances": 1,
+     "park": null,
+     "unattendedSinceMs": 1793889600000
+    },
+    "startsAt": "2026-11-05T14:40:00.000Z",
+    "alerts": [
+     {
+      "key": "usage-rollup:32c2ccf9",
+      "origin": "usage-rollup",
+      "fingerprint": "32c2ccf9bba31501",
+      "rule": "HeartbeatDown",
+      "service": "Billing jobs",
+      "host": "usage-rollup",
+      "severity": "warning",
+      "severityLabel": "page",
+      "labels": {
+       "alertname": "HeartbeatDown",
+       "severity": "page",
+       "job": "usage-rollup",
+       "instance": "usage-rollup",
+       "service": "Billing jobs"
+      },
+      "annotations": {
+       "summary": "usage-rollup missed a scheduled run",
+       "description": "Watch expects the job usage-rollup to ping every 1h, and pages when a run is later than its grace. An ok ping resolves this; /fail or a non-zero exit status raises it at once. the run due at 2026-11-05T14:40:00.000Z is 50m overdue (grace 10m)",
+       "page_reason": "usage-rollup missed a scheduled run",
+       "watch_capped": "Sent as page, shown as warning: A late usage rollup catches up on its next run; it never wakes anyone."
+      },
+      "startsAt": "2026-11-05T14:40:00.000Z",
+      "endsAt": "2026-11-02T14:30:00.000Z",
+      "status": {
+       "state": "active",
+       "silencedBy": [],
+       "inhibitedBy": [],
+       "mutedBy": []
+      },
+      "links": {},
+      "via": [
+       {
+        "source": "usage-rollup",
+        "kind": "heartbeat",
+        "lastSeen": "2026-11-05T15:30:00.000Z"
+       }
+      ],
+      "firstSeen": "2026-11-05T14:51:00.000Z",
+      "lastSeen": "2026-11-05T15:30:00.000Z",
+      "resolvedAt": null
+     }
+    ],
+    "ackedBy": null,
+    "ackedAt": null,
+    "silencedUntil": null,
+    "silencedBy": null,
+    "silenceCarried": false,
+    "cells": [
+     {
+      "id": "heartbeat:usage-rollup",
+      "source": "usage-rollup",
+      "name": "usage-rollup",
+      "service": "Billing jobs",
+      "state": "firing",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "intervalSec": 3600,
+      "staleAfterSec": 4200,
+      "detail": "the run due at 2026-11-05T14:40:00.000Z is 50m overdue (grace 10m)",
+      "checkId": "HeartbeatDown",
+      "asserts": [
+       "heartbeat:on-time"
+      ]
+     },
+     {
+      "id": "heartbeat:invoice-run",
+      "source": "invoice-run",
+      "name": "invoice-run",
+      "service": "Billing jobs",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "intervalSec": 86400,
+      "staleAfterSec": 93600,
+      "detail": "the last run was ok; the next run is due at 2026-11-06T09:08:00.000Z",
+      "checkId": "HeartbeatDown",
+      "asserts": [
+       "heartbeat:on-time"
+      ]
+     }
+    ],
+    "receipt": {
+     "at": "2026-11-05T14:53:00.000Z",
+     "channel": "team-email",
+     "ok": true,
+     "status": "200",
+     "latencyMs": 784
+    },
+    "nextStep": null,
+    "heldUntil": null,
+    "wallOnly": false
+   },
+   "alerts": [
+    {
+     "key": "usage-rollup:32c2ccf9",
+     "origin": "usage-rollup",
+     "fingerprint": "32c2ccf9bba31501",
+     "rule": "HeartbeatDown",
+     "service": "Billing jobs",
+     "host": "usage-rollup",
+     "severity": "warning",
+     "severityLabel": "page",
+     "labels": {
+      "alertname": "HeartbeatDown",
+      "severity": "page",
+      "job": "usage-rollup",
+      "instance": "usage-rollup",
+      "service": "Billing jobs"
+     },
+     "annotations": {
+      "summary": "usage-rollup missed a scheduled run",
+      "description": "Watch expects the job usage-rollup to ping every 1h, and pages when a run is later than its grace. An ok ping resolves this; /fail or a non-zero exit status raises it at once. the run due at 2026-11-05T14:40:00.000Z is 50m overdue (grace 10m)",
+      "page_reason": "usage-rollup missed a scheduled run",
+      "watch_capped": "Sent as page, shown as warning: A late usage rollup catches up on its next run; it never wakes anyone."
+     },
+     "startsAt": "2026-11-05T14:40:00.000Z",
+     "endsAt": "2026-11-02T14:30:00.000Z",
+     "status": {
+      "state": "active",
+      "silencedBy": [],
+      "inhibitedBy": [],
+      "mutedBy": []
+     },
+     "links": {},
+     "via": [
+      {
+       "source": "usage-rollup",
+       "kind": "heartbeat",
+       "lastSeen": "2026-11-05T15:30:00.000Z"
+      }
+     ],
+     "firstSeen": "2026-11-05T14:51:00.000Z",
+     "lastSeen": "2026-11-05T15:30:00.000Z",
+     "resolvedAt": null,
+     "raw": {
+      "usage-rollup": {
+       "job": "usage-rollup",
+       "health": "missed",
+       "detail": "the run due at 2026-11-05T14:40:00.000Z is 50m overdue (grace 10m)"
+      }
+     },
+     "pushed": []
+    }
+   ],
+   "events": [
+    {
+     "id": 39,
+     "at": "2026-11-05T14:51:00.000Z",
+     "kind": "fired",
+     "alertKey": null,
+     "incidentKey": "Billing jobs|HeartbeatDown",
+     "detail": {
+      "level": "incident",
+      "service": "Billing jobs",
+      "rule": "HeartbeatDown",
+      "severity": "warning",
+      "origin": "usage-rollup",
+      "startsAt": "2026-11-05T14:40:00.000Z"
+     }
+    },
+    {
+     "id": 38,
+     "at": "2026-11-05T14:51:00.000Z",
+     "kind": "fired",
+     "alertKey": "usage-rollup:32c2ccf9",
+     "incidentKey": "Billing jobs|HeartbeatDown",
+     "detail": {
+      "origin": "usage-rollup",
+      "severity": "warning",
+      "refire": true,
+      "source": "usage-rollup"
+     }
+    },
+    {
+     "id": 18,
+     "at": "2026-11-02T14:30:00.000Z",
+     "kind": "resolved",
+     "alertKey": null,
+     "incidentKey": "Billing jobs|HeartbeatDown",
+     "detail": {
+      "level": "incident",
+      "service": "Billing jobs",
+      "rule": "HeartbeatDown",
+      "severity": "warning",
+      "origin": "usage-rollup",
+      "startsAt": "2026-11-02T13:42:00.000Z",
+      "resolvedAt": "2026-11-02T14:30:00.000Z",
+      "instances": 1
+     }
+    },
+    {
+     "id": 17,
+     "at": "2026-11-02T14:30:00.000Z",
+     "kind": "resolved",
+     "alertKey": "usage-rollup:32c2ccf9",
+     "incidentKey": "Billing jobs|HeartbeatDown",
+     "detail": {
+      "origin": "usage-rollup"
+     }
+    },
+    {
+     "id": 16,
+     "at": "2026-11-02T13:53:00.000Z",
+     "kind": "fired",
+     "alertKey": null,
+     "incidentKey": "Billing jobs|HeartbeatDown",
+     "detail": {
+      "level": "incident",
+      "service": "Billing jobs",
+      "rule": "HeartbeatDown",
+      "severity": "warning",
+      "origin": "usage-rollup",
+      "startsAt": "2026-11-02T13:42:00.000Z"
+     }
+    },
+    {
+     "id": 15,
+     "at": "2026-11-02T13:53:00.000Z",
+     "kind": "fired",
+     "alertKey": "usage-rollup:32c2ccf9",
+     "incidentKey": "Billing jobs|HeartbeatDown",
+     "detail": {
+      "origin": "usage-rollup",
+      "severity": "warning",
+      "source": "usage-rollup"
+     }
+    }
+   ],
+   "resolved": null,
+   "comments": [],
+   "notifications": [
+    {
+     "at": 1793890380000,
+     "route_id": "warnings",
+     "channel_id": "team-email",
+     "kind": "alert",
+     "ok": 1,
+     "status": "200",
+     "latency_ms": 784
+    },
+    {
+     "at": 1793890380000,
+     "route_id": "warnings",
+     "channel_id": "team-chat",
+     "kind": "alert",
+     "ok": 1,
+     "status": "200",
+     "latency_ms": 241
+    },
+    {
+     "at": 1793630400000,
+     "route_id": "warnings",
+     "channel_id": "team-email",
+     "kind": "resolved",
+     "ok": 1,
+     "status": "200",
+     "latency_ms": 710
+    },
+    {
+     "at": 1793630400000,
+     "route_id": "warnings",
+     "channel_id": "team-chat",
+     "kind": "resolved",
+     "ok": 1,
+     "status": "200",
+     "latency_ms": 477
+    },
+    {
+     "at": 1793627700000,
+     "route_id": "warnings",
+     "channel_id": "team-email",
+     "kind": "alert",
+     "ok": 1,
+     "status": "200",
+     "latency_ms": 704
+    },
+    {
+     "at": 1793627700000,
+     "route_id": "warnings",
+     "channel_id": "team-chat",
+     "kind": "alert",
+     "ok": 1,
+     "status": "200",
+     "latency_ms": 440
+    }
+   ]
+  },
+  "Checkout API|ProbeDown": {
+   "incident": {
+    "key": "Checkout API|ProbeDown",
+    "service": "Checkout API",
+    "rule": "ProbeDown",
+    "instance": null,
+    "summary": "checkout-api is down: HTTP 503 in 3023ms, expected 200",
+    "severity": "page",
+    "state": {
+     "tier": "page",
+     "R": 6,
+     "band": 1,
+     "attention": "none",
+     "firing": true,
+     "instances": 1,
+     "park": null,
+     "unattendedSinceMs": 1793891340000
+    },
+    "startsAt": "2026-11-05T15:09:00.000Z",
+    "alerts": [
+     {
+      "key": "uptime:5031202c",
+      "origin": "uptime",
+      "fingerprint": "5031202c3e969c30",
+      "rule": "ProbeDown",
+      "service": "Checkout API",
+      "host": "checkout-api",
+      "severity": "page",
+      "severityLabel": "page",
+      "labels": {
+       "alertname": "ProbeDown",
+       "severity": "page",
+       "service": "Checkout API",
+       "instance": "checkout-api",
+       "url": "https://api.acme.example/checkout/readyz"
+      },
+      "annotations": {
+       "summary": "checkout-api is down: HTTP 503 in 3023ms, expected 200",
+       "description": "Watch GETs https://api.acme.example/checkout/readyz every 60 s and expects HTTP 200 with ok, db.ok as configured, without following a redirect. It has failed 25 polls in a row; it pages after 3 and resolves on the first success.",
+       "page_reason": "checkout-api is down: HTTP 503 in 3023ms, expected 200"
+      },
+      "startsAt": "2026-11-05T15:09:00.000Z",
+      "endsAt": null,
+      "generatorURL": "https://api.acme.example/checkout/readyz",
+      "status": {
+       "state": "active",
+       "silencedBy": [],
+       "inhibitedBy": [],
+       "mutedBy": []
+      },
+      "value": "HTTP 503 in 3083ms, expected 200",
+      "links": {
+       "generator": "https://api.acme.example/checkout/readyz"
+      },
+      "via": [
+       {
+        "source": "uptime",
+        "kind": "http-probe",
+        "lastSeen": "2026-11-05T15:30:00.000Z",
+        "url": "https://api.acme.example/checkout/readyz"
+       }
+      ],
+      "firstSeen": "2026-11-05T15:09:00.000Z",
+      "lastSeen": "2026-11-05T15:30:00.000Z",
+      "resolvedAt": null
+     }
+    ],
+    "ackedBy": null,
+    "ackedAt": null,
+    "silencedUntil": null,
+    "silencedBy": null,
+    "silenceCarried": false,
+    "cells": [
+     {
+      "id": "check:uptime:Checkout API/ProbeDown/checkout-api",
+      "source": "uptime",
+      "name": "checkout-api",
+      "service": "Checkout API",
+      "state": "firing",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "ProbeDown",
+      "detail": "HTTP 503 in 3023ms, expected 200 (25 failed polls in a row)",
+      "asserts": [
+       "status 200",
+       "body.ok = true",
+       "body.db.ok = true"
+      ],
+      "url": "https://api.acme.example/checkout/readyz"
+     },
+     {
+      "id": "check:uptime:Checkout API/ProbeSlow/checkout-api",
+      "source": "uptime",
+      "name": "checkout-api",
+      "service": "Checkout API",
+      "state": "nodata",
+      "staleAfterSec": 300,
+      "checkId": "ProbeSlow",
+      "detail": "not timed: the probe failed",
+      "asserts": [
+       "answer under 800ms"
+      ],
+      "url": "https://api.acme.example/checkout/readyz"
+     },
+     {
+      "id": "check:uptime:Checkout API/CertExpiring/checkout-api",
+      "source": "uptime",
+      "name": "checkout-api",
+      "service": "Checkout API",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "CertExpiring",
+      "detail": "certificate valid for 47 days (2026-12-22)",
+      "asserts": [
+       "certificate valid for at least 14 days"
+      ],
+      "url": "https://api.acme.example/checkout/readyz"
+     }
+    ],
+    "receipt": {
+     "at": "2026-11-05T15:24:00.000Z",
+     "channel": "oncall-sms",
+     "ok": true,
+     "status": "200",
+     "latencyMs": 717
+    },
+    "nextStep": null,
+    "heldUntil": null,
+    "wallOnly": false
+   },
+   "alerts": [
+    {
+     "key": "uptime:5031202c",
+     "origin": "uptime",
+     "fingerprint": "5031202c3e969c30",
+     "rule": "ProbeDown",
+     "service": "Checkout API",
+     "host": "checkout-api",
+     "severity": "page",
+     "severityLabel": "page",
+     "labels": {
+      "alertname": "ProbeDown",
+      "severity": "page",
+      "service": "Checkout API",
+      "instance": "checkout-api",
+      "url": "https://api.acme.example/checkout/readyz"
+     },
+     "annotations": {
+      "summary": "checkout-api is down: HTTP 503 in 3023ms, expected 200",
+      "description": "Watch GETs https://api.acme.example/checkout/readyz every 60 s and expects HTTP 200 with ok, db.ok as configured, without following a redirect. It has failed 25 polls in a row; it pages after 3 and resolves on the first success.",
+      "page_reason": "checkout-api is down: HTTP 503 in 3023ms, expected 200"
+     },
+     "startsAt": "2026-11-05T15:09:00.000Z",
+     "endsAt": null,
+     "generatorURL": "https://api.acme.example/checkout/readyz",
+     "status": {
+      "state": "active",
+      "silencedBy": [],
+      "inhibitedBy": [],
+      "mutedBy": []
+     },
+     "value": "HTTP 503 in 3083ms, expected 200",
+     "links": {
+      "generator": "https://api.acme.example/checkout/readyz"
+     },
+     "via": [
+      {
+       "source": "uptime",
+       "kind": "http-probe",
+       "lastSeen": "2026-11-05T15:30:00.000Z",
+       "url": "https://api.acme.example/checkout/readyz"
+      }
+     ],
+     "firstSeen": "2026-11-05T15:09:00.000Z",
+     "lastSeen": "2026-11-05T15:30:00.000Z",
+     "resolvedAt": null,
+     "raw": {
+      "uptime": {
+       "target": "checkout-api",
+       "url": "https://api.acme.example/checkout/readyz",
+       "probe": {
+        "ok": false,
+        "status": 503,
+        "ms": 3023,
+        "detail": "HTTP 503 in 3023ms, expected 200",
+        "asserts": [
+         "status 200",
+         "body.ok = true",
+         "body.db.ok = true"
+        ]
+       },
+       "fails": 25,
+       "slows": null,
+       "cert": {
+        "ok": true,
+        "validToMs": 1797953400000
+       }
+      }
+     },
+     "pushed": []
+    }
+   ],
+   "events": [
+    {
+     "id": 41,
+     "at": "2026-11-05T15:09:00.000Z",
+     "kind": "fired",
+     "alertKey": null,
+     "incidentKey": "Checkout API|ProbeDown",
+     "detail": {
+      "level": "incident",
+      "service": "Checkout API",
+      "rule": "ProbeDown",
+      "severity": "page",
+      "origin": "uptime",
+      "startsAt": "2026-11-05T15:09:00.000Z"
+     }
+    },
+    {
+     "id": 40,
+     "at": "2026-11-05T15:09:00.000Z",
+     "kind": "fired",
+     "alertKey": "uptime:5031202c",
+     "incidentKey": "Checkout API|ProbeDown",
+     "detail": {
+      "origin": "uptime",
+      "severity": "page",
+      "source": "uptime"
+     }
+    }
+   ],
+   "resolved": null,
+   "comments": [],
+   "notifications": [
+    {
+     "at": 1793892240000,
+     "route_id": "pages",
+     "channel_id": "oncall-sms",
+     "kind": "escalation",
+     "ok": 1,
+     "status": "200",
+     "latency_ms": 717
+    },
+    {
+     "at": 1793891400000,
+     "route_id": "pages",
+     "channel_id": "team-chat",
+     "kind": "alert",
+     "ok": 1,
+     "status": "200",
+     "latency_ms": 308
+    },
+    {
+     "at": 1793891400000,
+     "route_id": "pages",
+     "channel_id": "phones",
+     "kind": "alert",
+     "ok": 1,
+     "status": "200",
+     "latency_ms": 230
+    }
+   ]
+  },
+  "Payments|StripeWebhookStale": {
+   "incident": {
+    "key": "Payments|StripeWebhookStale",
+    "service": "Payments",
+    "rule": "StripeWebhookStale",
+    "instance": null,
+    "summary": "No Stripe webhook event has been accepted since the endpoint secret was rotated; Stripe is retrying deliveries.",
+    "severity": "warning",
+    "state": {
+     "tier": "quiet",
+     "R": 1,
+     "band": 0,
+     "attention": "parked",
+     "firing": false,
+     "instances": 1,
+     "park": {
+      "state": "fixed_undeployed",
+      "until": "2026-11-05T21:30:00.000Z",
+      "since": "2026-11-05T13:10:00.000Z",
+      "ref": "PAY-318",
+      "note": "Fix merged, waiting on the payments deploy",
+      "by": "agent: claude",
+      "alertKeys": [
+       "payments:69330c2c"
+      ]
+     },
+     "unattendedSinceMs": 1793881800000
+    },
+    "startsAt": "2026-11-05T12:30:00.000Z",
+    "alerts": [
+     {
+      "key": "payments:69330c2c",
+      "origin": "payments",
+      "fingerprint": "69330c2c2fad2666",
+      "rule": "StripeWebhookStale",
+      "service": "Payments",
+      "host": "stripe-events",
+      "severity": "warning",
+      "severityLabel": "warning",
+      "labels": {
+       "alertname": "StripeWebhookStale",
+       "severity": "warning",
+       "service": "Payments",
+       "instance": "stripe-events"
+      },
+      "annotations": {
+       "summary": "No Stripe webhook event has been accepted since the endpoint secret was rotated; Stripe is retrying deliveries.",
+       "description": "Every delivery to /webhooks/stripe answers 400 \"signature mismatch\". Stripe retries for up to three days, so no event is lost yet."
+      },
+      "startsAt": "2026-11-05T12:30:00.000Z",
+      "endsAt": "2026-11-04T19:43:00.000Z",
+      "generatorURL": "https://payments.acme.example/admin/health",
+      "status": {
+       "state": "active",
+       "silencedBy": [],
+       "inhibitedBy": [],
+       "mutedBy": []
+      },
+      "links": {
+       "generator": "https://payments.acme.example/admin/health"
+      },
+      "via": [
+       {
+        "source": "payments",
+        "kind": "webhook",
+        "lastSeen": "2026-11-05T15:30:00.000Z"
+       }
+      ],
+      "firstSeen": "2026-11-05T12:30:00.000Z",
+      "lastSeen": "2026-11-05T15:30:00.000Z",
+      "resolvedAt": null
+     }
+    ],
+    "ackedBy": null,
+    "ackedAt": null,
+    "silencedUntil": null,
+    "silencedBy": null,
+    "silenceCarried": false,
+    "cells": [
+     {
+      "id": "check:payments:Payments/StripeWebhookStale/stripe-events",
+      "source": "payments",
+      "name": "stripe-events",
+      "service": "Payments",
+      "state": "firing",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 900,
+      "checkId": "StripeWebhookStale",
+      "detail": "Last event accepted before the secret rotation"
+     },
+     {
+      "id": "check:payments:Payments/PayoutReconcile/payouts",
+      "source": "payments",
+      "name": "payouts",
+      "service": "Payments",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 900,
+      "checkId": "PayoutReconcile",
+      "detail": "Reconciled 1283 payouts, 0 mismatches"
+     },
+     {
+      "id": "check:payments:Payments/RefundQueue/refunds",
+      "source": "payments",
+      "name": "refunds",
+      "service": "Payments",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 900,
+      "checkId": "RefundQueue",
+      "detail": "0 refunds waiting"
+     }
+    ],
+    "receipt": {
+     "at": "2026-11-04T19:35:00.000Z",
+     "channel": "team-email",
+     "ok": true,
+     "status": "200",
+     "latencyMs": 623
+    },
+    "nextStep": null,
+    "heldUntil": null,
+    "wallOnly": false
+   },
+   "alerts": [
+    {
+     "key": "payments:69330c2c",
+     "origin": "payments",
+     "fingerprint": "69330c2c2fad2666",
+     "rule": "StripeWebhookStale",
+     "service": "Payments",
+     "host": "stripe-events",
+     "severity": "warning",
+     "severityLabel": "warning",
+     "labels": {
+      "alertname": "StripeWebhookStale",
+      "severity": "warning",
+      "service": "Payments",
+      "instance": "stripe-events"
+     },
+     "annotations": {
+      "summary": "No Stripe webhook event has been accepted since the endpoint secret was rotated; Stripe is retrying deliveries.",
+      "description": "Every delivery to /webhooks/stripe answers 400 \"signature mismatch\". Stripe retries for up to three days, so no event is lost yet."
+     },
+     "startsAt": "2026-11-05T12:30:00.000Z",
+     "endsAt": "2026-11-04T19:43:00.000Z",
+     "generatorURL": "https://payments.acme.example/admin/health",
+     "status": {
+      "state": "active",
+      "silencedBy": [],
+      "inhibitedBy": [],
+      "mutedBy": []
+     },
+     "links": {
+      "generator": "https://payments.acme.example/admin/health"
+     },
+     "via": [
+      {
+       "source": "payments",
+       "kind": "webhook",
+       "lastSeen": "2026-11-05T15:30:00.000Z"
+      }
+     ],
+     "firstSeen": "2026-11-05T12:30:00.000Z",
+     "lastSeen": "2026-11-05T15:30:00.000Z",
+     "resolvedAt": null,
+     "raw": {
+      "payments": {
+       "status": "firing",
+       "labels": {
+        "alertname": "StripeWebhookStale",
+        "severity": "warning",
+        "service": "Payments",
+        "instance": "stripe-events"
+       },
+       "annotations": {
+        "summary": "No Stripe webhook event has been accepted since the endpoint secret was rotated; Stripe is retrying deliveries.",
+        "description": "Every delivery to /webhooks/stripe answers 400 \"signature mismatch\". Stripe retries for up to three days, so no event is lost yet."
+       },
+       "startsAt": "2026-11-05T12:30:00.000Z",
+       "generatorURL": "https://payments.acme.example/admin/health"
+      }
+     },
+     "pushed": [
+      {
+       "source": "payments",
+       "sender": "payments",
+       "lastReportedAt": "2026-11-05T15:30:00.000Z",
+       "atLeastEverySec": 900,
+       "clearsAfterSec": 21600,
+       "nextReportAt": null,
+       "clearsAt": "2026-11-05T21:30:00.000Z",
+       "request": null
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "id": 34,
+     "at": "2026-11-05T13:10:00.000Z",
+     "kind": "park",
+     "alertKey": null,
+     "incidentKey": "Payments|StripeWebhookStale",
+     "detail": {
+      "by": "agent: claude",
+      "state": "fixed_undeployed",
+      "until": "2026-11-05T21:30:00.000Z",
+      "note": "Fix merged, waiting on the payments deploy",
+      "ref": "PAY-318"
+     }
+    },
+    {
+     "id": 33,
+     "at": "2026-11-05T12:30:00.000Z",
+     "kind": "fired",
+     "alertKey": null,
+     "incidentKey": "Payments|StripeWebhookStale",
+     "detail": {
+      "level": "incident",
+      "service": "Payments",
+      "rule": "StripeWebhookStale",
+      "severity": "warning",
+      "origin": "payments",
+      "startsAt": "2026-11-05T12:30:00.000Z"
+     }
+    },
+    {
+     "id": 32,
+     "at": "2026-11-05T12:30:00.000Z",
+     "kind": "fired",
+     "alertKey": "payments:69330c2c",
+     "incidentKey": "Payments|StripeWebhookStale",
+     "detail": {
+      "origin": "payments",
+      "severity": "warning",
+      "refire": true,
+      "source": "payments"
+     }
+    },
+    {
+     "id": 27,
+     "at": "2026-11-04T19:43:00.000Z",
+     "kind": "resolved",
+     "alertKey": null,
+     "incidentKey": "Payments|StripeWebhookStale",
+     "detail": {
+      "level": "incident",
+      "service": "Payments",
+      "rule": "StripeWebhookStale",
+      "severity": "warning",
+      "origin": "payments",
+      "startsAt": "2026-11-04T19:30:00.000Z",
+      "resolvedAt": "2026-11-04T19:43:00.000Z",
+      "instances": 1
+     }
+    },
+    {
+     "id": 26,
+     "at": "2026-11-04T19:43:00.000Z",
+     "kind": "resolved",
+     "alertKey": "payments:69330c2c",
+     "incidentKey": "Payments|StripeWebhookStale",
+     "detail": {
+      "origin": "payments"
+     }
+    },
+    {
+     "id": 25,
+     "at": "2026-11-04T19:33:00.000Z",
+     "kind": "fired",
+     "alertKey": null,
+     "incidentKey": "Payments|StripeWebhookStale",
+     "detail": {
+      "level": "incident",
+      "service": "Payments",
+      "rule": "StripeWebhookStale",
+      "severity": "warning",
+      "origin": "payments",
+      "startsAt": "2026-11-04T19:30:00.000Z"
+     }
+    },
+    {
+     "id": 24,
+     "at": "2026-11-04T19:33:00.000Z",
+     "kind": "fired",
+     "alertKey": "payments:69330c2c",
+     "incidentKey": "Payments|StripeWebhookStale",
+     "detail": {
+      "origin": "payments",
+      "severity": "warning",
+      "source": "payments"
+     }
+    }
+   ],
+   "resolved": null,
+   "comments": [
+    {
+     "id": 2,
+     "incidentKey": "Payments|StripeWebhookStale",
+     "by": "agent: claude",
+     "text": "Stripe signs deliveries with the rotated endpoint secret, and payments still verifies with the old one, so every delivery answers 400.\n\nThe fix (PAY-318) is merged; it ships with the next payments deploy. Stripe keeps retrying for three days, so nothing is lost meanwhile.",
+     "createdAt": "2026-11-05T13:10:00.000Z"
+    }
+   ],
+   "notifications": [
+    {
+     "at": 1793821980000,
+     "route_id": "warnings",
+     "channel_id": "team-email",
+     "kind": "resolved",
+     "ok": 1,
+     "status": "200",
+     "latency_ms": 536
+    },
+    {
+     "at": 1793821980000,
+     "route_id": "warnings",
+     "channel_id": "team-chat",
+     "kind": "resolved",
+     "ok": 1,
+     "status": "200",
+     "latency_ms": 390
+    },
+    {
+     "at": 1793820900000,
+     "route_id": "warnings",
+     "channel_id": "team-email",
+     "kind": "alert",
+     "ok": 1,
+     "status": "200",
+     "latency_ms": 623
+    },
+    {
+     "at": 1793820900000,
+     "route_id": "warnings",
+     "channel_id": "team-chat",
+     "kind": "alert",
+     "ok": 1,
+     "status": "200",
+     "latency_ms": 445
+    }
+   ]
+  },
+  "Worker hosts|HostDiskFree": {
+   "incident": {
+    "key": "Worker hosts|HostDiskFree",
+    "service": "Worker hosts",
+    "rule": "HostDiskFree",
+    "instance": null,
+    "summary": "/var/lib/queue on worker-02 has 8.1% free",
+    "severity": "warning",
+    "state": {
+     "tier": "warning",
+     "R": 2,
+     "band": 1,
+     "attention": "acked",
+     "firing": true,
+     "instances": 1,
+     "park": null,
+     "unattendedSinceMs": 1793884800000
+    },
+    "startsAt": "2026-11-05T13:20:00.000Z",
+    "alerts": [
+     {
+      "key": "worker-02:68d0d105",
+      "origin": "worker-02",
+      "fingerprint": "68d0d1054ed5dd0f",
+      "rule": "HostDiskFree",
+      "service": "Worker hosts",
+      "host": "/var/lib/queue",
+      "severity": "warning",
+      "severityLabel": "warning",
+      "labels": {
+       "alertname": "HostDiskFree",
+       "severity": "warning",
+       "service": "Worker hosts",
+       "instance": "/var/lib/queue",
+       "host": "worker-02"
+      },
+      "annotations": {
+       "summary": "/var/lib/queue on worker-02 has 8.1% free",
+       "description": "Watch reads the free space of /var/lib/queue every 60 s with statfs. Under 10% free is a warning and under 5% a page; a reading near either line says nothing about the disk's health beyond this instant."
+      },
+      "startsAt": "2026-11-05T13:20:00.000Z",
+      "endsAt": null,
+      "status": {
+       "state": "active",
+       "silencedBy": [],
+       "inhibitedBy": [],
+       "mutedBy": []
+      },
+      "value": "8.1% free",
+      "links": {},
+      "via": [
+       {
+        "source": "worker-02",
+        "kind": "host",
+        "lastSeen": "2026-11-05T15:30:00.000Z"
+       }
+      ],
+      "firstSeen": "2026-11-05T13:20:00.000Z",
+      "lastSeen": "2026-11-05T15:30:00.000Z",
+      "resolvedAt": null
+     }
+    ],
+    "ackedBy": "agent: claude",
+    "ackedAt": "2026-11-05T13:50:00.000Z",
+    "silencedUntil": null,
+    "silencedBy": null,
+    "silenceCarried": false,
+    "cells": [
+     {
+      "id": "check:worker-02:Worker hosts/HostDiskFree//",
+      "source": "worker-02",
+      "name": "/",
+      "service": "Worker hosts",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "HostDiskFree",
+      "detail": "60.0% free (96.0 GB of 160.0 GB)",
+      "asserts": [
+       "disk:/ free>5%"
+      ]
+     },
+     {
+      "id": "check:worker-02:Worker hosts/HostDiskFree//var/lib/queue",
+      "source": "worker-02",
+      "name": "/var/lib/queue",
+      "service": "Worker hosts",
+      "state": "firing",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "HostDiskFree",
+      "detail": "8.1% free (32.4 GB of 400.0 GB), under 10%",
+      "asserts": [
+       "disk:/var/lib/queue free>5%"
+      ]
+     },
+     {
+      "id": "check:worker-02:Worker hosts/HostMemoryFree/memory",
+      "source": "worker-02",
+      "name": "memory",
+      "service": "Worker hosts",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "HostMemoryFree",
+      "detail": "43.4% available (13.9 GB of 32.0 GB, MemAvailable)",
+      "asserts": [
+       "mem:available>10%"
+      ]
+     },
+     {
+      "id": "check:worker-02:Worker hosts/HostLoadHigh/load",
+      "source": "worker-02",
+      "name": "load",
+      "service": "Worker hosts",
+      "state": "ok",
+      "evaluatedAt": "2026-11-05T15:30:00.000Z",
+      "staleAfterSec": 300,
+      "checkId": "HostLoadHigh",
+      "detail": "2.28 load5 on 8 cores (0.28 per core)",
+      "asserts": [
+       "load:5m/core<2"
+      ]
+     }
+    ],
+    "receipt": {
+     "at": "2026-11-05T13:22:00.000Z",
+     "channel": "team-email",
+     "ok": true,
+     "status": "200",
+     "latencyMs": 592
+    },
+    "nextStep": null,
+    "heldUntil": null,
+    "wallOnly": false
+   },
+   "alerts": [
+    {
+     "key": "worker-02:68d0d105",
+     "origin": "worker-02",
+     "fingerprint": "68d0d1054ed5dd0f",
+     "rule": "HostDiskFree",
+     "service": "Worker hosts",
+     "host": "/var/lib/queue",
+     "severity": "warning",
+     "severityLabel": "warning",
+     "labels": {
+      "alertname": "HostDiskFree",
+      "severity": "warning",
+      "service": "Worker hosts",
+      "instance": "/var/lib/queue",
+      "host": "worker-02"
+     },
+     "annotations": {
+      "summary": "/var/lib/queue on worker-02 has 8.1% free",
+      "description": "Watch reads the free space of /var/lib/queue every 60 s with statfs. Under 10% free is a warning and under 5% a page; a reading near either line says nothing about the disk's health beyond this instant."
+     },
+     "startsAt": "2026-11-05T13:20:00.000Z",
+     "endsAt": null,
+     "status": {
+      "state": "active",
+      "silencedBy": [],
+      "inhibitedBy": [],
+      "mutedBy": []
+     },
+     "value": "8.1% free",
+     "links": {},
+     "via": [
+      {
+       "source": "worker-02",
+       "kind": "host",
+       "lastSeen": "2026-11-05T15:30:00.000Z"
+      }
+     ],
+     "firstSeen": "2026-11-05T13:20:00.000Z",
+     "lastSeen": "2026-11-05T15:30:00.000Z",
+     "resolvedAt": null,
+     "raw": {
+      "worker-02": {
+       "mount": "/var/lib/queue",
+       "freePct": 8.1,
+       "freeBytes": 34789235098,
+       "totalBytes": 429496729600
+      }
+     },
+     "pushed": []
+    }
+   ],
+   "events": [
+    {
+     "id": 37,
+     "at": "2026-11-05T13:50:00.000Z",
+     "kind": "ack",
+     "alertKey": null,
+     "incidentKey": "Worker hosts|HostDiskFree",
+     "detail": {
+      "by": "agent: claude",
+      "note": "Freeing space on /var/lib/queue"
+     }
+    },
+    {
+     "id": 36,
+     "at": "2026-11-05T13:20:00.000Z",
+     "kind": "fired",
+     "alertKey": null,
+     "incidentKey": "Worker hosts|HostDiskFree",
+     "detail": {
+      "level": "incident",
+      "service": "Worker hosts",
+      "rule": "HostDiskFree",
+      "severity": "warning",
+      "origin": "worker-02",
+      "startsAt": "2026-11-05T13:20:00.000Z"
+     }
+    },
+    {
+     "id": 35,
+     "at": "2026-11-05T13:20:00.000Z",
+     "kind": "fired",
+     "alertKey": "worker-02:68d0d105",
+     "incidentKey": "Worker hosts|HostDiskFree",
+     "detail": {
+      "origin": "worker-02",
+      "severity": "warning",
+      "source": "worker-02"
+     }
+    }
+   ],
+   "resolved": null,
+   "comments": [
+    {
+     "id": 3,
+     "incidentKey": "Worker hosts|HostDiskFree",
+     "by": "agent: claude",
+     "text": "`/var/lib/queue` on worker-02 filled because the dead-letter queue stopped draining after the consumer deploy.\n\n- Paused the replay job and removed 3.2 GB of expired batches\n- Opened OPS-1142 to cap the dead-letter queue\n\nFree space is climbing slowly; I will look again within the hour.",
+     "createdAt": "2026-11-05T13:50:00.000Z"
+    }
+   ],
+   "notifications": [
+    {
+     "at": 1793884920000,
+     "route_id": "warnings",
+     "channel_id": "team-email",
+     "kind": "alert",
+     "ok": 1,
+     "status": "200",
+     "latency_ms": 592
+    },
+    {
+     "at": 1793884920000,
+     "route_id": "warnings",
+     "channel_id": "team-chat",
+     "kind": "alert",
+     "ok": 1,
+     "status": "200",
+     "latency_ms": 357
+    }
+   ]
+  },
+  "Checkout API|ProbeSlow": {
+   "incident": null,
+   "alerts": [
+    {
+     "key": "uptime:304cc950",
+     "origin": "uptime",
+     "fingerprint": "304cc950a923dfbd",
+     "rule": "ProbeSlow",
+     "service": "Checkout API",
+     "host": "checkout-api",
+     "severity": "warning",
+     "severityLabel": "warning",
+     "labels": {
+      "alertname": "ProbeSlow",
+      "severity": "warning",
+      "service": "Checkout API",
+      "instance": "checkout-api",
+      "url": "https://api.acme.example/checkout/readyz"
+     },
+     "annotations": {
+      "summary": "checkout-api is slow: 1119ms, over 800ms on 9 polls in a row",
+      "description": "Watch times the whole answer of GET https://api.acme.example/checkout/readyz. Over 800ms on 3 polls in a row is this warning; one poll under it resolves it."
+     },
+     "startsAt": "2026-11-05T09:32:00.000Z",
+     "endsAt": "2026-11-05T09:39:00.000Z",
+     "generatorURL": "https://api.acme.example/checkout/readyz",
+     "status": {
+      "state": "active",
+      "silencedBy": [],
+      "inhibitedBy": [],
+      "mutedBy": []
+     },
+     "value": "1554ms, over 800ms",
+     "links": {
+      "generator": "https://api.acme.example/checkout/readyz"
+     },
+     "via": [
+      {
+       "source": "uptime",
+       "kind": "http-probe",
+       "lastSeen": "2026-11-05T09:38:00.000Z",
+       "url": "https://api.acme.example/checkout/readyz"
+      }
+     ],
+     "firstSeen": "2026-11-05T09:32:00.000Z",
+     "lastSeen": "2026-11-05T09:39:00.000Z",
+     "resolvedAt": "2026-11-05T09:39:00.000Z",
+     "raw": {
+      "uptime": {
+       "target": "checkout-api",
+       "url": "https://api.acme.example/checkout/readyz",
+       "probe": {
+        "ok": true,
+        "status": 200,
+        "ms": 1119,
+        "detail": "HTTP 200 in 1119ms",
+        "asserts": [
+         "status 200",
+         "body.ok = true",
+         "body.db.ok = true"
+        ]
+       },
+       "fails": 0,
+       "slows": 9,
+       "cert": {
+        "ok": true,
+        "validToMs": 1797953400000
+       }
+      }
+     },
+     "pushed": []
+    }
+   ],
+   "events": [
+    {
+     "id": 31,
+     "at": "2026-11-05T09:39:00.000Z",
+     "kind": "resolved",
+     "alertKey": null,
+     "incidentKey": "Checkout API|ProbeSlow",
+     "detail": {
+      "level": "incident",
+      "service": "Checkout API",
+      "rule": "ProbeSlow",
+      "severity": "warning",
+      "origin": "uptime",
+      "startsAt": "2026-11-05T09:32:00.000Z",
+      "resolvedAt": "2026-11-05T09:39:00.000Z",
+      "instances": 1
+     }
+    },
+    {
+     "id": 30,
+     "at": "2026-11-05T09:39:00.000Z",
+     "kind": "resolved",
+     "alertKey": "uptime:304cc950",
+     "incidentKey": "Checkout API|ProbeSlow",
+     "detail": {
+      "origin": "uptime"
+     }
+    },
+    {
+     "id": 29,
+     "at": "2026-11-05T09:32:00.000Z",
+     "kind": "fired",
+     "alertKey": null,
+     "incidentKey": "Checkout API|ProbeSlow",
+     "detail": {
+      "level": "incident",
+      "service": "Checkout API",
+      "rule": "ProbeSlow",
+      "severity": "warning",
+      "origin": "uptime",
+      "startsAt": "2026-11-05T09:32:00.000Z"
+     }
+    },
+    {
+     "id": 28,
+     "at": "2026-11-05T09:32:00.000Z",
+     "kind": "fired",
+     "alertKey": "uptime:304cc950",
+     "incidentKey": "Checkout API|ProbeSlow",
+     "detail": {
+      "origin": "uptime",
+      "severity": "warning",
+      "source": "uptime"
+     }
+    }
+   ],
+   "resolved": {
+    "incidentKey": "Checkout API|ProbeSlow",
+    "service": "Checkout API",
+    "rule": "ProbeSlow",
+    "severity": "warning",
+    "source": "uptime",
+    "startsAt": "2026-11-05T09:32:00.000Z",
+    "resolvedAt": "2026-11-05T09:39:00.000Z",
+    "durationSec": 420,
+    "instances": 1
+   },
+   "comments": [],
+   "notifications": []
+  },
+  "Accounts API|ProbeDown": {
+   "incident": null,
+   "alerts": [
+    {
+     "key": "uptime:53c08dc2",
+     "origin": "uptime",
+     "fingerprint": "53c08dc2a96c7055",
+     "rule": "ProbeDown",
+     "service": "Accounts API",
+     "host": "accounts-api",
+     "severity": "page",
+     "severityLabel": "page",
+     "labels": {
+      "alertname": "ProbeDown",
+      "severity": "page",
+      "service": "Accounts API",
+      "instance": "accounts-api",
+      "url": "https://api.acme.example/accounts/healthz"
+     },
+     "annotations": {
+      "summary": "accounts-api is down: HTTP 502 in 19ms, expected 200",
+      "description": "Watch GETs https://api.acme.example/accounts/healthz every 60 s and expects HTTP 200 with status as configured, without following a redirect. It has failed 7 polls in a row; it pages after 3 and resolves on the first success.",
+      "page_reason": "accounts-api is down: HTTP 502 in 19ms, expected 200"
+     },
+     "startsAt": "2026-11-03T20:32:00.000Z",
+     "endsAt": "2026-11-03T20:37:00.000Z",
+     "generatorURL": "https://api.acme.example/accounts/healthz",
+     "status": {
+      "state": "active",
+      "silencedBy": [],
+      "inhibitedBy": [],
+      "mutedBy": []
+     },
+     "value": "HTTP 502 in 22ms, expected 200",
+     "links": {
+      "generator": "https://api.acme.example/accounts/healthz"
+     },
+     "via": [
+      {
+       "source": "uptime",
+       "kind": "http-probe",
+       "lastSeen": "2026-11-03T20:36:00.000Z",
+       "url": "https://api.acme.example/accounts/healthz"
+      }
+     ],
+     "firstSeen": "2026-11-03T20:32:00.000Z",
+     "lastSeen": "2026-11-03T20:37:00.000Z",
+     "resolvedAt": "2026-11-03T20:37:00.000Z",
+     "raw": {
+      "uptime": {
+       "target": "accounts-api",
+       "url": "https://api.acme.example/accounts/healthz",
+       "probe": {
+        "ok": false,
+        "status": 502,
+        "ms": 19,
+        "detail": "HTTP 502 in 19ms, expected 200",
+        "asserts": [
+         "status 200",
+         "body.status = \"ok\""
+        ]
+       },
+       "fails": 7,
+       "slows": null,
+       "cert": {
+        "ok": true,
+        "validToMs": 1797953400000
+       }
+      }
+     },
+     "pushed": []
+    }
+   ],
+   "events": [
+    {
+     "id": 23,
+     "at": "2026-11-03T20:37:00.000Z",
+     "kind": "resolved",
+     "alertKey": null,
+     "incidentKey": "Accounts API|ProbeDown",
+     "detail": {
+      "level": "incident",
+      "service": "Accounts API",
+      "rule": "ProbeDown",
+      "severity": "page",
+      "origin": "uptime",
+      "startsAt": "2026-11-03T20:32:00.000Z",
+      "resolvedAt": "2026-11-03T20:37:00.000Z",
+      "instances": 1
+     }
+    },
+    {
+     "id": 22,
+     "at": "2026-11-03T20:37:00.000Z",
+     "kind": "resolved",
+     "alertKey": "uptime:53c08dc2",
+     "incidentKey": "Accounts API|ProbeDown",
+     "detail": {
+      "origin": "uptime"
+     }
+    },
+    {
+     "id": 21,
+     "at": "2026-11-03T20:34:00.000Z",
+     "kind": "ack",
+     "alertKey": null,
+     "incidentKey": "Accounts API|ProbeDown",
+     "detail": {
+      "by": "Sam"
+     }
+    },
+    {
+     "id": 20,
+     "at": "2026-11-03T20:32:00.000Z",
+     "kind": "fired",
+     "alertKey": null,
+     "incidentKey": "Accounts API|ProbeDown",
+     "detail": {
+      "level": "incident",
+      "service": "Accounts API",
+      "rule": "ProbeDown",
+      "severity": "page",
+      "origin": "uptime",
+      "startsAt": "2026-11-03T20:32:00.000Z"
+     }
+    },
+    {
+     "id": 19,
+     "at": "2026-11-03T20:32:00.000Z",
+     "kind": "fired",
+     "alertKey": "uptime:53c08dc2",
+     "incidentKey": "Accounts API|ProbeDown",
+     "detail": {
+      "origin": "uptime",
+      "severity": "page",
+      "source": "uptime"
+     }
+    }
+   ],
+   "resolved": {
+    "incidentKey": "Accounts API|ProbeDown",
+    "service": "Accounts API",
+    "rule": "ProbeDown",
+    "severity": "page",
+    "source": "uptime",
+    "startsAt": "2026-11-03T20:32:00.000Z",
+    "resolvedAt": "2026-11-03T20:37:00.000Z",
+    "durationSec": 300,
+    "instances": 1,
+    "ackedBy": "Sam",
+    "ackedAt": "2026-11-03T20:34:00.000Z"
+   },
+   "comments": [
+    {
+     "id": 1,
+     "incidentKey": "Accounts API|ProbeDown",
+     "by": "agent: claude",
+     "text": "The 502s come from the load balancer: both accounts pods were restarting at once after the config reload. Rolled them one at a time; `/healthz` answers again.",
+     "createdAt": "2026-11-03T20:36:00.000Z"
+    }
+   ],
+   "notifications": [
+    {
+     "at": 1793738820000,
+     "route_id": "pages",
+     "channel_id": "team-chat",
+     "kind": "resolved",
+     "ok": 1,
+     "status": "200",
+     "latency_ms": 413
+    },
+    {
+     "at": 1793738820000,
+     "route_id": "pages",
+     "channel_id": "phones",
+     "kind": "resolved",
+     "ok": 1,
+     "status": "200",
+     "latency_ms": 217
+    },
+    {
+     "at": 1793737980000,
+     "route_id": "pages",
+     "channel_id": "team-chat",
+     "kind": "alert",
+     "ok": 1,
+     "status": "200",
+     "latency_ms": 469
+    },
+    {
+     "at": 1793737980000,
+     "route_id": "pages",
+     "channel_id": "phones",
+     "kind": "alert",
+     "ok": 1,
+     "status": "200",
+     "latency_ms": 220
+    }
+   ]
+  },
+  "Storefront|ProbeDown": {
+   "incident": null,
+   "alerts": [
+    {
+     "key": "uptime:97e39495",
+     "origin": "uptime",
+     "fingerprint": "97e39495cbdd5a27",
+     "rule": "ProbeDown",
+     "service": "Storefront",
+     "host": "storefront",
+     "severity": "page",
+     "severityLabel": "page",
+     "labels": {
+      "alertname": "ProbeDown",
+      "severity": "page",
+      "service": "Storefront",
+      "instance": "storefront",
+      "url": "https://www.acme.example/"
+     },
+     "annotations": {
+      "summary": "storefront is down: HTTP 503 in 40ms, expected 200",
+      "description": "Watch GETs https://www.acme.example/ every 60 s and expects HTTP 200, without following a redirect. It has failed 6 polls in a row; it pages after 3 and resolves on the first success.",
+      "page_reason": "storefront is down: HTTP 503 in 40ms, expected 200"
+     },
+     "startsAt": "2026-11-02T06:32:00.000Z",
+     "endsAt": "2026-11-02T06:36:00.000Z",
+     "generatorURL": "https://www.acme.example/",
+     "status": {
+      "state": "active",
+      "silencedBy": [],
+      "inhibitedBy": [],
+      "mutedBy": []
+     },
+     "value": "HTTP 503 in 32ms, expected 200",
+     "links": {
+      "generator": "https://www.acme.example/"
+     },
+     "via": [
+      {
+       "source": "uptime",
+       "kind": "http-probe",
+       "lastSeen": "2026-11-02T06:35:00.000Z",
+       "url": "https://www.acme.example/"
+      }
+     ],
+     "firstSeen": "2026-11-02T06:32:00.000Z",
+     "lastSeen": "2026-11-02T06:36:00.000Z",
+     "resolvedAt": "2026-11-02T06:36:00.000Z",
+     "raw": {
+      "uptime": {
+       "target": "storefront",
+       "url": "https://www.acme.example/",
+       "probe": {
+        "ok": false,
+        "status": 503,
+        "ms": 40,
+        "detail": "HTTP 503 in 40ms, expected 200",
+        "asserts": [
+         "status 200"
+        ]
+       },
+       "fails": 6,
+       "slows": null,
+       "cert": {
+        "ok": true,
+        "validToMs": 1799163000000
+       }
+      }
+     },
+     "pushed": []
+    }
+   ],
+   "events": [
+    {
+     "id": 14,
+     "at": "2026-11-02T06:36:00.000Z",
+     "kind": "resolved",
+     "alertKey": null,
+     "incidentKey": "Storefront|ProbeDown",
+     "detail": {
+      "level": "incident",
+      "service": "Storefront",
+      "rule": "ProbeDown",
+      "severity": "page",
+      "origin": "uptime",
+      "startsAt": "2026-11-02T06:32:00.000Z",
+      "resolvedAt": "2026-11-02T06:36:00.000Z",
+      "instances": 1
+     }
+    },
+    {
+     "id": 13,
+     "at": "2026-11-02T06:36:00.000Z",
+     "kind": "resolved",
+     "alertKey": "uptime:97e39495",
+     "incidentKey": "Storefront|ProbeDown",
+     "detail": {
+      "origin": "uptime"
+     }
+    },
+    {
+     "id": 12,
+     "at": "2026-11-02T06:34:00.000Z",
+     "kind": "ack",
+     "alertKey": null,
+     "incidentKey": "Storefront|ProbeDown",
+     "detail": {
+      "by": "Sam"
+     }
+    },
+    {
+     "id": 11,
+     "at": "2026-11-02T06:32:00.000Z",
+     "kind": "fired",
+     "alertKey": null,
+     "incidentKey": "Storefront|ProbeDown",
+     "detail": {
+      "level": "incident",
+      "service": "Storefront",
+      "rule": "ProbeDown",
+      "severity": "page",
+      "origin": "uptime",
+      "startsAt": "2026-11-02T06:32:00.000Z"
+     }
+    },
+    {
+     "id": 10,
+     "at": "2026-11-02T06:32:00.000Z",
+     "kind": "fired",
+     "alertKey": "uptime:97e39495",
+     "incidentKey": "Storefront|ProbeDown",
+     "detail": {
+      "origin": "uptime",
+      "severity": "page",
+      "source": "uptime"
+     }
+    }
+   ],
+   "resolved": {
+    "incidentKey": "Storefront|ProbeDown",
+    "service": "Storefront",
+    "rule": "ProbeDown",
+    "severity": "page",
+    "source": "uptime",
+    "startsAt": "2026-11-02T06:32:00.000Z",
+    "resolvedAt": "2026-11-02T06:36:00.000Z",
+    "durationSec": 240,
+    "instances": 1,
+    "ackedBy": "Sam",
+    "ackedAt": "2026-11-02T06:34:00.000Z"
+   },
+   "comments": [],
+   "notifications": [
+    {
+     "at": 1793601960000,
+     "route_id": "pages",
+     "channel_id": "team-chat",
+     "kind": "resolved",
+     "ok": 1,
+     "status": "200",
+     "latency_ms": 287
+    },
+    {
+     "at": 1793601960000,
+     "route_id": "pages",
+     "channel_id": "phones",
+     "kind": "resolved",
+     "ok": 1,
+     "status": "200",
+     "latency_ms": 314
+    },
+    {
+     "at": 1793601180000,
+     "route_id": "pages",
+     "channel_id": "team-chat",
+     "kind": "alert",
+     "ok": 1,
+     "status": "200",
+     "latency_ms": 466
+    },
+    {
+     "at": 1793601180000,
+     "route_id": "pages",
+     "channel_id": "phones",
+     "kind": "alert",
+     "ok": 1,
+     "status": "200",
+     "latency_ms": 184
+    }
+   ]
+  },
+  "Redis|ProbeDown": {
+   "incident": null,
+   "alerts": [
+    {
+     "key": "datastores:7be39f7d",
+     "origin": "datastores",
+     "fingerprint": "7be39f7d7f4ef3e4",
+     "rule": "ProbeDown",
+     "service": "Redis",
+     "host": "redis",
+     "severity": "page",
+     "severityLabel": "page",
+     "labels": {
+      "alertname": "ProbeDown",
+      "severity": "page",
+      "service": "Redis",
+      "instance": "redis",
+      "host": "cache.internal.acme.example",
+      "port": "6379"
+     },
+     "annotations": {
+      "summary": "redis is down: no connection: ECONNREFUSED",
+      "description": "Watch opens a TCP connection to cache.internal.acme.example:6379 every 60 s and closes it. It has failed 4 connects in a row; it pages after 3 and resolves on the first success.",
+      "page_reason": "redis is down: no connection: ECONNREFUSED"
+     },
+     "startsAt": "2026-11-01T01:32:00.000Z",
+     "endsAt": "2026-11-01T01:34:00.000Z",
+     "status": {
+      "state": "active",
+      "silencedBy": [],
+      "inhibitedBy": [],
+      "mutedBy": []
+     },
+     "value": "no connection: ECONNREFUSED",
+     "links": {},
+     "via": [
+      {
+       "source": "datastores",
+       "kind": "tcp-probe",
+       "lastSeen": "2026-11-01T01:33:00.000Z"
+      }
+     ],
+     "firstSeen": "2026-11-01T01:32:00.000Z",
+     "lastSeen": "2026-11-01T01:34:00.000Z",
+     "resolvedAt": "2026-11-01T01:34:00.000Z",
+     "raw": {
+      "datastores": {
+       "target": "redis",
+       "host": "cache.internal.acme.example",
+       "port": 6379,
+       "tls": false,
+       "probe": {
+        "ok": false,
+        "ms": 4,
+        "detail": "no connection: ECONNREFUSED",
+        "cert": null
+       },
+       "fails": 4,
+       "slows": null
+      }
+     },
+     "pushed": []
+    }
+   ],
+   "events": [
+    {
+     "id": 9,
+     "at": "2026-11-01T01:34:00.000Z",
+     "kind": "resolved",
+     "alertKey": null,
+     "incidentKey": "Redis|ProbeDown",
+     "detail": {
+      "level": "incident",
+      "service": "Redis",
+      "rule": "ProbeDown",
+      "severity": "page",
+      "origin": "datastores",
+      "startsAt": "2026-11-01T01:32:00.000Z",
+      "resolvedAt": "2026-11-01T01:34:00.000Z",
+      "instances": 1
+     }
+    },
+    {
+     "id": 8,
+     "at": "2026-11-01T01:34:00.000Z",
+     "kind": "resolved",
+     "alertKey": "datastores:7be39f7d",
+     "incidentKey": "Redis|ProbeDown",
+     "detail": {
+      "origin": "datastores"
+     }
+    },
+    {
+     "id": 7,
+     "at": "2026-11-01T01:33:00.000Z",
+     "kind": "ack",
+     "alertKey": null,
+     "incidentKey": "Redis|ProbeDown",
+     "detail": {
+      "by": "Priya"
+     }
+    },
+    {
+     "id": 6,
+     "at": "2026-11-01T01:32:00.000Z",
+     "kind": "fired",
+     "alertKey": null,
+     "incidentKey": "Redis|ProbeDown",
+     "detail": {
+      "level": "incident",
+      "service": "Redis",
+      "rule": "ProbeDown",
+      "severity": "page",
+      "origin": "datastores",
+      "startsAt": "2026-11-01T01:32:00.000Z"
+     }
+    },
+    {
+     "id": 5,
+     "at": "2026-11-01T01:32:00.000Z",
+     "kind": "fired",
+     "alertKey": "datastores:7be39f7d",
+     "incidentKey": "Redis|ProbeDown",
+     "detail": {
+      "origin": "datastores",
+      "severity": "page",
+      "source": "datastores"
+     }
+    }
+   ],
+   "resolved": {
+    "incidentKey": "Redis|ProbeDown",
+    "service": "Redis",
+    "rule": "ProbeDown",
+    "severity": "page",
+    "source": "datastores",
+    "startsAt": "2026-11-01T01:32:00.000Z",
+    "resolvedAt": "2026-11-01T01:34:00.000Z",
+    "durationSec": 120,
+    "instances": 1,
+    "ackedBy": "Priya",
+    "ackedAt": "2026-11-01T01:33:00.000Z"
+   },
+   "comments": [],
+   "notifications": []
+  },
+  "Search|ProbeSlow": {
+   "incident": null,
+   "alerts": [
+    {
+     "key": "uptime:8f1d3059",
+     "origin": "uptime",
+     "fingerprint": "8f1d3059ab9d4fcf",
+     "rule": "ProbeSlow",
+     "service": "Search",
+     "host": "search-api",
+     "severity": "warning",
+     "severityLabel": "warning",
+     "labels": {
+      "alertname": "ProbeSlow",
+      "severity": "warning",
+      "service": "Search",
+      "instance": "search-api",
+      "url": "https://search.acme.example/healthz"
+     },
+     "annotations": {
+      "summary": "search-api is slow: 2071ms, over 1200ms on 14 polls in a row",
+      "description": "Watch times the whole answer of GET https://search.acme.example/healthz. Over 1200ms on 3 polls in a row is this warning; one poll under it resolves it."
+     },
+     "startsAt": "2026-10-29T18:32:00.000Z",
+     "endsAt": "2026-10-29T18:44:00.000Z",
+     "generatorURL": "https://search.acme.example/healthz",
+     "status": {
+      "state": "active",
+      "silencedBy": [],
+      "inhibitedBy": [],
+      "mutedBy": []
+     },
+     "value": "1767ms, over 1200ms",
+     "links": {
+      "generator": "https://search.acme.example/healthz"
+     },
+     "via": [
+      {
+       "source": "uptime",
+       "kind": "http-probe",
+       "lastSeen": "2026-10-29T18:43:00.000Z",
+       "url": "https://search.acme.example/healthz"
+      }
+     ],
+     "firstSeen": "2026-10-29T18:32:00.000Z",
+     "lastSeen": "2026-10-29T18:44:00.000Z",
+     "resolvedAt": "2026-10-29T18:44:00.000Z",
+     "raw": {
+      "uptime": {
+       "target": "search-api",
+       "url": "https://search.acme.example/healthz",
+       "probe": {
+        "ok": true,
+        "status": 200,
+        "ms": 2071,
+        "detail": "HTTP 200 in 2071ms",
+        "asserts": [
+         "status 200",
+         "body.ok = true",
+         "body.index.ready = true"
+        ]
+       },
+       "fails": 0,
+       "slows": 14,
+       "cert": {
+        "ok": true,
+        "validToMs": 1800199800000
+       }
+      }
+     },
+     "pushed": []
+    }
+   ],
+   "events": [
+    {
+     "id": 4,
+     "at": "2026-10-29T18:44:00.000Z",
+     "kind": "resolved",
+     "alertKey": null,
+     "incidentKey": "Search|ProbeSlow",
+     "detail": {
+      "level": "incident",
+      "service": "Search",
+      "rule": "ProbeSlow",
+      "severity": "warning",
+      "origin": "uptime",
+      "startsAt": "2026-10-29T18:32:00.000Z",
+      "resolvedAt": "2026-10-29T18:44:00.000Z",
+      "instances": 1
+     }
+    },
+    {
+     "id": 3,
+     "at": "2026-10-29T18:44:00.000Z",
+     "kind": "resolved",
+     "alertKey": "uptime:8f1d3059",
+     "incidentKey": "Search|ProbeSlow",
+     "detail": {
+      "origin": "uptime"
+     }
+    },
+    {
+     "id": 2,
+     "at": "2026-10-29T18:32:00.000Z",
+     "kind": "fired",
+     "alertKey": null,
+     "incidentKey": "Search|ProbeSlow",
+     "detail": {
+      "level": "incident",
+      "service": "Search",
+      "rule": "ProbeSlow",
+      "severity": "warning",
+      "origin": "uptime",
+      "startsAt": "2026-10-29T18:32:00.000Z"
+     }
+    },
+    {
+     "id": 1,
+     "at": "2026-10-29T18:32:00.000Z",
+     "kind": "fired",
+     "alertKey": "uptime:8f1d3059",
+     "incidentKey": "Search|ProbeSlow",
+     "detail": {
+      "origin": "uptime",
+      "severity": "warning",
+      "source": "uptime"
+     }
+    }
+   ],
+   "resolved": {
+    "incidentKey": "Search|ProbeSlow",
+    "service": "Search",
+    "rule": "ProbeSlow",
+    "severity": "warning",
+    "source": "uptime",
+    "startsAt": "2026-10-29T18:32:00.000Z",
+    "resolvedAt": "2026-10-29T18:44:00.000Z",
+    "durationSec": 720,
+    "instances": 1
+   },
+   "comments": [],
+   "notifications": [
+    {
+     "at": 1793300040000,
+     "route_id": "warnings",
+     "channel_id": "team-email",
+     "kind": "resolved",
+     "ok": 1,
+     "status": "200",
+     "latency_ms": 515
+    },
+    {
+     "at": 1793300040000,
+     "route_id": "warnings",
+     "channel_id": "team-chat",
+     "kind": "resolved",
+     "ok": 1,
+     "status": "200",
+     "latency_ms": 405
+    },
+    {
+     "at": 1793298840000,
+     "route_id": "warnings",
+     "channel_id": "team-email",
+     "kind": "alert",
+     "ok": 1,
+     "status": "200",
+     "latency_ms": 782
+    },
+    {
+     "at": 1793298840000,
+     "route_id": "warnings",
+     "channel_id": "team-chat",
+     "kind": "alert",
+     "ok": 1,
+     "status": "200",
+     "latency_ms": 314
+    }
+   ]
+  }
+ },
+ "history": [
+  {
+   "incidentKey": "Checkout API|ProbeSlow",
+   "service": "Checkout API",
+   "rule": "ProbeSlow",
+   "severity": "warning",
+   "source": "uptime",
+   "startsAt": "2026-11-05T09:32:00.000Z",
+   "resolvedAt": "2026-11-05T09:39:00.000Z",
+   "durationSec": 420,
+   "instances": 1
+  },
+  {
+   "incidentKey": "Payments|StripeWebhookStale",
+   "service": "Payments",
+   "rule": "StripeWebhookStale",
+   "severity": "warning",
+   "source": "payments",
+   "startsAt": "2026-11-04T19:30:00.000Z",
+   "resolvedAt": "2026-11-04T19:43:00.000Z",
+   "durationSec": 780,
+   "instances": 1
+  },
+  {
+   "incidentKey": "Accounts API|ProbeDown",
+   "service": "Accounts API",
+   "rule": "ProbeDown",
+   "severity": "page",
+   "source": "uptime",
+   "startsAt": "2026-11-03T20:32:00.000Z",
+   "resolvedAt": "2026-11-03T20:37:00.000Z",
+   "durationSec": 300,
+   "instances": 1,
+   "ackedBy": "Sam",
+   "ackedAt": "2026-11-03T20:34:00.000Z"
+  },
+  {
+   "incidentKey": "Billing jobs|HeartbeatDown",
+   "service": "Billing jobs",
+   "rule": "HeartbeatDown",
+   "severity": "warning",
+   "source": "usage-rollup",
+   "startsAt": "2026-11-02T13:42:00.000Z",
+   "resolvedAt": "2026-11-02T14:30:00.000Z",
+   "durationSec": 2880,
+   "instances": 1
+  },
+  {
+   "incidentKey": "Storefront|ProbeDown",
+   "service": "Storefront",
+   "rule": "ProbeDown",
+   "severity": "page",
+   "source": "uptime",
+   "startsAt": "2026-11-02T06:32:00.000Z",
+   "resolvedAt": "2026-11-02T06:36:00.000Z",
+   "durationSec": 240,
+   "instances": 1,
+   "ackedBy": "Sam",
+   "ackedAt": "2026-11-02T06:34:00.000Z"
+  },
+  {
+   "incidentKey": "Redis|ProbeDown",
+   "service": "Redis",
+   "rule": "ProbeDown",
+   "severity": "page",
+   "source": "datastores",
+   "startsAt": "2026-11-01T01:32:00.000Z",
+   "resolvedAt": "2026-11-01T01:34:00.000Z",
+   "durationSec": 120,
+   "instances": 1,
+   "ackedBy": "Priya",
+   "ackedAt": "2026-11-01T01:33:00.000Z"
+  },
+  {
+   "incidentKey": "Search|ProbeSlow",
+   "service": "Search",
+   "rule": "ProbeSlow",
+   "severity": "warning",
+   "source": "uptime",
+   "startsAt": "2026-10-29T18:32:00.000Z",
+   "resolvedAt": "2026-10-29T18:44:00.000Z",
+   "durationSec": 720,
+   "instances": 1
+  }
+ ],
+ "notifications": {
+  "channels": [
+   {
+    "id": "phones",
+    "type": "ntfy",
+    "enabled": true,
+    "lastTestAt": "2026-11-03T17:36:00.000Z",
+    "lastTestOk": true,
+    "lastTest": "passed"
+   },
+   {
+    "id": "team-chat",
+    "type": "webhook",
+    "enabled": true,
+    "lastTestAt": "2026-11-03T17:36:00.000Z",
+    "lastTestOk": true,
+    "lastTest": "passed"
+   },
+   {
+    "id": "oncall-sms",
+    "type": "sms",
+    "enabled": true,
+    "lastTestAt": "2026-11-03T17:36:00.000Z",
+    "lastTestOk": true,
+    "lastTest": "passed"
+   },
+   {
+    "id": "team-email",
+    "type": "email",
+    "enabled": true,
+    "lastTestAt": "2026-11-03T17:36:00.000Z",
+    "lastTestOk": true,
+    "lastTest": "passed"
+   }
+  ],
+  "routes": [
+   {
+    "id": "pages",
+    "match": {
+     "severity": [
+      "page"
+     ]
+    },
+    "receivers": [
+     "phones",
+     "team-chat"
+    ],
+    "mode": "all",
+    "groupWaitSec": 30,
+    "groupIntervalSec": 300,
+    "repeatIntervalSec": 3600,
+    "escalate": [
+     {
+      "afterSec": 900,
+      "receivers": [
+       "oncall-sms"
+      ]
+     }
+    ],
+    "sendResolved": true
+   },
+   {
+    "id": "warnings",
+    "match": {
+     "severity": [
+      "warning"
+     ]
+    },
+    "receivers": [
+     "team-chat"
+    ],
+    "record": [
+     "team-email"
+    ],
+    "mode": "all",
+    "groupWaitSec": 120,
+    "groupIntervalSec": 900,
+    "repeatIntervalSec": 14400,
+    "muteInQuietHours": true,
+    "sendResolved": true
+   }
+  ],
+  "quietHours": {
+   "tz": "America/Chicago",
+   "start": "22:00",
+   "end": "07:00"
+  },
+  "results": [
+   {
+    "at": 1793892240000,
+    "incident_key": "Checkout API|ProbeDown",
+    "route_id": "pages",
+    "channel_id": "oncall-sms",
+    "kind": "escalation",
+    "ok": 1,
+    "status": "200",
+    "latency_ms": 717
+   },
+   {
+    "at": 1793891400000,
+    "incident_key": "Checkout API|ProbeDown",
+    "route_id": "pages",
+    "channel_id": "team-chat",
+    "kind": "alert",
+    "ok": 1,
+    "status": "200",
+    "latency_ms": 308
+   },
+   {
+    "at": 1793891400000,
+    "incident_key": "Checkout API|ProbeDown",
+    "route_id": "pages",
+    "channel_id": "phones",
+    "kind": "alert",
+    "ok": 1,
+    "status": "200",
+    "latency_ms": 230
+   },
+   {
+    "at": 1793890380000,
+    "incident_key": "Billing jobs|HeartbeatDown",
+    "route_id": "warnings",
+    "channel_id": "team-email",
+    "kind": "alert",
+    "ok": 1,
+    "status": "200",
+    "latency_ms": 784
+   },
+   {
+    "at": 1793890380000,
+    "incident_key": "Billing jobs|HeartbeatDown",
+    "route_id": "warnings",
+    "channel_id": "team-chat",
+    "kind": "alert",
+    "ok": 1,
+    "status": "200",
+    "latency_ms": 241
+   },
+   {
+    "at": 1793884920000,
+    "incident_key": "Worker hosts|HostDiskFree",
+    "route_id": "warnings",
+    "channel_id": "team-email",
+    "kind": "alert",
+    "ok": 1,
+    "status": "200",
+    "latency_ms": 592
+   },
+   {
+    "at": 1793884920000,
+    "incident_key": "Worker hosts|HostDiskFree",
+    "route_id": "warnings",
+    "channel_id": "team-chat",
+    "kind": "alert",
+    "ok": 1,
+    "status": "200",
+    "latency_ms": 357
+   },
+   {
+    "at": 1793883600000,
+    "incident_key": "digest:warnings",
+    "route_id": "warnings",
+    "channel_id": "team-email",
+    "kind": "digest",
+    "ok": 1,
+    "status": "200",
+    "latency_ms": 729
+   },
+   {
+    "at": 1793883600000,
+    "incident_key": "digest:warnings",
+    "route_id": "warnings",
+    "channel_id": "team-chat",
+    "kind": "digest",
+    "ok": 1,
+    "status": "200",
+    "latency_ms": 432
+   },
+   {
+    "at": 1793821980000,
+    "incident_key": "Payments|StripeWebhookStale",
+    "route_id": "warnings",
+    "channel_id": "team-email",
+    "kind": "resolved",
+    "ok": 1,
+    "status": "200",
+    "latency_ms": 536
+   },
+   {
+    "at": 1793821980000,
+    "incident_key": "Payments|StripeWebhookStale",
+    "route_id": "warnings",
+    "channel_id": "team-chat",
+    "kind": "resolved",
+    "ok": 1,
+    "status": "200",
+    "latency_ms": 390
+   },
+   {
+    "at": 1793820900000,
+    "incident_key": "Payments|StripeWebhookStale",
+    "route_id": "warnings",
+    "channel_id": "team-email",
+    "kind": "alert",
+    "ok": 1,
+    "status": "200",
+    "latency_ms": 623
+   },
+   {
+    "at": 1793820900000,
+    "incident_key": "Payments|StripeWebhookStale",
+    "route_id": "warnings",
+    "channel_id": "team-chat",
+    "kind": "alert",
+    "ok": 1,
+    "status": "200",
+    "latency_ms": 445
+   },
+   {
+    "at": 1793738820000,
+    "incident_key": "Accounts API|ProbeDown",
+    "route_id": "pages",
+    "channel_id": "team-chat",
+    "kind": "resolved",
+    "ok": 1,
+    "status": "200",
+    "latency_ms": 413
+   },
+   {
+    "at": 1793738820000,
+    "incident_key": "Accounts API|ProbeDown",
+    "route_id": "pages",
+    "channel_id": "phones",
+    "kind": "resolved",
+    "ok": 1,
+    "status": "200",
+    "latency_ms": 217
+   },
+   {
+    "at": 1793737980000,
+    "incident_key": "Accounts API|ProbeDown",
+    "route_id": "pages",
+    "channel_id": "team-chat",
+    "kind": "alert",
+    "ok": 1,
+    "status": "200",
+    "latency_ms": 469
+   },
+   {
+    "at": 1793737980000,
+    "incident_key": "Accounts API|ProbeDown",
+    "route_id": "pages",
+    "channel_id": "phones",
+    "kind": "alert",
+    "ok": 1,
+    "status": "200",
+    "latency_ms": 220
+   },
+   {
+    "at": 1793727360000,
+    "incident_key": "-",
+    "route_id": "-",
+    "channel_id": "team-email",
+    "kind": "test",
+    "ok": 1,
+    "status": "200",
+    "latency_ms": 604
+   },
+   {
+    "at": 1793727360000,
+    "incident_key": "-",
+    "route_id": "-",
+    "channel_id": "oncall-sms",
+    "kind": "test",
+    "ok": 1,
+    "status": "200",
+    "latency_ms": 1094
+   },
+   {
+    "at": 1793727360000,
+    "incident_key": "-",
+    "route_id": "-",
+    "channel_id": "team-chat",
+    "kind": "test",
+    "ok": 1,
+    "status": "200",
+    "latency_ms": 401
+   },
+   {
+    "at": 1793727360000,
+    "incident_key": "-",
+    "route_id": "-",
+    "channel_id": "phones",
+    "kind": "test",
+    "ok": 1,
+    "status": "200",
+    "latency_ms": 312
+   },
+   {
+    "at": 1793630400000,
+    "incident_key": "Billing jobs|HeartbeatDown",
+    "route_id": "warnings",
+    "channel_id": "team-email",
+    "kind": "resolved",
+    "ok": 1,
+    "status": "200",
+    "latency_ms": 710
+   },
+   {
+    "at": 1793630400000,
+    "incident_key": "Billing jobs|HeartbeatDown",
+    "route_id": "warnings",
+    "channel_id": "team-chat",
+    "kind": "resolved",
+    "ok": 1,
+    "status": "200",
+    "latency_ms": 477
+   },
+   {
+    "at": 1793627700000,
+    "incident_key": "Billing jobs|HeartbeatDown",
+    "route_id": "warnings",
+    "channel_id": "team-email",
+    "kind": "alert",
+    "ok": 1,
+    "status": "200",
+    "latency_ms": 704
+   },
+   {
+    "at": 1793627700000,
+    "incident_key": "Billing jobs|HeartbeatDown",
+    "route_id": "warnings",
+    "channel_id": "team-chat",
+    "kind": "alert",
+    "ok": 1,
+    "status": "200",
+    "latency_ms": 440
+   },
+   {
+    "at": 1793601960000,
+    "incident_key": "Storefront|ProbeDown",
+    "route_id": "pages",
+    "channel_id": "team-chat",
+    "kind": "resolved",
+    "ok": 1,
+    "status": "200",
+    "latency_ms": 287
+   },
+   {
+    "at": 1793601960000,
+    "incident_key": "Storefront|ProbeDown",
+    "route_id": "pages",
+    "channel_id": "phones",
+    "kind": "resolved",
+    "ok": 1,
+    "status": "200",
+    "latency_ms": 314
+   },
+   {
+    "at": 1793601180000,
+    "incident_key": "Storefront|ProbeDown",
+    "route_id": "pages",
+    "channel_id": "team-chat",
+    "kind": "alert",
+    "ok": 1,
+    "status": "200",
+    "latency_ms": 466
+   },
+   {
+    "at": 1793601180000,
+    "incident_key": "Storefront|ProbeDown",
+    "route_id": "pages",
+    "channel_id": "phones",
+    "kind": "alert",
+    "ok": 1,
+    "status": "200",
+    "latency_ms": 184
+   },
+   {
+    "at": 1793300040000,
+    "incident_key": "Search|ProbeSlow",
+    "route_id": "warnings",
+    "channel_id": "team-email",
+    "kind": "resolved",
+    "ok": 1,
+    "status": "200",
+    "latency_ms": 515
+   },
+   {
+    "at": 1793300040000,
+    "incident_key": "Search|ProbeSlow",
+    "route_id": "warnings",
+    "channel_id": "team-chat",
+    "kind": "resolved",
+    "ok": 1,
+    "status": "200",
+    "latency_ms": 405
+   },
+   {
+    "at": 1793298840000,
+    "incident_key": "Search|ProbeSlow",
+    "route_id": "warnings",
+    "channel_id": "team-email",
+    "kind": "alert",
+    "ok": 1,
+    "status": "200",
+    "latency_ms": 782
+   },
+   {
+    "at": 1793298840000,
+    "incident_key": "Search|ProbeSlow",
+    "route_id": "warnings",
+    "channel_id": "team-chat",
+    "kind": "alert",
+    "ok": 1,
+    "status": "200",
+    "latency_ms": 314
+   }
+  ],
+  "push": {
+   "publicKey": null,
+   "subscribers": 0
+  }
+ },
+ "rechecks": {
+  "wall": {
+   "at": "2026-11-05T15:30:12.000Z",
+   "sources": [
+    {
+     "id": "uptime",
+     "kind": "http-probe",
+     "ok": true,
+     "error": null,
+     "checkedAt": "2026-11-05T15:30:12.000Z",
+     "ran": true,
+     "shared": false,
+     "throttled": false
+    },
+    {
+     "id": "datastores",
+     "kind": "tcp-probe",
+     "ok": true,
+     "error": null,
+     "checkedAt": "2026-11-05T15:30:12.000Z",
+     "ran": true,
+     "shared": false,
+     "throttled": false
+    },
+    {
+     "id": "usage-rollup",
+     "kind": "heartbeat",
+     "ok": true,
+     "error": null,
+     "checkedAt": "2026-11-05T15:30:12.000Z",
+     "ran": true,
+     "shared": false,
+     "throttled": false
+    },
+    {
+     "id": "invoice-run",
+     "kind": "heartbeat",
+     "ok": true,
+     "error": null,
+     "checkedAt": "2026-11-05T15:30:12.000Z",
+     "ran": true,
+     "shared": false,
+     "throttled": false
+    },
+    {
+     "id": "db-backup",
+     "kind": "heartbeat",
+     "ok": true,
+     "error": null,
+     "checkedAt": "2026-11-05T15:30:12.000Z",
+     "ran": true,
+     "shared": false,
+     "throttled": false
+    },
+    {
+     "id": "worker-02",
+     "kind": "host",
+     "ok": true,
+     "error": null,
+     "checkedAt": "2026-11-05T15:30:12.000Z",
+     "ran": true,
+     "shared": false,
+     "throttled": false
+    },
+    {
+     "id": "domains",
+     "kind": "domain-expiry",
+     "ok": true,
+     "error": null,
+     "checkedAt": "2026-11-05T15:30:12.000Z",
+     "ran": true,
+     "shared": false,
+     "throttled": false
+    }
+   ],
+   "cleared": 0,
+   "stillFiring": 3,
+   "pushed": [
+    "payments"
+   ],
+   "requestable": []
+  },
+  "alerts": {
+   "usage-rollup:32c2ccf9": {
+    "key": "usage-rollup:32c2ccf9",
+    "at": "2026-11-05T15:30:24.000Z",
+    "before": "firing",
+    "after": "firing",
+    "startsAt": "2026-11-05T14:40:00.000Z",
+    "resolvedAt": null,
+    "sources": [
+     {
+      "id": "usage-rollup",
+      "kind": "heartbeat",
+      "ok": true,
+      "error": null,
+      "checkedAt": "2026-11-05T15:30:24.000Z",
+      "ran": true,
+      "shared": false,
+      "throttled": false
+     }
+    ],
+    "pushed": [],
+    "clearsOnSweep": false,
+    "rule": "HeartbeatDown"
+   },
+   "uptime:5031202c": {
+    "key": "uptime:5031202c",
+    "at": "2026-11-05T15:30:36.000Z",
+    "before": "firing",
+    "after": "firing",
+    "startsAt": "2026-11-05T15:09:00.000Z",
+    "resolvedAt": null,
+    "sources": [
+     {
+      "id": "uptime",
+      "kind": "http-probe",
+      "ok": true,
+      "error": null,
+      "checkedAt": "2026-11-05T15:30:36.000Z",
+      "ran": true,
+      "shared": false,
+      "throttled": false
+     }
+    ],
+    "pushed": [],
+    "clearsOnSweep": false,
+    "rule": "ProbeDown"
+   },
+   "payments:69330c2c": {
+    "key": "payments:69330c2c",
+    "at": "2026-11-05T15:30:48.000Z",
+    "before": "firing",
+    "after": "firing",
+    "startsAt": "2026-11-05T12:30:00.000Z",
+    "resolvedAt": null,
+    "sources": [],
+    "pushed": [
+     {
+      "source": "payments",
+      "sender": "payments",
+      "lastReportedAt": "2026-11-05T15:30:00.000Z",
+      "atLeastEverySec": 900,
+      "clearsAfterSec": 21600,
+      "nextReportAt": null,
+      "clearsAt": "2026-11-05T21:30:00.000Z",
+      "request": null
+     }
+    ],
+    "clearsOnSweep": false,
+    "rule": "StripeWebhookStale"
+   },
+   "worker-02:68d0d105": {
+    "key": "worker-02:68d0d105",
+    "at": "2026-11-05T15:31:00.000Z",
+    "before": "firing",
+    "after": "firing",
+    "startsAt": "2026-11-05T13:20:00.000Z",
+    "resolvedAt": null,
+    "sources": [
+     {
+      "id": "worker-02",
+      "kind": "host",
+      "ok": true,
+      "error": null,
+      "checkedAt": "2026-11-05T15:31:00.000Z",
+      "ran": true,
+      "shared": false,
+      "throttled": false
+     }
+    ],
+    "pushed": [],
+    "clearsOnSweep": false,
+    "rule": "HostDiskFree"
+   }
+  },
+  "incidents": {
+   "Billing jobs|HeartbeatDown": {
+    "key": "Billing jobs|HeartbeatDown",
+    "at": "2026-11-05T15:31:12.000Z",
+    "alerts": [
+     {
+      "key": "usage-rollup:32c2ccf9",
+      "at": "2026-11-05T15:31:12.000Z",
+      "before": "firing",
+      "after": "firing",
+      "startsAt": "2026-11-05T14:40:00.000Z",
+      "resolvedAt": null,
+      "sources": [
+       {
+        "id": "usage-rollup",
+        "kind": "heartbeat",
+        "ok": true,
+        "error": null,
+        "checkedAt": "2026-11-05T15:31:12.000Z",
+        "ran": true,
+        "shared": false,
+        "throttled": false
+       }
+      ],
+      "pushed": [],
+      "clearsOnSweep": false,
+      "rule": "HeartbeatDown"
+     }
+    ],
+    "resolved": false,
+    "stillFiring": 1
+   },
+   "Checkout API|ProbeDown": {
+    "key": "Checkout API|ProbeDown",
+    "at": "2026-11-05T15:32:06.000Z",
+    "alerts": [
+     {
+      "key": "uptime:5031202c",
+      "at": "2026-11-05T15:32:06.000Z",
+      "before": "firing",
+      "after": "firing",
+      "startsAt": "2026-11-05T15:09:00.000Z",
+      "resolvedAt": null,
+      "sources": [
+       {
+        "id": "uptime",
+        "kind": "http-probe",
+        "ok": true,
+        "error": null,
+        "checkedAt": "2026-11-05T15:32:06.000Z",
+        "ran": true,
+        "shared": false,
+        "throttled": false
+       }
+      ],
+      "pushed": [],
+      "clearsOnSweep": false,
+      "rule": "ProbeDown"
+     }
+    ],
+    "resolved": false,
+    "stillFiring": 1
+   },
+   "Payments|StripeWebhookStale": {
+    "key": "Payments|StripeWebhookStale",
+    "at": "2026-11-05T15:33:00.000Z",
+    "alerts": [
+     {
+      "key": "payments:69330c2c",
+      "at": "2026-11-05T15:33:00.000Z",
+      "before": "firing",
+      "after": "firing",
+      "startsAt": "2026-11-05T12:30:00.000Z",
+      "resolvedAt": null,
+      "sources": [],
+      "pushed": [
+       {
+        "source": "payments",
+        "sender": "payments",
+        "lastReportedAt": "2026-11-05T15:30:00.000Z",
+        "atLeastEverySec": 900,
+        "clearsAfterSec": 21600,
+        "nextReportAt": null,
+        "clearsAt": "2026-11-05T21:30:00.000Z",
+        "request": null
+       }
+      ],
+      "clearsOnSweep": false,
+      "rule": "StripeWebhookStale"
+     }
+    ],
+    "resolved": false,
+    "stillFiring": 1
+   },
+   "Worker hosts|HostDiskFree": {
+    "key": "Worker hosts|HostDiskFree",
+    "at": "2026-11-05T15:33:54.000Z",
+    "alerts": [
+     {
+      "key": "worker-02:68d0d105",
+      "at": "2026-11-05T15:33:54.000Z",
+      "before": "firing",
+      "after": "firing",
+      "startsAt": "2026-11-05T13:20:00.000Z",
+      "resolvedAt": null,
+      "sources": [
+       {
+        "id": "worker-02",
+        "kind": "host",
+        "ok": true,
+        "error": null,
+        "checkedAt": "2026-11-05T15:33:54.000Z",
+        "ran": true,
+        "shared": false,
+        "throttled": false
+       }
+      ],
+      "pushed": [],
+      "clearsOnSweep": false,
+      "rule": "HostDiskFree"
+     }
+    ],
+    "resolved": false,
+    "stillFiring": 1
+   }
+  },
+  "verify": {
+   "Billing jobs|HeartbeatDown": {
+    "key": "Billing jobs|HeartbeatDown",
+    "resolved": false,
+    "timedOut": true,
+    "at": "2026-11-05T15:31:54.000Z",
+    "rounds": 3,
+    "observation": {
+     "at": "2026-11-05T15:31:54.000Z",
+     "key": "Billing jobs|HeartbeatDown",
+     "state": "firing",
+     "alerts": [
+      {
+       "key": "usage-rollup:32c2ccf9",
+       "rule": "HeartbeatDown",
+       "state": "firing",
+       "startsAt": "2026-11-05T14:40:00.000Z",
+       "resolvedAt": null,
+       "lastSeen": "2026-11-05T15:31:45.000Z"
+      }
+     ],
+     "rechecks": [
+      {
+       "key": "usage-rollup:32c2ccf9",
+       "at": "2026-11-05T15:31:45.000Z",
+       "before": "firing",
+       "after": "firing",
+       "sources": [
+        {
+         "id": "usage-rollup",
+         "kind": "heartbeat",
+         "ok": true,
+         "error": null,
+         "checkedAt": "2026-11-05T15:31:45.000Z",
+         "ran": true,
+         "shared": false,
+         "throttled": false
+        }
+       ],
+       "pushed": []
+      }
+     ]
+    },
+    "asserts": [
+     {
+      "alert": "usage-rollup:32c2ccf9",
+      "rule": "HeartbeatDown",
+      "source": "usage-rollup",
+      "cell": "usage-rollup",
+      "state": "firing",
+      "asserts": [
+       "heartbeat:on-time"
+      ],
+      "failed": [],
+      "failureDetail": "the run due at 2026-11-05T14:40:00.000Z is 52m overdue (grace 10m)"
+     }
+    ],
+    "confirmation": null,
+    "confirmationError": null,
+    "next": [
+     "The source still reports 1 alert firing after 3 re-check rounds (waited 30 s). Read get_fix_context: the failing assertion is the one to fix, and a fix that is live but not yet visible can be parked as awaiting_source."
+    ]
+   },
+   "Checkout API|ProbeDown": {
+    "key": "Checkout API|ProbeDown",
+    "resolved": false,
+    "timedOut": true,
+    "at": "2026-11-05T15:32:48.000Z",
+    "rounds": 3,
+    "observation": {
+     "at": "2026-11-05T15:32:48.000Z",
+     "key": "Checkout API|ProbeDown",
+     "state": "firing",
+     "alerts": [
+      {
+       "key": "uptime:5031202c",
+       "rule": "ProbeDown",
+       "state": "firing",
+       "startsAt": "2026-11-05T15:09:00.000Z",
+       "resolvedAt": null,
+       "lastSeen": "2026-11-05T15:32:39.000Z"
+      }
+     ],
+     "rechecks": [
+      {
+       "key": "uptime:5031202c",
+       "at": "2026-11-05T15:32:39.000Z",
+       "before": "firing",
+       "after": "firing",
+       "sources": [
+        {
+         "id": "uptime",
+         "kind": "http-probe",
+         "ok": true,
+         "error": null,
+         "checkedAt": "2026-11-05T15:32:39.000Z",
+         "ran": true,
+         "shared": false,
+         "throttled": false
+        }
+       ],
+       "pushed": []
+      }
+     ]
+    },
+    "asserts": [
+     {
+      "alert": "uptime:5031202c",
+      "rule": "ProbeDown",
+      "source": "uptime",
+      "cell": "checkout-api",
+      "state": "firing",
+      "asserts": [
+       "status 200",
+       "body.ok = true",
+       "body.db.ok = true"
+      ],
+      "failed": [
+       "status 200"
+      ],
+      "failureDetail": "HTTP 503 in 2941ms, expected 200 (31 failed polls in a row)"
+     }
+    ],
+    "confirmation": null,
+    "confirmationError": null,
+    "next": [
+     "The source still reports 1 alert firing after 3 re-check rounds (waited 30 s). Read get_fix_context: the failing assertion is the one to fix, and a fix that is live but not yet visible can be parked as awaiting_source."
+    ]
+   },
+   "Payments|StripeWebhookStale": {
+    "key": "Payments|StripeWebhookStale",
+    "resolved": false,
+    "timedOut": true,
+    "at": "2026-11-05T15:33:42.000Z",
+    "rounds": 3,
+    "observation": {
+     "at": "2026-11-05T15:33:42.000Z",
+     "key": "Payments|StripeWebhookStale",
+     "state": "firing",
+     "alerts": [
+      {
+       "key": "payments:69330c2c",
+       "rule": "StripeWebhookStale",
+       "state": "firing",
+       "startsAt": "2026-11-05T12:30:00.000Z",
+       "resolvedAt": null,
+       "lastSeen": "2026-11-05T15:30:00.000Z"
+      }
+     ],
+     "rechecks": [
+      {
+       "key": "payments:69330c2c",
+       "at": "2026-11-05T15:33:33.000Z",
+       "before": "firing",
+       "after": "firing",
+       "sources": [],
+       "pushed": [
+        {
+         "source": "payments",
+         "sender": "payments",
+         "lastReportedAt": "2026-11-05T15:30:00.000Z",
+         "atLeastEverySec": 900,
+         "clearsAfterSec": 21600,
+         "nextReportAt": null,
+         "clearsAt": "2026-11-05T21:30:00.000Z",
+         "request": null
+        }
+       ]
+      }
+     ]
+    },
+    "asserts": [
+     {
+      "alert": "payments:69330c2c",
+      "rule": "StripeWebhookStale",
+      "source": "payments",
+      "cell": "stripe-events",
+      "state": "firing",
+      "asserts": [],
+      "failed": [],
+      "failureDetail": "Last event accepted before the secret rotation"
+     }
+    ],
+    "confirmation": null,
+    "confirmationError": null,
+    "next": [
+     "The source still reports 1 alert firing after 3 re-check rounds (waited 30 s). Read get_fix_context: the failing assertion is the one to fix, and a fix that is live but not yet visible can be parked as awaiting_source."
+    ]
+   },
+   "Worker hosts|HostDiskFree": {
+    "key": "Worker hosts|HostDiskFree",
+    "resolved": false,
+    "timedOut": true,
+    "at": "2026-11-05T15:34:36.000Z",
+    "rounds": 3,
+    "observation": {
+     "at": "2026-11-05T15:34:36.000Z",
+     "key": "Worker hosts|HostDiskFree",
+     "state": "firing",
+     "alerts": [
+      {
+       "key": "worker-02:68d0d105",
+       "rule": "HostDiskFree",
+       "state": "firing",
+       "startsAt": "2026-11-05T13:20:00.000Z",
+       "resolvedAt": null,
+       "lastSeen": "2026-11-05T15:34:27.000Z"
+      }
+     ],
+     "rechecks": [
+      {
+       "key": "worker-02:68d0d105",
+       "at": "2026-11-05T15:34:27.000Z",
+       "before": "firing",
+       "after": "firing",
+       "sources": [
+        {
+         "id": "worker-02",
+         "kind": "host",
+         "ok": true,
+         "error": null,
+         "checkedAt": "2026-11-05T15:34:27.000Z",
+         "ran": true,
+         "shared": false,
+         "throttled": false
+        }
+       ],
+       "pushed": []
+      }
+     ]
+    },
+    "asserts": [
+     {
+      "alert": "worker-02:68d0d105",
+      "rule": "HostDiskFree",
+      "source": "worker-02",
+      "cell": "/var/lib/queue",
+      "state": "firing",
+      "asserts": [
+       "disk:/var/lib/queue free>5%"
+      ],
+      "failed": [],
+      "failureDetail": "8.1% free (32.4 GB of 400.0 GB), under 10%"
+     }
+    ],
+    "confirmation": null,
+    "confirmationError": null,
+    "next": [
+     "The source still reports 1 alert firing after 3 re-check rounds (waited 30 s). Read get_fix_context: the failing assertion is the one to fix, and a fix that is live but not yet visible can be parked as awaiting_source."
+    ]
+   }
+  }
+ },
+ "tests": {
+  "phones": {
+   "ok": true,
+   "status": "200",
+   "latencyMs": 312
+  },
+  "team-chat": {
+   "ok": true,
+   "status": "200",
+   "latencyMs": 401
+  },
+  "oncall-sms": {
+   "ok": true,
+   "status": "200",
+   "latencyMs": 1094
+  },
+  "team-email": {
+   "ok": true,
+   "status": "200",
+   "latencyMs": 604
+  }
+ },
+ "agent": {
+  "fixContext": {
+   "Billing jobs|HeartbeatDown": {
+    "key": "Billing jobs|HeartbeatDown",
+    "title": "HeartbeatDown",
+    "summary": "usage-rollup missed a scheduled run",
+    "service": "Billing jobs",
+    "rule": "HeartbeatDown",
+    "severity": "warning",
+    "state": {
+     "firing": true,
+     "attention": "none",
+     "ackedBy": null,
+     "silencedUntil": null,
+     "parkedState": null,
+     "parkedUntil": null
+    },
+    "firstSeen": "2026-11-05T14:51:00.000Z",
+    "lastSeen": "2026-11-05T15:30:00.000Z",
+    "startsAt": "2026-11-05T14:40:00.000Z",
+    "ageSec": 3000,
+    "url": "https://watch.acme.example/#/i/Billing%20jobs%7CHeartbeatDown",
+    "alerts": [
+     {
+      "key": "usage-rollup:32c2ccf9",
+      "rule": "HeartbeatDown",
+      "host": "usage-rollup",
+      "severity": "warning",
+      "state": "firing",
+      "startsAt": "2026-11-05T14:40:00.000Z",
+      "lastSeen": "2026-11-05T15:30:00.000Z",
+      "resolvedAt": null
+     }
+    ],
+    "sources": [
+     {
+      "id": "usage-rollup",
+      "kind": "heartbeat",
+      "state": "ok",
+      "lastOk": "2026-11-05T15:30:00.000Z",
+      "lastAttempt": "2026-11-05T15:30:00.000Z",
+      "error": null,
+      "config": {
+       "id": "usage-rollup",
+       "type": "heartbeat",
+       "every": "1h",
+       "grace": "10m",
+       "tokenEnv": "ROLLUP_PING_TOKEN",
+       "service": "Billing jobs"
+      },
+      "target": null,
+      "discovered": null
+     }
+    ],
+    "asserts": [
+     {
+      "alert": "usage-rollup:32c2ccf9",
+      "rule": "HeartbeatDown",
+      "source": "usage-rollup",
+      "cell": "usage-rollup",
+      "state": "firing",
+      "asserts": [
+       "heartbeat:on-time"
+      ],
+      "failed": [],
+      "failureDetail": "the run due at 2026-11-05T14:40:00.000Z is 50m overdue (grace 10m)"
+     }
+    ],
+    "observations": {
+     "lastGood": null,
+     "lastBad": {
+      "at": "2026-11-05T15:30:00.000Z",
+      "status": null,
+      "detail": "the run due at 2026-11-05T14:40:00.000Z is 50m overdue (grace 10m)"
+     }
+    },
+    "reproduce": {
+     "command": "watcher recheck 'Billing jobs|HeartbeatDown' --wait --json",
+     "expect": "the alert resolved, or the source still reports it firing",
+     "alternatives": [],
+     "watcher": "watcher recheck 'Billing jobs|HeartbeatDown' --wait --json",
+     "note": "The source has no local check to copy; `watcher recheck` runs Watch's own poll of it."
+    },
+    "related": [],
+    "evidence": [],
+    "sourceEvidence": null,
+    "next": [
+     {
+      "action": "fix",
+      "detail": "Change the cause of Billing jobs / HeartbeatDown. The assertions in this brief are what the source checked; the one in `asserts.failed` is the one the last run falsified."
+     },
+     {
+      "action": "restart-or-deploy",
+      "detail": "Make the fix live: restart or redeploy the service or collector the source reads, then let its next poll run. A source that caches its evaluation window can keep reporting the old result for a while; `awaiting_source` is the park state for that gap."
+     },
+     {
+      "action": "verify",
+      "detail": "Run the MCP tool verify_fix with { key: \"Billing jobs|HeartbeatDown\", by: \"agent: <you>\" } (or `watcher recheck 'Billing jobs|HeartbeatDown' --wait`). It re-checks now, waits up to 60 s for the fresh observation, and when every alert of the incident is resolved it records \"resolution confirmed by <you>\" with the note \"verified by agent\"."
+     }
+    ]
+   },
+   "Checkout API|ProbeDown": {
+    "key": "Checkout API|ProbeDown",
+    "title": "ProbeDown",
+    "summary": "checkout-api is down: HTTP 503 in 3023ms, expected 200",
+    "service": "Checkout API",
+    "rule": "ProbeDown",
+    "severity": "page",
+    "state": {
+     "firing": true,
+     "attention": "none",
+     "ackedBy": null,
+     "silencedUntil": null,
+     "parkedState": null,
+     "parkedUntil": null
+    },
+    "firstSeen": "2026-11-05T15:09:00.000Z",
+    "lastSeen": "2026-11-05T15:30:00.000Z",
+    "startsAt": "2026-11-05T15:09:00.000Z",
+    "ageSec": 1260,
+    "url": "https://watch.acme.example/#/i/Checkout%20API%7CProbeDown",
+    "alerts": [
+     {
+      "key": "uptime:5031202c",
+      "rule": "ProbeDown",
+      "host": "checkout-api",
+      "severity": "page",
+      "state": "firing",
+      "startsAt": "2026-11-05T15:09:00.000Z",
+      "lastSeen": "2026-11-05T15:30:00.000Z",
+      "resolvedAt": null,
+      "value": "HTTP 503 in 3083ms, expected 200"
+     }
+    ],
+    "sources": [
+     {
+      "id": "uptime",
+      "kind": "http-probe",
+      "state": "ok",
+      "lastOk": "2026-11-05T15:30:00.000Z",
+      "lastAttempt": "2026-11-05T15:30:00.000Z",
+      "error": null,
+      "config": {
+       "id": "uptime",
+       "type": "http-probe",
+       "pollSec": 60,
+       "failAfter": 3,
+       "targets": [
+        {
+         "id": "storefront",
+         "service": "Storefront",
+         "url": "https://www.acme.example/",
+         "slowMs": 1500
+        },
+        {
+         "id": "checkout-api",
+         "service": "Checkout API",
+         "url": "https://api.acme.example/checkout/readyz",
+         "expectJson": {
+          "ok": true,
+          "db.ok": true
+         },
+         "slowMs": 800
+        },
+        {
+         "id": "accounts-api",
+         "service": "Accounts API",
+         "url": "https://api.acme.example/accounts/healthz",
+         "expectJson": {
+          "status": "ok"
+         }
+        },
+        {
+         "id": "search-api",
+         "service": "Search",
+         "url": "https://search.acme.example/healthz",
+         "expectJson": {
+          "ok": true,
+          "index.ready": true
+         },
+         "slowMs": 1200
+        },
+        {
+         "id": "cdn",
+         "service": "CDN",
+         "url": "https://cdn.acme.example/health.txt"
+        },
+        {
+         "id": "status-page",
+         "service": "Status page",
+         "url": "https://status.acme.example/"
+        },
+        {
+         "id": "docs",
+         "service": "Docs site",
+         "url": "https://docs.acme.example/"
+        },
+        {
+         "id": "admin",
+         "service": "Admin console",
+         "url": "https://admin.acme.example/healthz"
+        },
+        {
+         "id": "webhooks-out",
+         "service": "Outbound webhooks",
+         "url": "https://hooks.acme.example/healthz",
+         "expectJson": {
+          "ok": true
+         }
+        }
+       ]
+      },
+      "target": {
+       "id": "checkout-api",
+       "service": "Checkout API",
+       "url": "https://api.acme.example/checkout/readyz",
+       "expectJson": {
+        "ok": true,
+        "db.ok": true
+       },
+       "slowMs": 800
+      },
+      "discovered": null
+     }
+    ],
+    "asserts": [
+     {
+      "alert": "uptime:5031202c",
+      "rule": "ProbeDown",
+      "source": "uptime",
+      "cell": "checkout-api",
+      "state": "firing",
+      "asserts": [
+       "status 200",
+       "body.ok = true",
+       "body.db.ok = true"
+      ],
+      "failed": [
+       "status 200"
+      ],
+      "failureDetail": "HTTP 503 in 3023ms, expected 200 (25 failed polls in a row)"
+     }
+    ],
+    "observations": {
+     "lastGood": {
+      "at": "2026-11-05T15:06:00.000Z",
+      "status": 200,
+      "detail": "HTTP 200",
+      "body": "{\"ok\":true,\"db\":{\"ok\":true,\"poolInUse\":8}}",
+      "headers": {
+       "content-type": "application/json"
+      }
+     },
+     "lastBad": {
+      "at": "2026-11-05T15:30:00.000Z",
+      "status": 503,
+      "detail": "HTTP 503 in 3023ms, expected 200"
+     }
+    },
+    "reproduce": {
+     "command": "curl -sS -m 10 'https://api.acme.example/checkout/readyz' | jq '.ok'",
+     "expect": "true",
+     "alternatives": [
+      {
+       "label": "status",
+       "command": "curl -sS -o /dev/null -w '%{http_code}\\n' -m 10 'https://api.acme.example/checkout/readyz'",
+       "expect": "200"
+      },
+      {
+       "label": "body.db.ok",
+       "command": "curl -sS -m 10 'https://api.acme.example/checkout/readyz' | jq '.db.ok'",
+       "expect": "true"
+      }
+     ],
+     "watcher": "watcher recheck 'Checkout API|ProbeDown' --wait --json",
+     "note": "The probe GETs the URL with redirects not followed and expects HTTP 200 and ok, db.ok as configured. A green answer is what Watch reads as ok; the same check runs through the Watcher with the command at `watcher`."
+    },
+    "related": [],
+    "evidence": [
+     {
+      "id": "https://api.acme.example/checkout/readyz",
+      "kind": "source",
+      "label": "Open the source",
+      "short": "Source",
+      "url": "https://api.acme.example/checkout/readyz",
+      "host": "api.acme.example"
+     }
+    ],
+    "sourceEvidence": {
+     "kind": "probe",
+     "target": "checkout-api",
+     "url": "https://api.acme.example/checkout/readyz"
+    },
+    "next": [
+     {
+      "action": "fix",
+      "detail": "Change the cause of Checkout API / ProbeDown. The assertions in this brief are what the source checked; the one in `asserts.failed` is the one the last run falsified."
+     },
+     {
+      "action": "restart-or-deploy",
+      "detail": "Make the fix live: restart or redeploy the service or collector the source reads, then let its next poll run. A source that caches its evaluation window can keep reporting the old result for a while; `awaiting_source` is the park state for that gap."
+     },
+     {
+      "action": "verify",
+      "detail": "Run the MCP tool verify_fix with { key: \"Checkout API|ProbeDown\", by: \"agent: <you>\" } (or `watcher recheck 'Checkout API|ProbeDown' --wait`). It re-checks now, waits up to 60 s for the fresh observation, and when every alert of the incident is resolved it records \"resolution confirmed by <you>\" with the note \"verified by agent\"."
+     }
+    ]
+   },
+   "Payments|StripeWebhookStale": {
+    "key": "Payments|StripeWebhookStale",
+    "title": "StripeWebhookStale",
+    "summary": "No Stripe webhook event has been accepted since the endpoint secret was rotated; Stripe is retrying deliveries.",
+    "service": "Payments",
+    "rule": "StripeWebhookStale",
+    "severity": "warning",
+    "state": {
+     "firing": true,
+     "attention": "parked",
+     "ackedBy": null,
+     "silencedUntil": null,
+     "parkedState": "fixed_undeployed",
+     "parkedUntil": "2026-11-05T21:30:00.000Z"
+    },
+    "firstSeen": "2026-11-05T12:30:00.000Z",
+    "lastSeen": "2026-11-05T15:30:00.000Z",
+    "startsAt": "2026-11-05T12:30:00.000Z",
+    "ageSec": 10800,
+    "url": "https://watch.acme.example/#/i/Payments%7CStripeWebhookStale",
+    "alerts": [
+     {
+      "key": "payments:69330c2c",
+      "rule": "StripeWebhookStale",
+      "host": "stripe-events",
+      "severity": "warning",
+      "state": "firing",
+      "startsAt": "2026-11-05T12:30:00.000Z",
+      "lastSeen": "2026-11-05T15:30:00.000Z",
+      "resolvedAt": null
+     }
+    ],
+    "sources": [
+     {
+      "id": "payments",
+      "kind": "webhook",
+      "state": "ok",
+      "lastOk": "2026-11-05T15:30:00.000Z",
+      "lastAttempt": "2026-11-05T15:30:00.000Z",
+      "error": null,
+      "config": {
+       "id": "payments",
+       "type": "webhook",
+       "tokenEnv": "PAYMENTS_PUSH_TOKEN",
+       "staleAfterSec": 900
+      },
+      "target": null,
+      "discovered": null
+     }
+    ],
+    "asserts": [
+     {
+      "alert": "payments:69330c2c",
+      "rule": "StripeWebhookStale",
+      "source": "payments",
+      "cell": "stripe-events",
+      "state": "firing",
+      "asserts": [],
+      "failed": [],
+      "failureDetail": "Last event accepted before the secret rotation"
+     }
+    ],
+    "observations": {
+     "lastGood": null,
+     "lastBad": {
+      "at": "2026-11-05T15:30:00.000Z",
+      "status": null,
+      "detail": "Last event accepted before the secret rotation"
+     }
+    },
+    "reproduce": {
+     "command": "watcher recheck 'Payments|StripeWebhookStale' --wait --json",
+     "expect": "the alert resolved, or the source still reports it firing",
+     "alternatives": [],
+     "watcher": "watcher recheck 'Payments|StripeWebhookStale' --wait --json",
+     "note": "A pushing sender cannot be polled by Watch. `watcher recheck` asks a sender that takes re-check requests to run its check; one that does not is re-read when it next pushes."
+    },
+    "related": [],
+    "evidence": [
+     {
+      "id": "https://payments.acme.example/admin/health",
+      "kind": "source",
+      "label": "Open the source",
+      "short": "Source",
+      "url": "https://payments.acme.example/admin/health",
+      "host": "payments.acme.example"
+     }
+    ],
+    "sourceEvidence": null,
+    "next": [
+     {
+      "action": "fix",
+      "detail": "Change the cause of Payments / StripeWebhookStale. The assertions in this brief are what the source checked; the one in `asserts.failed` is the one the last run falsified."
+     },
+     {
+      "action": "restart-or-deploy",
+      "detail": "Make the fix live: restart or redeploy the service or collector the source reads, then let its next poll run. A source that caches its evaluation window can keep reporting the old result for a while; `awaiting_source` is the park state for that gap."
+     },
+     {
+      "action": "verify",
+      "detail": "Run the MCP tool verify_fix with { key: \"Payments|StripeWebhookStale\", by: \"agent: <you>\" } (or `watcher recheck 'Payments|StripeWebhookStale' --wait`). It re-checks now, waits up to 60 s for the fresh observation, and when every alert of the incident is resolved it records \"resolution confirmed by <you>\" with the note \"verified by agent\"."
+     }
+    ]
+   },
+   "Worker hosts|HostDiskFree": {
+    "key": "Worker hosts|HostDiskFree",
+    "title": "HostDiskFree",
+    "summary": "/var/lib/queue on worker-02 has 8.1% free",
+    "service": "Worker hosts",
+    "rule": "HostDiskFree",
+    "severity": "warning",
+    "state": {
+     "firing": true,
+     "attention": "acked",
+     "ackedBy": "agent: claude",
+     "silencedUntil": null,
+     "parkedState": null,
+     "parkedUntil": null
+    },
+    "firstSeen": "2026-11-05T13:20:00.000Z",
+    "lastSeen": "2026-11-05T15:30:00.000Z",
+    "startsAt": "2026-11-05T13:20:00.000Z",
+    "ageSec": 7800,
+    "url": "https://watch.acme.example/#/i/Worker%20hosts%7CHostDiskFree",
+    "alerts": [
+     {
+      "key": "worker-02:68d0d105",
+      "rule": "HostDiskFree",
+      "host": "/var/lib/queue",
+      "severity": "warning",
+      "state": "firing",
+      "startsAt": "2026-11-05T13:20:00.000Z",
+      "lastSeen": "2026-11-05T15:30:00.000Z",
+      "resolvedAt": null,
+      "value": "8.1% free"
+     }
+    ],
+    "sources": [
+     {
+      "id": "worker-02",
+      "kind": "host",
+      "state": "ok",
+      "lastOk": "2026-11-05T15:30:00.000Z",
+      "lastAttempt": "2026-11-05T15:30:00.000Z",
+      "error": null,
+      "config": {
+       "id": "worker-02",
+       "type": "host",
+       "pollSec": 60,
+       "mounts": [
+        "/",
+        "/var/lib/queue"
+       ],
+       "service": "Worker hosts"
+      },
+      "target": null,
+      "discovered": null
+     }
+    ],
+    "asserts": [
+     {
+      "alert": "worker-02:68d0d105",
+      "rule": "HostDiskFree",
+      "source": "worker-02",
+      "cell": "/var/lib/queue",
+      "state": "firing",
+      "asserts": [
+       "disk:/var/lib/queue free>5%"
+      ],
+      "failed": [],
+      "failureDetail": "8.1% free (32.4 GB of 400.0 GB), under 10%"
+     }
+    ],
+    "observations": {
+     "lastGood": null,
+     "lastBad": {
+      "at": "2026-11-05T15:30:00.000Z",
+      "status": null,
+      "detail": "8.1% free (32.4 GB of 400.0 GB), under 10%"
+     }
+    },
+    "reproduce": {
+     "command": "watcher recheck 'Worker hosts|HostDiskFree' --wait --json",
+     "expect": "the alert resolved, or the source still reports it firing",
+     "alternatives": [],
+     "watcher": "watcher recheck 'Worker hosts|HostDiskFree' --wait --json",
+     "note": "The source has no local check to copy; `watcher recheck` runs Watch's own poll of it."
+    },
+    "related": [],
+    "evidence": [],
+    "sourceEvidence": null,
+    "next": [
+     {
+      "action": "fix",
+      "detail": "Change the cause of Worker hosts / HostDiskFree. The assertions in this brief are what the source checked; the one in `asserts.failed` is the one the last run falsified."
+     },
+     {
+      "action": "restart-or-deploy",
+      "detail": "Make the fix live: restart or redeploy the service or collector the source reads, then let its next poll run. A source that caches its evaluation window can keep reporting the old result for a while; `awaiting_source` is the park state for that gap."
+     },
+     {
+      "action": "verify",
+      "detail": "Run the MCP tool verify_fix with { key: \"Worker hosts|HostDiskFree\", by: \"agent: <you>\" } (or `watcher recheck 'Worker hosts|HostDiskFree' --wait`). It re-checks now, waits up to 60 s for the fresh observation, and when every alert of the incident is resolved it records \"resolution confirmed by <you>\" with the note \"verified by agent\"."
+     }
+    ]
+   }
+  },
+  "cards": {
+   "Billing jobs|HeartbeatDown": {
+    "v": 1,
+    "key": "Billing jobs|HeartbeatDown",
+    "title": "usage-rollup missed a scheduled run",
+    "severity": "warning",
+    "state": "firing",
+    "service": "Billing jobs",
+    "since": "2026-11-05T14:40:00.000Z",
+    "url": "https://watch.acme.example/#/i/Billing%20jobs%7CHeartbeatDown"
+   },
+   "Checkout API|ProbeDown": {
+    "v": 1,
+    "key": "Checkout API|ProbeDown",
+    "title": "checkout-api is down: HTTP 503 in 3023ms, expected 200",
+    "severity": "page",
+    "state": "firing",
+    "service": "Checkout API",
+    "since": "2026-11-05T15:09:00.000Z",
+    "url": "https://watch.acme.example/#/i/Checkout%20API%7CProbeDown"
+   },
+   "Payments|StripeWebhookStale": {
+    "v": 1,
+    "key": "Payments|StripeWebhookStale",
+    "title": "No Stripe webhook event has been accepted since the endpoint secret was rotated; Stripe is retrying deliveries.",
+    "severity": "warning",
+    "state": "parked",
+    "service": "Payments",
+    "since": "2026-11-05T12:30:00.000Z",
+    "parkedUntil": "2026-11-05T21:30:00.000Z",
+    "url": "https://watch.acme.example/#/i/Payments%7CStripeWebhookStale"
+   },
+   "Worker hosts|HostDiskFree": {
+    "v": 1,
+    "key": "Worker hosts|HostDiskFree",
+    "title": "/var/lib/queue on worker-02 has 8.1% free",
+    "severity": "warning",
+    "state": "acknowledged",
+    "service": "Worker hosts",
+    "since": "2026-11-05T13:20:00.000Z",
+    "ackedBy": "agent: claude",
+    "url": "https://watch.acme.example/#/i/Worker%20hosts%7CHostDiskFree"
+   }
+  },
+  "alerts": {
+   "usage-rollup:32c2ccf9": {
+    "alert": {
+     "key": "usage-rollup:32c2ccf9",
+     "origin": "usage-rollup",
+     "fingerprint": "32c2ccf9bba31501",
+     "rule": "HeartbeatDown",
+     "service": "Billing jobs",
+     "host": "usage-rollup",
+     "severity": "warning",
+     "severityLabel": "page",
+     "labels": {
+      "alertname": "HeartbeatDown",
+      "severity": "page",
+      "job": "usage-rollup",
+      "instance": "usage-rollup",
+      "service": "Billing jobs"
+     },
+     "annotations": {
+      "summary": "usage-rollup missed a scheduled run",
+      "description": "Watch expects the job usage-rollup to ping every 1h, and pages when a run is later than its grace. An ok ping resolves this; /fail or a non-zero exit status raises it at once. the run due at 2026-11-05T14:40:00.000Z is 50m overdue (grace 10m)",
+      "page_reason": "usage-rollup missed a scheduled run",
+      "watch_capped": "Sent as page, shown as warning: A late usage rollup catches up on its next run; it never wakes anyone."
+     },
+     "startsAt": "2026-11-05T14:40:00.000Z",
+     "endsAt": "2026-11-02T14:30:00.000Z",
+     "status": {
+      "state": "active",
+      "silencedBy": [],
+      "inhibitedBy": [],
+      "mutedBy": []
+     },
+     "links": {},
+     "via": [
+      {
+       "source": "usage-rollup",
+       "kind": "heartbeat",
+       "lastSeen": "2026-11-05T15:30:00.000Z"
+      }
+     ],
+     "firstSeen": "2026-11-05T14:51:00.000Z",
+     "lastSeen": "2026-11-05T15:30:00.000Z",
+     "resolvedAt": null,
+     "raw": {
+      "usage-rollup": {
+       "job": "usage-rollup",
+       "health": "missed",
+       "detail": "the run due at 2026-11-05T14:40:00.000Z is 50m overdue (grace 10m)"
+      }
+     }
+    },
+    "events": [
+     {
+      "id": 38,
+      "at": "2026-11-05T14:51:00.000Z",
+      "kind": "fired",
+      "alertKey": "usage-rollup:32c2ccf9",
+      "incidentKey": "Billing jobs|HeartbeatDown",
+      "detail": {
+       "origin": "usage-rollup",
+       "severity": "warning",
+       "refire": true,
+       "source": "usage-rollup"
+      }
+     },
+     {
+      "id": 17,
+      "at": "2026-11-02T14:30:00.000Z",
+      "kind": "resolved",
+      "alertKey": "usage-rollup:32c2ccf9",
+      "incidentKey": "Billing jobs|HeartbeatDown",
+      "detail": {
+       "origin": "usage-rollup"
+      }
+     },
+     {
+      "id": 15,
+      "at": "2026-11-02T13:53:00.000Z",
+      "kind": "fired",
+      "alertKey": "usage-rollup:32c2ccf9",
+      "incidentKey": "Billing jobs|HeartbeatDown",
+      "detail": {
+       "origin": "usage-rollup",
+       "severity": "warning",
+       "source": "usage-rollup"
+      }
+     }
+    ]
+   },
+   "uptime:5031202c": {
+    "alert": {
+     "key": "uptime:5031202c",
+     "origin": "uptime",
+     "fingerprint": "5031202c3e969c30",
+     "rule": "ProbeDown",
+     "service": "Checkout API",
+     "host": "checkout-api",
+     "severity": "page",
+     "severityLabel": "page",
+     "labels": {
+      "alertname": "ProbeDown",
+      "severity": "page",
+      "service": "Checkout API",
+      "instance": "checkout-api",
+      "url": "https://api.acme.example/checkout/readyz"
+     },
+     "annotations": {
+      "summary": "checkout-api is down: HTTP 503 in 3023ms, expected 200",
+      "description": "Watch GETs https://api.acme.example/checkout/readyz every 60 s and expects HTTP 200 with ok, db.ok as configured, without following a redirect. It has failed 25 polls in a row; it pages after 3 and resolves on the first success.",
+      "page_reason": "checkout-api is down: HTTP 503 in 3023ms, expected 200"
+     },
+     "startsAt": "2026-11-05T15:09:00.000Z",
+     "endsAt": null,
+     "generatorURL": "https://api.acme.example/checkout/readyz",
+     "status": {
+      "state": "active",
+      "silencedBy": [],
+      "inhibitedBy": [],
+      "mutedBy": []
+     },
+     "value": "HTTP 503 in 3083ms, expected 200",
+     "links": {
+      "generator": "https://api.acme.example/checkout/readyz"
+     },
+     "via": [
+      {
+       "source": "uptime",
+       "kind": "http-probe",
+       "lastSeen": "2026-11-05T15:30:00.000Z",
+       "url": "https://api.acme.example/checkout/readyz"
+      }
+     ],
+     "firstSeen": "2026-11-05T15:09:00.000Z",
+     "lastSeen": "2026-11-05T15:30:00.000Z",
+     "resolvedAt": null,
+     "raw": {
+      "uptime": {
+       "target": "checkout-api",
+       "url": "https://api.acme.example/checkout/readyz",
+       "probe": {
+        "ok": false,
+        "status": 503,
+        "ms": 3023,
+        "detail": "HTTP 503 in 3023ms, expected 200",
+        "asserts": [
+         "status 200",
+         "body.ok = true",
+         "body.db.ok = true"
+        ]
+       },
+       "fails": 25,
+       "slows": null,
+       "cert": {
+        "ok": true,
+        "validToMs": 1797953400000
+       }
+      }
+     }
+    },
+    "events": [
+     {
+      "id": 40,
+      "at": "2026-11-05T15:09:00.000Z",
+      "kind": "fired",
+      "alertKey": "uptime:5031202c",
+      "incidentKey": "Checkout API|ProbeDown",
+      "detail": {
+       "origin": "uptime",
+       "severity": "page",
+       "source": "uptime"
+      }
+     }
+    ]
+   },
+   "payments:69330c2c": {
+    "alert": {
+     "key": "payments:69330c2c",
+     "origin": "payments",
+     "fingerprint": "69330c2c2fad2666",
+     "rule": "StripeWebhookStale",
+     "service": "Payments",
+     "host": "stripe-events",
+     "severity": "warning",
+     "severityLabel": "warning",
+     "labels": {
+      "alertname": "StripeWebhookStale",
+      "severity": "warning",
+      "service": "Payments",
+      "instance": "stripe-events"
+     },
+     "annotations": {
+      "summary": "No Stripe webhook event has been accepted since the endpoint secret was rotated; Stripe is retrying deliveries.",
+      "description": "Every delivery to /webhooks/stripe answers 400 \"signature mismatch\". Stripe retries for up to three days, so no event is lost yet."
+     },
+     "startsAt": "2026-11-05T12:30:00.000Z",
+     "endsAt": "2026-11-04T19:43:00.000Z",
+     "generatorURL": "https://payments.acme.example/admin/health",
+     "status": {
+      "state": "active",
+      "silencedBy": [],
+      "inhibitedBy": [],
+      "mutedBy": []
+     },
+     "links": {
+      "generator": "https://payments.acme.example/admin/health"
+     },
+     "via": [
+      {
+       "source": "payments",
+       "kind": "webhook",
+       "lastSeen": "2026-11-05T15:30:00.000Z"
+      }
+     ],
+     "firstSeen": "2026-11-05T12:30:00.000Z",
+     "lastSeen": "2026-11-05T15:30:00.000Z",
+     "resolvedAt": null,
+     "raw": {
+      "payments": {
+       "status": "firing",
+       "labels": {
+        "alertname": "StripeWebhookStale",
+        "severity": "warning",
+        "service": "Payments",
+        "instance": "stripe-events"
+       },
+       "annotations": {
+        "summary": "No Stripe webhook event has been accepted since the endpoint secret was rotated; Stripe is retrying deliveries.",
+        "description": "Every delivery to /webhooks/stripe answers 400 \"signature mismatch\". Stripe retries for up to three days, so no event is lost yet."
+       },
+       "startsAt": "2026-11-05T12:30:00.000Z",
+       "generatorURL": "https://payments.acme.example/admin/health"
+      }
+     }
+    },
+    "events": [
+     {
+      "id": 32,
+      "at": "2026-11-05T12:30:00.000Z",
+      "kind": "fired",
+      "alertKey": "payments:69330c2c",
+      "incidentKey": "Payments|StripeWebhookStale",
+      "detail": {
+       "origin": "payments",
+       "severity": "warning",
+       "refire": true,
+       "source": "payments"
+      }
+     },
+     {
+      "id": 26,
+      "at": "2026-11-04T19:43:00.000Z",
+      "kind": "resolved",
+      "alertKey": "payments:69330c2c",
+      "incidentKey": "Payments|StripeWebhookStale",
+      "detail": {
+       "origin": "payments"
+      }
+     },
+     {
+      "id": 24,
+      "at": "2026-11-04T19:33:00.000Z",
+      "kind": "fired",
+      "alertKey": "payments:69330c2c",
+      "incidentKey": "Payments|StripeWebhookStale",
+      "detail": {
+       "origin": "payments",
+       "severity": "warning",
+       "source": "payments"
+      }
+     }
+    ]
+   },
+   "worker-02:68d0d105": {
+    "alert": {
+     "key": "worker-02:68d0d105",
+     "origin": "worker-02",
+     "fingerprint": "68d0d1054ed5dd0f",
+     "rule": "HostDiskFree",
+     "service": "Worker hosts",
+     "host": "/var/lib/queue",
+     "severity": "warning",
+     "severityLabel": "warning",
+     "labels": {
+      "alertname": "HostDiskFree",
+      "severity": "warning",
+      "service": "Worker hosts",
+      "instance": "/var/lib/queue",
+      "host": "worker-02"
+     },
+     "annotations": {
+      "summary": "/var/lib/queue on worker-02 has 8.1% free",
+      "description": "Watch reads the free space of /var/lib/queue every 60 s with statfs. Under 10% free is a warning and under 5% a page; a reading near either line says nothing about the disk's health beyond this instant."
+     },
+     "startsAt": "2026-11-05T13:20:00.000Z",
+     "endsAt": null,
+     "status": {
+      "state": "active",
+      "silencedBy": [],
+      "inhibitedBy": [],
+      "mutedBy": []
+     },
+     "value": "8.1% free",
+     "links": {},
+     "via": [
+      {
+       "source": "worker-02",
+       "kind": "host",
+       "lastSeen": "2026-11-05T15:30:00.000Z"
+      }
+     ],
+     "firstSeen": "2026-11-05T13:20:00.000Z",
+     "lastSeen": "2026-11-05T15:30:00.000Z",
+     "resolvedAt": null,
+     "raw": {
+      "worker-02": {
+       "mount": "/var/lib/queue",
+       "freePct": 8.1,
+       "freeBytes": 34789235098,
+       "totalBytes": 429496729600
+      }
+     }
+    },
+    "events": [
+     {
+      "id": 35,
+      "at": "2026-11-05T13:20:00.000Z",
+      "kind": "fired",
+      "alertKey": "worker-02:68d0d105",
+      "incidentKey": "Worker hosts|HostDiskFree",
+      "detail": {
+       "origin": "worker-02",
+       "severity": "warning",
+       "source": "worker-02"
+      }
+     }
+    ]
+   }
+  },
+  "doctor": {
+   "ok": true,
+   "checks": [
+    {
+     "code": "source.untraced",
+     "status": "warn",
+     "message": "source uptime records no `discovered` block: nothing says where its endpoint was found.",
+     "next": "watcher add http-probe --id uptime --found-at <file:line>"
+    },
+    {
+     "code": "source.bare-200",
+     "status": "warn",
+     "message": "source uptime: storefront, cdn, status-page, docs, admin assert only a nominal HTTP 200, so a dependency can be down and the cell stays green.",
+     "next": "watcher add http-probe --id uptime --url <url> --expect-json '{\"ok\":true}'"
+    },
+    {
+     "code": "source.assertion-not-red",
+     "status": "pass",
+     "message": "target checkout-api of source uptime: a mutation of its last good answer turned an assertion red."
+    },
+    {
+     "code": "source.assertion-not-red",
+     "status": "pass",
+     "message": "target accounts-api of source uptime: a mutation of its last good answer turned an assertion red."
+    },
+    {
+     "code": "source.assertion-not-red",
+     "status": "pass",
+     "message": "target search-api of source uptime: a mutation of its last good answer turned an assertion red."
+    },
+    {
+     "code": "source.assertion-not-red",
+     "status": "pass",
+     "message": "target webhooks-out of source uptime: a mutation of its last good answer turned an assertion red."
+    },
+    {
+     "code": "source.untraced",
+     "status": "warn",
+     "message": "source datastores records no `discovered` block: nothing says where its endpoint was found.",
+     "next": "watcher add tcp-probe --id datastores --found-at <file:line>"
+    },
+    {
+     "code": "source.untraced",
+     "status": "warn",
+     "message": "source usage-rollup records no `discovered` block: nothing says where its endpoint was found.",
+     "next": "watcher add heartbeat --id usage-rollup --found-at <file:line>"
+    },
+    {
+     "code": "source.untraced",
+     "status": "warn",
+     "message": "source invoice-run records no `discovered` block: nothing says where its endpoint was found.",
+     "next": "watcher add heartbeat --id invoice-run --found-at <file:line>"
+    },
+    {
+     "code": "source.untraced",
+     "status": "warn",
+     "message": "source db-backup records no `discovered` block: nothing says where its endpoint was found.",
+     "next": "watcher add heartbeat --id db-backup --found-at <file:line>"
+    },
+    {
+     "code": "source.untraced",
+     "status": "warn",
+     "message": "source domains records no `discovered` block: nothing says where its endpoint was found.",
+     "next": "watcher add domain-expiry --id domains --found-at <file:line>"
+    }
+   ],
+   "observations": [
+    {
+     "source": "uptime",
+     "target": "storefront",
+     "at": "2026-11-05T15:30:00.000Z",
+     "status": 200,
+     "headers": {
+      "content-type": "text/html"
+     },
+     "bodyText": "<!doctype html><title>Acme</title>"
+    },
+    {
+     "source": "uptime",
+     "target": "checkout-api",
+     "at": "2026-11-05T15:06:00.000Z",
+     "status": 200,
+     "headers": {
+      "content-type": "application/json"
+     },
+     "bodyText": "{\"ok\":true,\"db\":{\"ok\":true,\"poolInUse\":8}}"
+    },
+    {
+     "source": "uptime",
+     "target": "accounts-api",
+     "at": "2026-11-05T15:30:00.000Z",
+     "status": 200,
+     "headers": {
+      "content-type": "application/json"
+     },
+     "bodyText": "{\"status\":\"ok\"}"
+    },
+    {
+     "source": "uptime",
+     "target": "search-api",
+     "at": "2026-11-05T15:30:00.000Z",
+     "status": 200,
+     "headers": {
+      "content-type": "application/json"
+     },
+     "bodyText": "{\"ok\":true,\"index\":{\"ready\":true,\"lagSec\":2}}"
+    },
+    {
+     "source": "uptime",
+     "target": "cdn",
+     "at": "2026-11-05T15:30:00.000Z",
+     "status": 200,
+     "headers": {
+      "content-type": "text/plain"
+     },
+     "bodyText": "ok"
+    },
+    {
+     "source": "uptime",
+     "target": "status-page",
+     "at": "2026-11-05T15:30:00.000Z",
+     "status": 200,
+     "headers": {
+      "content-type": "text/html"
+     },
+     "bodyText": "<!doctype html><title>Acme status</title>"
+    },
+    {
+     "source": "uptime",
+     "target": "docs",
+     "at": "2026-11-05T15:30:00.000Z",
+     "status": 200,
+     "headers": {
+      "content-type": "text/html"
+     },
+     "bodyText": "<!doctype html><title>Acme docs</title>"
+    },
+    {
+     "source": "uptime",
+     "target": "admin",
+     "at": "2026-11-05T15:30:00.000Z",
+     "status": 200,
+     "headers": {
+      "content-type": "text/plain"
+     },
+     "bodyText": "ok"
+    },
+    {
+     "source": "uptime",
+     "target": "webhooks-out",
+     "at": "2026-11-05T15:30:00.000Z",
+     "status": 200,
+     "headers": {
+      "content-type": "application/json"
+     },
+     "bodyText": "{\"ok\":true,\"queue\":{\"depth\":0}}"
+    }
+   ]
+  }
+ }
+}

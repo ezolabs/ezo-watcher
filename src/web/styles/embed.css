@@ -1,0 +1,199 @@
+/* The embed view of EZO Watcher (src/web/views/Embed.tsx): the wall in a chat app's right panel. Watch's own look plan, condensed:
+   neutral chrome, hue only as the severity data channel (and the Fleet strip's hot and warm states, as on the full page), 8 px controls
+   and 16 px surfaces. The shell is one bar, the Fleet strip and the wall, with the Fleet view a layer over them; every length, colour and
+   duration is a var() from tokens.css, and nothing here moves (the sheet's slide keeps its own reduced-motion guard). */
+
+.embed {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  padding: var(--spacing-12);
+}
+.embed__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-12);
+}
+.embed__bar .statusline {
+  flex: 1 1 0;
+  min-width: 0;
+  margin: 0;
+}
+.embed__bar .btn {
+  flex: none;
+}
+.embed__skel {
+  flex: 1 1 0;
+  height: var(--spacing-20);
+  max-width: var(--env-skel-text-w);
+}
+.embed__main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+/* the bar, the strip and the wall: what the Fleet view covers, and what stays mounted (inert) under it */
+.embed__wall {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--spacing-12);
+  min-width: 0;
+}
+
+/* The Fleet strip above the wall. It never shrinks into the column and never wraps: the band scrolls sideways, the lead stays at the left edge, and the
+   hottest host comes first (components/FleetStrip.tsx), so at the narrowest panel the one that matters is in view. The lead is wider here (the chevron). */
+.embed .fstrip {
+  flex: none;
+}
+.embed .fstrip__link {
+  grid-template-columns: var(--fleet-strip-lead-w-embed);
+}
+/* the chevron says the label opens something: the whole band is the one link, and the label is where the eye lands */
+.fstrip__go {
+  flex: none;
+  width: var(--size-icon-tree);
+  height: var(--size-icon-tree);
+  color: var(--color-muted);
+}
+a.fstrip__link:hover .fstrip__go,
+a.fstrip__link:focus-visible .fstrip__go {
+  color: var(--color-fg);
+}
+
+/* The Fleet view: a layer over the whole frame (the wall under it is inert, and the frame's own scroll is held, so Back is the same place). Its one way back
+   is fixed above the table while the table scrolls under it. */
+.embed__fleet {
+  position: fixed;
+  inset: 0;
+  z-index: var(--layer-view);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  /* a focused control scrolls to rest below the fixed bar, never under it: the bar is spacing-12 + a control (spacing-32, --size-target on touch) + spacing-8 + its hairline */
+  scroll-padding-top: calc(var(--spacing-48) + var(--spacing-12) + var(--spacing-8));
+  padding: 0 var(--spacing-12) var(--spacing-12);
+  background: var(--color-bg);
+}
+:root:has(.embed__fleet) {
+  overflow: hidden;
+}
+.embed__fleet-bar {
+  position: sticky;
+  top: 0;
+  z-index: var(--layer-sticky);
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-12) 0 var(--spacing-8);
+  border-bottom: var(--size-hairline) solid var(--color-line);
+  background: var(--color-bg);
+}
+.embed__fleet-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-12);
+  padding-top: var(--spacing-12);
+}
+
+/* Referencing an incident in the chat panel (components/Reference.tsx, docs/embed.md): drag a tile or the sheet's title onto the chat's composer, or press
+   "Reference in chat". Only in the frame. The tile's button reads "Reference" (the footer is one line and keeps its receipt), the sheet's reads in full;
+   its accessible name is the whole phrase in both. A tile being dragged dims to the figure opacity and stays put; the sheet's title shows it can be taken. */
+.ref-btn {
+  flex: none;
+}
+.ref-btn__more {
+  display: none;
+}
+.sheet .ref-btn__more {
+  display: inline;
+}
+.tile__foot .ref-btn svg {
+  display: none;
+}
+.tile[data-dragging='true'],
+.sheet__title[data-dragging='true'] {
+  opacity: var(--overlay-figure);
+}
+.sheet__title[draggable='true'] {
+  cursor: grab;
+}
+
+/* The Fleet view in a narrow panel. A table narrower than --bp-fleet-narrow (27rem of its own width, 351 px) cannot give a name a column beside two figures
+   and their sparklines, so a row stacks the name over CPU and Mem, each with its short name (the header's columns stay as the sort bar). The literal repeats
+   --bp-fleet-narrow: a container query cannot read a var. */
+@container fleet (max-width: 27rem) {
+  .embed .fleet__head {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+  }
+  .embed .fleet__th[data-area='cpu'],
+  .embed .fleet__th[data-area='mem'] {
+    padding-right: 0;
+  }
+  .embed .fleet__row {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-areas:
+      'name name name name'
+      'cpu cpu mem mem'
+      'load load load link'
+      'disk disk disk disk'
+      'more more more more'
+      'status status status status';
+  }
+  .embed .fleet__metric {
+    justify-content: flex-start;
+    gap: var(--spacing-4) var(--spacing-8);
+  }
+  .embed .fleet__tag {
+    display: inline;
+    color: var(--color-muted);
+    font-size: var(--text-code);
+    line-height: var(--text-code--line-height);
+  }
+  .embed .fleet__metric .fleet__fig {
+    margin-inline-start: calc(var(--spacing-4) * -1);
+  }
+}
+
+/* Narrower still, under --bp-fleet-tight (20rem of table, 260 px: a panel at 200% text, or a 160 px frame): CPU and Mem take a line each, and a mount's path a line
+   of its own over its figure and what is free, so no path ends in an ellipsis. The literal repeats the token. */
+@container fleet (max-width: 20rem) {
+  .embed .fleet__head {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: var(--spacing-12);
+  }
+  .embed .fleet__row {
+    grid-template-areas:
+      'name name name name'
+      'cpu cpu cpu cpu'
+      'mem mem mem mem'
+      'load load load load'
+      'link link link link'
+      'disk disk disk disk'
+      'more more more more'
+      'status status status status';
+  }
+  .embed .fleet__link {
+    justify-content: flex-start;
+  }
+  .embed .fleet__metric {
+    flex-wrap: wrap;
+  }
+  .embed .fleet__mount {
+    grid-template-columns: var(--fleet-mount-fig-w) minmax(0, 1fr);
+  }
+  .embed .fleet__mount-path {
+    grid-column: 1 / -1;
+    text-align: left;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* the Netdata link of a row is a target of its own: the least a pointer can hit, as the buttons around it */
+.embed .fleet__link .link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--spacing-24);
+}

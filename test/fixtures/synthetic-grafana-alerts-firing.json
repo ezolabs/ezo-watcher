@@ -1,0 +1,75 @@
+[
+  {
+    "annotations": {
+      "__dashboardUid__": "api-clickhouse",
+      "__panelId__": "7",
+      "__value_string__": "[ var='B' labels={} value=77.2 ], [ var='C' labels={} value=1 ]",
+      "__values__": "{\"B\":77.2,\"C\":1}",
+      "description": "system.disks reports at least 80% used on default.",
+      "runbook_url": "https://runbooks.example.com/clickhouse-disk",
+      "summary": "ClickHouse disk default is 77.2% full"
+    },
+    "endsAt": "2026-10-15T05:49:00.000Z",
+    "fingerprint": "a1b2c3d4e5f60718",
+    "receivers": [{ "name": "api-pager" }],
+    "startsAt": "2026-10-15T03:40:20.000Z",
+    "status": { "inhibitedBy": [], "mutedBy": [], "silencedBy": [], "state": "active" },
+    "updatedAt": "2026-10-15T05:41:20.000Z",
+    "generatorURL": "https://grafana.example.com/alerting/grafana/api-disk-80/view?orgId=1",
+    "labels": {
+      "__alert_rule_uid__": "api-disk-80",
+      "alertname": "API ClickHouse disk at 80%",
+      "component": "clickhouse-disk",
+      "disk": "default",
+      "grafana_folder": "API alerts",
+      "instance": "prod-node-2:9363",
+      "severity": "warn",
+      "team": "api"
+    }
+  },
+  {
+    "annotations": {
+      "summary": "Edge probe has failed every tick for 4 minutes"
+    },
+    "endsAt": "2026-10-15T05:46:00.000Z",
+    "fingerprint": "ffeeddccbbaa9988",
+    "receivers": [{ "name": "api-pager" }],
+    "startsAt": "2026-10-15T05:30:10.000Z",
+    "status": { "inhibitedBy": [], "mutedBy": [], "silencedBy": [], "state": "active" },
+    "updatedAt": "2026-10-15T05:42:10.000Z",
+    "generatorURL": "https://grafana.example.com/alerting/grafana/api-probe-streak/view?orgId=1",
+    "labels": {
+      "__alert_rule_uid__": "api-probe-streak",
+      "alertname": "DatasourceNoData",
+      "component": "edge-probes",
+      "datasource_uid": "ch-k8s-prod",
+      "grafana_folder": "API alerts",
+      "rulename": "API probe down (4 min streak)",
+      "severity": "page",
+      "team": "api"
+    }
+  },
+  {
+    "annotations": {},
+    "endsAt": "2026-10-15T05:47:00.000Z",
+    "fingerprint": "0011223344556677",
+    "receivers": [{ "name": "api-pager" }],
+    "startsAt": "2026-10-15T04:00:00.000Z",
+    "status": {
+      "inhibitedBy": [],
+      "mutedBy": [],
+      "silencedBy": ["00000000-0000-4000-8000-000000000013"],
+      "state": "suppressed"
+    },
+    "updatedAt": "2026-10-15T05:43:00.000Z",
+    "generatorURL": "https://grafana.example.com/alerting/grafana/api-5xx-ratio/view?orgId=1",
+    "labels": {
+      "__alert_rule_uid__": "api-5xx-ratio",
+      "alertname": "API edge 5xx ratio (10 min)",
+      "component": "edge-http",
+      "grafana_folder": "API alerts",
+      "severity": "page",
+      "team": "api"
+    }
+  }
+]

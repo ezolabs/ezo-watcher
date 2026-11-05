@@ -1,0 +1,626 @@
+/* The Fleet view: the page (a spark table of every server) and the strip above the wall. Every length, colour and duration is a var() from
+   tokens.css. Look plan (docs/design.md, Fleet view): neutral chrome, hue only on a hot (danger) or warm (warning) node or disk, two radii (8
+   controls and cells, 16 the table and the strip), the pill only on the status chip, no animation (the skeletons are static), and no shadow anywhere. */
+
+/* ---- sparkline ------------------------------------------------------------------------------- */
+.spark {
+  display: block;
+  flex: none;
+  width: var(--fleet-spark-w);
+  height: var(--fleet-spark-h);
+  overflow: visible;
+}
+.spark[data-size='strip'] {
+  width: var(--fleet-strip-spark-w);
+  height: var(--fleet-strip-spark-h);
+}
+.spark__line {
+  fill: none;
+  stroke: var(--spark-ink, var(--color-fg-secondary));
+  stroke-width: var(--size-hairline);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+/* the alert line across a CPU or memory sparkline */
+.spark__mark {
+  stroke: var(--color-line-strong);
+  stroke-width: var(--size-hairline);
+  vector-effect: non-scaling-stroke;
+}
+
+/* only a hot or warm node takes colour: a tint on its row or cell, a coloured line, a coloured glyph */
+[data-heat='hot'] {
+  --heat: var(--color-danger);
+}
+[data-heat='warm'] {
+  --heat: var(--color-warn);
+}
+[data-heat='hot'],
+[data-heat='warm'] {
+  --spark-ink: var(--heat);
+  --heat-wash: color-mix(in oklab, var(--heat) calc(var(--overlay-data-wash) * 100%), transparent);
+}
+[data-heat='hot'] .spark__line,
+[data-heat='warm'] .spark__line {
+  stroke-width: var(--size-ring);
+}
+
+/* a disk has its own heat, never the node's: warm from 80% used (warning), hot from 90% (danger); under 80% it is neutral whatever the row says */
+[data-disk-heat='hot'] {
+  --disk-heat: var(--color-danger);
+}
+[data-disk-heat='warm'] {
+  --disk-heat: var(--color-warn);
+}
+[data-disk-heat='hot'],
+[data-disk-heat='warm'] {
+  --disk-wash: color-mix(in oklab, var(--disk-heat) calc(var(--overlay-data-wash) * 100%), transparent);
+}
+.fleet__disk,
+.fstrip__disk {
+  --spark-ink: var(--disk-heat, var(--color-fg-secondary));
+}
+.fleet__disk .spark__line {
+  stroke-width: var(--size-hairline);
+}
+.fleet__disk[data-disk-heat='hot'] .spark__line,
+.fleet__disk[data-disk-heat='warm'] .spark__line {
+  stroke-width: var(--size-ring);
+}
+
+/* ---- the page's table ------------------------------------------------------------------------ */
+.fleet {
+  container: fleet / inline-size;
+  border: var(--size-hairline) solid var(--color-line);
+  border-radius: var(--radius-16);
+  background: var(--color-raised);
+  overflow: hidden;
+}
+.fleet__head,
+.fleet__row {
+  display: grid;
+  grid-template-columns: var(--fleet-cols);
+  grid-template-areas: 'name cpu mem load disk status link';
+  align-items: center;
+  column-gap: var(--spacing-12);
+  padding: var(--spacing-8) var(--spacing-16);
+}
+/* the extra mounts of a node are one more line of the row, under CPU to disk */
+.fleet__row {
+  grid-template-areas:
+    'name cpu mem load disk status link'
+    '. more more more more . .';
+}
+.fleet [data-area='name'] {
+  grid-area: name;
+}
+.fleet [data-area='cpu'] {
+  grid-area: cpu;
+}
+.fleet [data-area='mem'] {
+  grid-area: mem;
+}
+.fleet [data-area='load'] {
+  grid-area: load;
+}
+.fleet [data-area='disk'] {
+  grid-area: disk;
+}
+.fleet [data-area='status'] {
+  grid-area: status;
+}
+.fleet [data-area='link'] {
+  grid-area: link;
+}
+.fleet [data-area='more'] {
+  grid-area: more;
+}
+.fleet__head {
+  min-height: var(--size-row-min);
+  border-bottom: var(--size-hairline) solid var(--color-line);
+  color: var(--color-muted);
+  font-weight: 500;
+}
+.fleet__th {
+  min-width: 0;
+}
+/* a figure column's header sits over its figure, so a number and its label share a right edge; the sparkline runs on to its right */
+.fleet__th[data-area='cpu'],
+.fleet__th[data-area='mem'] {
+  --fleet-spark-now: var(--fleet-spark-w);
+  display: flex;
+  justify-content: flex-end;
+  padding-right: calc(var(--fleet-spark-now) + var(--spacing-8));
+}
+.fleet__th[data-area='disk'] {
+  --fleet-spark-now: var(--fleet-disk-spark-w);
+  display: flex;
+  justify-content: flex-end;
+  padding-right: calc(var(--fleet-spark-now) + var(--spacing-8));
+}
+.fleet__th[data-area='load'] {
+  display: flex;
+  justify-content: flex-end;
+}
+.fleet__sort {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  min-height: var(--spacing-32);
+  padding: 0 var(--spacing-8);
+  margin: 0 calc(var(--spacing-8) * -1);
+  border: 0;
+  border-radius: var(--radius-8);
+  background: transparent;
+  color: inherit;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background-color var(--duration-100) var(--ease-standard);
+}
+.fleet__sort:hover {
+  background: color-mix(in oklab, var(--color-fg) calc(var(--overlay-hover) * 100%), transparent);
+  color: var(--color-fg);
+}
+.fleet__th[aria-sort='ascending'] .fleet__sort,
+.fleet__th[aria-sort='descending'] .fleet__sort {
+  color: var(--color-fg);
+}
+.fleet__sort svg {
+  width: var(--size-icon-tree);
+  height: var(--size-icon-tree);
+  flex: none;
+}
+@media (pointer: coarse) {
+  .fleet__sort {
+    min-height: var(--size-target);
+  }
+}
+
+/* a group header row per role: Servers, Watch only */
+.fleet__group {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-8);
+  padding: var(--spacing-8) var(--spacing-16);
+  border-top: var(--size-hairline) solid var(--color-line);
+  background: color-mix(in oklab, var(--color-fg) calc(var(--overlay-hover) * 100%), transparent);
+}
+.fleet__group-title {
+  font-weight: 500;
+}
+.fleet__group [role='rowheader'] {
+  font-weight: 400;
+}
+
+.fleet__row {
+  min-height: calc(var(--size-row-min) + var(--spacing-12));
+  border-top: var(--size-hairline) solid var(--color-line);
+  background: var(--heat-wash, transparent);
+}
+.fleet__cell {
+  min-width: 0;
+}
+.fleet__name {
+  display: flex;
+  flex-direction: column;
+}
+.fleet__title {
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+.fleet__sub {
+  color: var(--color-muted);
+  font-size: var(--text-code);
+  line-height: var(--text-code--line-height);
+  overflow-wrap: anywhere;
+}
+.fleet__fig {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  min-width: var(--spacing-32);
+}
+.fleet__metric {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--spacing-8);
+}
+.fleet__load {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+}
+/* the disk cell: the fullest mount's figure and sparkline, its path when it is not `/`, and what is free. The cell keeps its box the same whether it is
+   coloured or not (a transparent hairline, pulled back into the gap by its own padding), so a warm or hot one is outlined and tinted without moving
+   a figure: a shape and a tint, so colour is never the only signal. */
+.fleet__disk {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  padding: var(--spacing-4);
+  margin: calc((var(--spacing-4) + var(--size-hairline)) * -1);
+  border: var(--size-hairline) solid transparent;
+  border-radius: var(--radius-8);
+}
+.fleet__disk[data-disk-heat='hot'],
+.fleet__disk[data-disk-heat='warm'] {
+  border-color: var(--disk-heat);
+  background: var(--disk-wash);
+}
+.fleet__path {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+.fleet__free {
+  text-align: right;
+}
+
+/* each other mount that matters is one compact line under the row: path, used %, what is free; only a warm or hot one takes colour */
+.fleet__more {
+  margin-top: var(--spacing-4);
+}
+.fleet__mounts {
+  display: flex;
+  flex-direction: column;
+}
+.fleet__mount {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--fleet-mount-fig-w) var(--fleet-mount-free-w);
+  align-items: baseline;
+  column-gap: var(--spacing-12);
+  padding: 0 var(--spacing-4);
+  margin-inline: calc((var(--spacing-4) + var(--size-hairline)) * -1);
+  border: var(--size-hairline) solid transparent;
+  border-radius: var(--radius-8);
+}
+.fleet__mount[data-disk-heat='hot'],
+.fleet__mount[data-disk-heat='warm'] {
+  border-color: var(--disk-heat);
+  background: var(--disk-wash);
+}
+.fleet__mount-path {
+  overflow: hidden;
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-fg-secondary);
+  font-family: var(--font-mono);
+  font-size: var(--text-code);
+  line-height: var(--text-code--line-height);
+}
+.fleet__mount .fleet__sub {
+  text-align: right;
+}
+.fleet__status {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-4);
+}
+.fleet__alert {
+  display: flex;
+  flex-direction: column;
+}
+.fleet__chip svg {
+  color: var(--heat);
+}
+.fleet__row[data-heat='hot'] .fleet__chip,
+.fleet__row[data-heat='warm'] .fleet__chip {
+  border-color: var(--heat);
+}
+/* a node with no fresh data keeps its last figures, quieter, and says so in words */
+.fleet__row[data-stale='true'] .fleet__metric,
+.fleet__row[data-stale='true'] .fleet__load,
+.fleet__row[data-stale='true'] .fleet__disk,
+.fleet__row[data-stale='true'] .fleet__mounts {
+  color: var(--color-muted);
+}
+.fleet__row[data-stale='true'] .spark {
+  opacity: var(--overlay-figure);
+}
+.fleet__label {
+  display: none;
+}
+/* the short name of a figure (CPU, Mem) that the header carries over its column: drawn only where a row stacks narrower than --bp-fleet-narrow, in the
+   embed frame (embed.css); the page never shows it */
+.fleet__tag {
+  display: none;
+}
+.fleet__notes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+/* loading: the row's own anatomy as static blocks */
+.fleet__skel-head {
+  width: calc(var(--spacing-48) * 6);
+  margin-top: var(--spacing-8);
+}
+.fleet__skel-spark {
+  display: block;
+  width: var(--fleet-spark-w);
+  height: var(--fleet-spark-h);
+}
+.fleet__cell .skeleton {
+  display: block;
+}
+.fleet__row[data-skeleton] [data-area='load'] {
+  display: flex;
+  justify-content: flex-end;
+}
+.fleet__row[data-skeleton] [data-area='disk'] {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--spacing-4);
+}
+.fleet__skel-spark[data-size='disk'] {
+  width: var(--fleet-disk-spark-w);
+}
+.fleet__row[data-skeleton] .fleet__name {
+  gap: var(--spacing-4);
+}
+
+/* a page narrower than --bp-fleet (60rem of its own width: a phone, or a 1024 px window): name, CPU and memory on the first line, load, disk and the Netdata
+   link on the second, the status on the third (a quiet node leaves it out). The headers of the hidden columns stay for a screen reader. */
+@container fleet (max-width: 60rem) {
+  .fleet__head,
+  .fleet__row {
+    grid-template-columns: minmax(0, 1fr) var(--fleet-col-metric-compact) var(--fleet-col-metric-compact);
+    grid-template-areas:
+      'name cpu mem'
+      'load load link'
+      'disk disk disk'
+      'more more more'
+      'status status status';
+    row-gap: var(--spacing-4);
+    padding: var(--spacing-8) var(--spacing-12);
+  }
+  .fleet__head {
+    grid-template-areas: 'name cpu mem';
+  }
+  .fleet__th[data-area='load'],
+  .fleet__th[data-area='disk'],
+  .fleet__th[data-area='status'],
+  .fleet__th[data-area='link'] {
+    position: absolute;
+    width: var(--size-hairline);
+    height: var(--size-hairline);
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  .fleet__th[data-area='cpu'],
+  .fleet__th[data-area='mem'] {
+    --fleet-spark-now: var(--fleet-spark-w-compact);
+  }
+  .spark:not([data-size='strip']) {
+    width: var(--fleet-spark-w-compact);
+  }
+  .fleet__label {
+    display: inline;
+    color: var(--color-muted);
+    font-size: var(--text-code);
+    line-height: var(--text-code--line-height);
+    margin-inline-end: var(--spacing-4);
+  }
+  .fleet__load,
+  .fleet__link {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: flex-start;
+    text-align: left;
+    gap: 0 var(--spacing-4);
+  }
+  .fleet__link {
+    justify-content: flex-end;
+  }
+  /* the disk has the whole line: label, figure and sparkline, the path when it is not `/`, and what is free */
+  .fleet__disk {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: left;
+    gap: var(--spacing-4) var(--spacing-8);
+    margin-block: 0;
+  }
+  .fleet__disk .fleet__label {
+    margin-inline-end: 0;
+  }
+  .fleet__mount-path,
+  .fleet__mount .fleet__sub {
+    text-align: left;
+  }
+  .fleet__mount .fleet__sub {
+    text-align: right;
+  }
+  .fleet__status {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-4) var(--spacing-8);
+  }
+  .fleet__row[data-heat='ok']:not([data-stale]) .fleet__status,
+  .fleet__row[data-heat='cold']:not([data-stale]) .fleet__status {
+    display: none;
+  }
+  .fleet__link .link {
+    display: inline-flex;
+    align-items: center;
+  }
+}
+@media (pointer: coarse) {
+  .fleet__link .link {
+    min-height: var(--size-target);
+  }
+}
+
+/* ---- the strip above the wall ---------------------------------------------------------------- */
+.fstrip {
+  display: flex;
+  align-items: stretch;
+  min-height: var(--fleet-strip-h);
+  border: var(--size-hairline) solid var(--color-line);
+  border-radius: var(--radius-16);
+  background: var(--color-raised);
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+}
+/* the lead cell is the first column, the hosts follow at one width each */
+.fstrip__link {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: var(--fleet-strip-lead-w);
+  grid-auto-columns: minmax(var(--fleet-strip-cell-w), 1fr);
+  align-items: stretch;
+  flex: 1 0 auto;
+  padding: var(--spacing-4);
+  color: inherit;
+  text-decoration: none;
+}
+/* the focus ring sits inside the band: the band scrolls, so an outside ring would be cut */
+a.fstrip__link:focus-visible {
+  outline-offset: calc(var(--size-ring) * -1);
+  border-radius: var(--radius-16);
+}
+a.fstrip__link:hover .fstrip__title {
+  text-decoration: underline;
+  text-underline-offset: var(--spacing-4);
+}
+/* three lines of one height in the lead and in every cell, so a row of figures lines up across the band */
+.fstrip__lead,
+.fstrip__cell {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  padding: var(--spacing-4);
+  border-radius: var(--radius-8);
+  font-size: var(--text-code);
+  line-height: var(--text-code--line-height);
+}
+.fstrip__head,
+.fstrip__row,
+.fstrip__name,
+.fstrip__fig {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  height: var(--text-code--line-height);
+  min-width: 0;
+}
+/* the lead stays at the left edge while a long band scrolls: it names the two rows of figures */
+/* its box reaches back over the band's own padding, so a cell sliding under it never shows in that gutter */
+.fstrip__lead {
+  position: sticky;
+  left: 0;
+  z-index: var(--layer-sticky);
+  margin-left: calc(var(--spacing-4) * -1);
+  padding-left: calc(var(--spacing-4) * 2);
+  background: var(--color-raised);
+}
+.fstrip__head {
+  gap: var(--spacing-4);
+}
+.fstrip__title {
+  font-size: var(--text-body);
+  font-weight: 500;
+}
+.fstrip__sum {
+  overflow: hidden;
+  color: var(--color-muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.fstrip__row {
+  color: var(--color-muted);
+}
+.fstrip__name {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--color-fg-secondary);
+}
+.fstrip__fig {
+  gap: var(--spacing-4);
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+/* the disk figure keeps one box coloured or not: a transparent hairline, pulled back over the cell's padding, so a warm or hot disk is outlined and
+   tinted (a shape and a tint) without a figure moving */
+.fstrip__disk {
+  padding: 0 calc(var(--spacing-4) - var(--size-hairline));
+  margin-inline: calc(var(--spacing-4) * -1);
+  border: var(--size-hairline) solid transparent;
+  border-radius: var(--radius-8);
+}
+.fstrip__disk[data-disk-heat='hot'],
+.fstrip__disk[data-disk-heat='warm'] {
+  border-color: var(--disk-heat);
+  background: var(--disk-wash);
+}
+.fstrip__disk[data-none='true'] {
+  color: var(--color-muted);
+  font-family: var(--font-ui);
+}
+.fstrip__cell[data-heat='hot'],
+.fstrip__cell[data-heat='warm'] {
+  background: var(--heat-wash);
+}
+.fstrip__cell[data-attn='true'] .fstrip__name {
+  color: var(--color-fg);
+}
+.fstrip[data-stale='true'] .fstrip__cell .spark,
+.fstrip__cell[data-stale='true'] .spark {
+  opacity: var(--overlay-figure);
+}
+.fstrip[data-stale='true'] .fstrip__disk,
+.fstrip__cell[data-stale='true'] .fstrip__disk {
+  color: var(--color-muted);
+}
+/* loading: the lead's own words and a skeleton line where each cell has a line, one line step (18) apart */
+.fstrip[data-state='loading'] .fstrip__cell {
+  gap: var(--spacing-6);
+}
+.fstrip__skel-sum {
+  width: var(--fleet-skel-fig-w);
+}
+/* the one sentence and the one action, in the strip's own height */
+.fstrip__empty {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-8) var(--spacing-16);
+  flex: 1;
+  padding: var(--spacing-8) var(--spacing-16);
+  color: var(--color-muted);
+}
+
+/* on a phone the band scrolls, so a node that runs hot comes first instead of waiting off screen (--bp-phone) */
+@media (max-width: 40rem) {
+  .fstrip__lead {
+    order: -2;
+  }
+  .fstrip__cell[data-attn='true'] {
+    order: -1;
+  }
+}
+
+/* the eight nav items cannot all fit their labels on a 320 px phone: the bar scrolls sideways there instead of cutting a word (--bp-nav-tight) */
+@media (max-width: 22.5rem) {
+  .nav {
+    overflow-x: auto;
+  }
+  .nav a {
+    flex: 0 0 auto;
+  }
+}

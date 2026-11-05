@@ -1,0 +1,355 @@
+{
+ "note": "A provisioned Grafana alert-rule set, reduced to uid, title, labels.component and labels.severity of every rule. test/netdata-cloud.test.ts and test/sources-netdata.test.ts check the host-disk tiers the Netdata mapping joins against it.",
+ "rules": [
+  {
+   "uid": "grafana-heartbeat",
+   "title": "Grafana alert heartbeat",
+   "component": "alert-pipeline",
+   "severity": "heartbeat",
+   "file": "ops/grafana/boards/alerting/groups/alert-pipeline.json"
+  },
+  {
+   "uid": "api-pg-backup-stale",
+   "title": "prod Postgres backup stale",
+   "component": "backups",
+   "severity": "page",
+   "file": "ops/grafana/boards/alerting/groups/fleet-backup.json"
+  },
+  {
+   "uid": "chhealth-node-1-page",
+   "title": "ClickHouse unhealthy (node-1)",
+   "component": "clickhouse-health",
+   "severity": "page",
+   "file": "ops/grafana/boards/alerting/groups/fleet-clickhouse.json"
+  },
+  {
+   "uid": "chhealth-node-1-warn",
+   "title": "ClickHouse degraded (node-1)",
+   "component": "clickhouse-health",
+   "severity": "warn",
+   "file": "ops/grafana/boards/alerting/groups/fleet-clickhouse.json"
+  },
+  {
+   "uid": "chhealth-node-2-page",
+   "title": "ClickHouse unhealthy (node-2)",
+   "component": "clickhouse-health",
+   "severity": "page",
+   "file": "ops/grafana/boards/alerting/groups/fleet-clickhouse.json"
+  },
+  {
+   "uid": "chhealth-node-2-warn",
+   "title": "ClickHouse degraded (node-2)",
+   "component": "clickhouse-health",
+   "severity": "warn",
+   "file": "ops/grafana/boards/alerting/groups/fleet-clickhouse.json"
+  },
+  {
+   "uid": "disk-node-6-a",
+   "title": "Host disk full imminent (node-6)",
+   "component": "host-disk",
+   "severity": "page",
+   "file": "ops/grafana/boards/alerting/groups/fleet-disk.json"
+  },
+  {
+   "uid": "disk-node-6-b",
+   "title": "Host disk filling up (node-6)",
+   "component": "host-disk",
+   "severity": "warn",
+   "file": "ops/grafana/boards/alerting/groups/fleet-disk.json"
+  },
+  {
+   "uid": "disk-node-6-c",
+   "title": "Host disk space low (node-6)",
+   "component": "host-disk",
+   "severity": "warn",
+   "file": "ops/grafana/boards/alerting/groups/fleet-disk.json"
+  },
+  {
+   "uid": "disk-node-1-a",
+   "title": "Host disk full imminent (node-1)",
+   "component": "host-disk",
+   "severity": "page",
+   "file": "ops/grafana/boards/alerting/groups/fleet-disk.json"
+  },
+  {
+   "uid": "disk-node-1-b",
+   "title": "Host disk filling up (node-1)",
+   "component": "host-disk",
+   "severity": "warn",
+   "file": "ops/grafana/boards/alerting/groups/fleet-disk.json"
+  },
+  {
+   "uid": "disk-node-1-c",
+   "title": "Host disk space low (node-1)",
+   "component": "host-disk",
+   "severity": "warn",
+   "file": "ops/grafana/boards/alerting/groups/fleet-disk.json"
+  },
+  {
+   "uid": "disk-node-2-a",
+   "title": "Host disk full imminent (node-2)",
+   "component": "host-disk",
+   "severity": "page",
+   "file": "ops/grafana/boards/alerting/groups/fleet-disk.json"
+  },
+  {
+   "uid": "disk-node-2-b",
+   "title": "Host disk filling up (node-2)",
+   "component": "host-disk",
+   "severity": "warn",
+   "file": "ops/grafana/boards/alerting/groups/fleet-disk.json"
+  },
+  {
+   "uid": "disk-node-2-c",
+   "title": "Host disk space low (node-2)",
+   "component": "host-disk",
+   "severity": "warn",
+   "file": "ops/grafana/boards/alerting/groups/fleet-disk.json"
+  },
+  {
+   "uid": "disk-node-4-a",
+   "title": "Host disk full imminent (node-4)",
+   "component": "host-disk",
+   "severity": "page",
+   "file": "ops/grafana/boards/alerting/groups/fleet-disk.json"
+  },
+  {
+   "uid": "disk-node-4-b",
+   "title": "Host disk filling up (node-4)",
+   "component": "host-disk",
+   "severity": "warn",
+   "file": "ops/grafana/boards/alerting/groups/fleet-disk.json"
+  },
+  {
+   "uid": "disk-node-4-c",
+   "title": "Host disk space low (node-4)",
+   "component": "host-disk",
+   "severity": "warn",
+   "file": "ops/grafana/boards/alerting/groups/fleet-disk.json"
+  },
+  {
+   "uid": "disk-node-5-a",
+   "title": "Host disk full imminent (node-5)",
+   "component": "host-disk",
+   "severity": "page",
+   "file": "ops/grafana/boards/alerting/groups/fleet-disk.json"
+  },
+  {
+   "uid": "disk-node-5-b",
+   "title": "Host disk filling up (node-5)",
+   "component": "host-disk",
+   "severity": "warn",
+   "file": "ops/grafana/boards/alerting/groups/fleet-disk.json"
+  },
+  {
+   "uid": "disk-node-5-c",
+   "title": "Host disk space low (node-5)",
+   "component": "host-disk",
+   "severity": "warn",
+   "file": "ops/grafana/boards/alerting/groups/fleet-disk.json"
+  },
+  {
+   "uid": "ingest-node-1-stale",
+   "title": "RBX ingest stale (node-1)",
+   "component": "ingest",
+   "severity": "page",
+   "file": "ops/grafana/boards/alerting/groups/fleet-ingest.json"
+  },
+  {
+   "uid": "ingest-node-1-lag",
+   "title": "Ingest lagging (node-1)",
+   "component": "ingest",
+   "severity": "warn",
+   "file": "ops/grafana/boards/alerting/groups/fleet-ingest.json"
+  },
+  {
+   "uid": "ingest-node-2-lag",
+   "title": "Ingest lagging (node-2)",
+   "component": "ingest",
+   "severity": "warn",
+   "file": "ops/grafana/boards/alerting/groups/fleet-ingest.json"
+  },
+  {
+   "uid": "ingest-prod-lag",
+   "title": "Ingest lagging (prod)",
+   "component": "ingest",
+   "severity": "warn",
+   "file": "ops/grafana/boards/alerting/groups/fleet-ingest.json"
+  },
+  {
+   "uid": "silent-vm-prod",
+   "title": "Metrics job silent (vm-prod)",
+   "component": "metrics-pipeline",
+   "severity": "warn",
+   "file": "ops/grafana/boards/alerting/groups/fleet-silence.json"
+  },
+  {
+   "uid": "silent-vm-rc-node-4",
+   "title": "Metrics job silent (vm-rc-node-4)",
+   "component": "metrics-pipeline",
+   "severity": "warn",
+   "file": "ops/grafana/boards/alerting/groups/fleet-silence.json"
+  },
+  {
+   "uid": "silent-vm-node-5",
+   "title": "Metrics job silent (vm-node-5)",
+   "component": "metrics-pipeline",
+   "severity": "warn",
+   "file": "ops/grafana/boards/alerting/groups/fleet-silence.json"
+  },
+  {
+   "uid": "vm-store-read-only",
+   "title": "Metrics store read-only (vm-prod)",
+   "component": "metrics-store",
+   "severity": "warn",
+   "file": "ops/grafana/boards/alerting/groups/fleet-silence.json"
+  },
+  {
+   "uid": "gateway-overhead-p99-slo",
+   "title": "gateway gateway overhead p99 regression",
+   "component": "gateway-gateway",
+   "severity": "warn",
+   "file": "ops/grafana/boards/alerting/groups/gateway-gateway.json"
+  },
+  {
+   "uid": "gateway-admission-wait-p99",
+   "title": "gateway harness admission wait p99 above 30 s",
+   "component": "gateway-gateway",
+   "severity": "warn",
+   "file": "ops/grafana/boards/alerting/groups/gateway-gateway.json"
+  },
+  {
+   "uid": "gateway-elu-hot",
+   "title": "gateway worker event loop saturated",
+   "component": "gateway-gateway",
+   "severity": "warn",
+   "file": "ops/grafana/boards/alerting/groups/gateway-gateway.json"
+  },
+  {
+   "uid": "gateway-ingest-queue-full",
+   "title": "gateway ingest queue depth above 80% of capacity",
+   "component": "gateway-gateway",
+   "severity": "warn",
+   "file": "ops/grafana/boards/alerting/groups/gateway-gateway.json"
+  },
+  {
+   "uid": "gateway-wal-growth",
+   "title": "gateway WAL above 2 GiB",
+   "component": "gateway-gateway",
+   "severity": "warn",
+   "file": "ops/grafana/boards/alerting/groups/gateway-gateway.json"
+  },
+  {
+   "uid": "gateway-shedding",
+   "title": "gateway shedding requests",
+   "component": "gateway-gateway",
+   "severity": "page",
+   "file": "ops/grafana/boards/alerting/groups/gateway-gateway.json"
+  },
+  {
+   "uid": "gateway-checkpoint-failures",
+   "title": "gateway checkpoint failures increasing",
+   "component": "gateway-gateway",
+   "severity": "warn",
+   "file": "ops/grafana/boards/alerting/groups/gateway-gateway.json"
+  },
+  {
+   "uid": "gateway-error-rate",
+   "title": "gateway 5xx error rate above 5%",
+   "component": "gateway-gateway",
+   "severity": "page",
+   "file": "ops/grafana/boards/alerting/groups/gateway-gateway.json"
+  },
+  {
+   "uid": "gateway-ch-spool-stuck",
+   "title": "gateway ClickHouse sink spooling to disk",
+   "component": "gateway-gateway",
+   "severity": "warn",
+   "file": "ops/grafana/boards/alerting/groups/gateway-gateway.json"
+  },
+  {
+   "uid": "gateway-ingest-emergency-ids",
+   "title": "gateway handed out emergency request ids",
+   "component": "gateway-gateway",
+   "severity": "warn",
+   "file": "ops/grafana/boards/alerting/groups/gateway-gateway.json"
+  },
+  {
+   "uid": "edge-event-loop",
+   "title": "Edge event loop lag",
+   "component": "edge-event-loop",
+   "severity": "warn",
+   "file": "ops/grafana/boards/alerting/groups/prod-health.json"
+  },
+  {
+   "uid": "api-pg-replica-lag",
+   "title": "prod Postgres replica lag or unreachable",
+   "component": "postgres",
+   "severity": "warn",
+   "file": "ops/grafana/boards/alerting/groups/prod-health.json"
+  },
+  {
+   "uid": "api-probe-streak",
+   "title": "API probe down (4 min streak)",
+   "component": "edge-probes",
+   "severity": "page",
+   "file": "ops/grafana/boards/alerting/rule-group.json"
+  },
+  {
+   "uid": "api-probe-flaps",
+   "title": "API probe flapping (10 min)",
+   "component": "edge-probes",
+   "severity": "warn",
+   "file": "ops/grafana/boards/alerting/rule-group.json"
+  },
+  {
+   "uid": "api-5xx-ratio",
+   "title": "API edge 5xx ratio (10 min)",
+   "component": "edge-http",
+   "severity": "page",
+   "file": "ops/grafana/boards/alerting/rule-group.json"
+  },
+  {
+   "uid": "api-dead-edge",
+   "title": "API edge dead (no http_events for 5 min)",
+   "component": "edge",
+   "severity": "page",
+   "file": "ops/grafana/boards/alerting/rule-group.json"
+  },
+  {
+   "uid": "api-webhook-5xx",
+   "title": "API webhook 500/502/504 (15 min)",
+   "component": "edge-webhooks",
+   "severity": "page",
+   "file": "ops/grafana/boards/alerting/rule-group.json"
+  },
+  {
+   "uid": "api-node-13-disk-headroom",
+   "title": "node-13 node disk: image GC no longer restores headroom (free under 90 GiB for 12 h)",
+   "component": "node-disk",
+   "severity": "warn",
+   "file": "ops/grafana/boards/alerting/rule-group.json"
+  },
+  {
+   "uid": "api-node-13-disk-pressure",
+   "title": "node-13 node disk: DiskPressure not recovering (free under 15% for 10 min)",
+   "component": "node-disk",
+   "severity": "page",
+   "file": "ops/grafana/boards/alerting/rule-group.json"
+  },
+  {
+   "uid": "api-billing-freeze",
+   "title": "API billing freeze active (probe)",
+   "component": "billing",
+   "severity": "page",
+   "file": "ops/grafana/boards/alerting/rule-group.json"
+  },
+  {
+   "uid": "api-cloud-start-stuck",
+   "title": "Cloud computer start stuck (start_timeout or requested with no live)",
+   "component": "cloud-computer",
+   "severity": "page",
+   "file": "ops/grafana/boards/alerting/rule-group.json"
+  }
+ ]
+}

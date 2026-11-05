@@ -1,0 +1,11 @@
+{
+  "name": "express-app",
+  "private": true,
+  "dependencies": {
+    "express": "^4.19.0",
+    "stripe": "^16.0.0"
+  },
+  "devDependencies": {
+    "vitest": "^2.0.0"
+  }
+}

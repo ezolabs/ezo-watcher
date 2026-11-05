@@ -1,0 +1,69 @@
+# The leak gate on its own: no install, no secrets, no build. scripts/leak-scan.mjs is Node standard library only, so this
+# workflow answers the same question on a fork's pull request as on main.
+#
+# Tier 1 is generic and lives in the scanner: IP addresses, machine names, e-mail, credentials, non-synthetic UUIDs and commit
+# identities, with no list at all. It runs everywhere.
+#
+# Tier 2 is a plain token list that never enters the tree: it lives in the LEAK_DENYLIST repository secret (and, locally, in
+# LEAK_DENYLIST_FILE). A push to main runs with --require-denylist, so a main without the secret fails closed (exit 3) rather
+# than passing. A fork's pull request gets no repository secret: tier 2 is then skipped with a printed note and tier 1 still
+# runs — the one trade a fork forces.
+#
+# The build and the `dist/` scan live in ci.yml, which is the lane that already installs dependencies. This lane reads the
+# tree and the commit messages this push or pull request adds (`--history range`), so it stays fast enough to run on every
+# push and on a schedule.
+name: Leak gate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Weekly, as a second opinion on main: the gate costs a checkout and a few seconds, and a tree that drifted between
+    # pull requests should not wait for the next push to say so.
+    - cron: '17 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: leak-gate-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gate:
+    name: tree and history
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out with full history, so the gate reads every commit message
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      # A push to main owns the secret: a missing one is a broken configuration and the gate says so (exit 3).
+      - name: Scan the tree and the new commit messages (main, denylist required)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: node scripts/leak-scan.mjs --github --history range --require-denylist
+        env:
+          # The commits this event adds: `before..sha` on a push (`before` is the all-zero sha on a first push, which the
+          # scanner reads as no range and scans in full). A schedule or a manual run names neither, so the variable is empty
+          # and every commit message is read, as it is locally by default.
+          LEAK_HISTORY_RANGE: ${{ github.event.before && format('{0}..{1}', github.event.before, github.sha) }}
+          LEAK_DENYLIST: ${{ secrets.LEAK_DENYLIST }}
+
+      # A pull request (or the schedule) has no guaranteed secret: tier 1 always runs, and tier 2 runs when the secret is
+      # present. The scanner prints the skip when it is not, so a green run never pretends tier 2 ran.
+      - name: Scan the tree and the new commit messages (pull request, tier 2 when the secret is present)
+        if: github.event_name != 'push' || github.ref != 'refs/heads/main'
+        run: node scripts/leak-scan.mjs --github --history range
+        env:
+          LEAK_HISTORY_RANGE: ${{ (github.event_name == 'push' && format('{0}..{1}', github.event.before, github.sha)) || (github.base_ref && format('origin/{0}..HEAD', github.base_ref)) }}
+          LEAK_DENYLIST: ${{ secrets.LEAK_DENYLIST }}

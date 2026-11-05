@@ -1,0 +1,193 @@
+[
+ {
+  "id": "00000000-0000-4000-8000-000000000001",
+  "name": "node-5",
+  "os": "linux",
+  "version": "v2.10.4",
+  "machineGUID": "00000000-0000-4000-8000-000000000002",
+  "state": "reachable",
+  "isDeleted": false,
+  "alarmCounters": {
+   "warning": 0,
+   "critical": 0,
+   "silencing_state": {
+    "state": "NONE"
+   }
+  },
+  "eligibility": {
+   "is_eligible": true
+  }
+ },
+ {
+  "id": "00000000-0000-4000-8000-000000000003",
+  "name": "mac-a1.example.net",
+  "os": "macos",
+  "version": "v2.9.0",
+  "machineGUID": "00000000-0000-4000-8000-000000000004",
+  "state": "reachable",
+  "isDeleted": false,
+  "alarmCounters": {
+   "warning": 0,
+   "critical": 1,
+   "silencing_state": {
+    "state": "NONE"
+   }
+  },
+  "eligibility": {
+   "is_eligible": true
+  }
+ },
+ {
+  "id": "00000000-0000-4000-8000-000000000005",
+  "name": "node-3",
+  "os": "linux",
+  "version": "v2.10.4",
+  "machineGUID": "00000000-0000-4000-8000-000000000006",
+  "state": "reachable",
+  "isDeleted": false,
+  "alarmCounters": {
+   "warning": 0,
+   "critical": 0,
+   "silencing_state": {
+    "state": "NONE"
+   }
+  },
+  "eligibility": {
+   "is_eligible": true
+  }
+ },
+ {
+  "id": "00000000-0000-4000-8000-000000000007",
+  "name": "print",
+  "services": [],
+  "os": "linux",
+  "osName": "Ubuntu",
+  "osVersion": "24.04.3 LTS (Noble Numbat)",
+  "kernelName": "Linux",
+  "kernelVersion": "6.8.0-71-generic",
+  "architecture": "x86_64",
+  "cpus": 2,
+  "cpuFrequency": "1.996 GHz",
+  "memory": "3.8 GiB",
+  "diskSpace": "80 GiB",
+  "virtualization": "kvm",
+  "container": "none",
+  "version": "v2.12.1",
+  "machineGUID": "00000000-0000-4000-8000-000000000008",
+  "hostLabels": {
+   "_abbrev_timezone": "UTC",
+   "_aclk_available": "true",
+   "_aclk_ng_new_cloud_protocol": "true",
+   "_aclk_proxy": "none",
+   "_architecture": "x86_64",
+   "_cloud_instance_region": "unknown",
+   "_cloud_instance_type": "unknown",
+   "_cloud_provider_type": "unknown",
+   "_container": "none",
+   "_container_detection": "systemd-detect-virt",
+   "_has_unstable_connection": "false",
+   "_hostname": "print",
+   "_hw_product_id": "Droplet",
+   "_hw_product_name": "DigitalOcean_Droplet",
+   "_hw_product_type": "vm",
+   "_hw_sys_vendor": "DigitalOcean",
+   "_install_type": "manual-static",
+   "_is_ephemeral": "false",
+   "_is_k8s_node": "false",
+   "_is_parent": "false",
+   "_kernel_version": "6.8.0-71-generic",
+   "_mqtt_version": "5",
+   "_net_default_iface": "eth0",
+   "_net_default_iface_detection": "procfs",
+   "_net_default_iface_ip": "203.0.113.10",
+   "_os": "linux",
+   "_os_codename": "noble",
+   "_os_name": "Ubuntu",
+   "_os_release": "24.04",
+   "_os_version": "24.04.3 LTS (Noble Numbat)",
+   "_prebuilt_arch": "x86_64",
+   "_system_cores": "2",
+   "_system_cpu_freq": "1996000000",
+   "_system_cpu_model": "DO-Premium-AMD",
+   "_system_disk_space": "85899839488",
+   "_system_ram_total": "4106231808",
+   "_timezone": "Etc/UTC",
+   "_virt_detection": "systemd-detect-virt",
+   "_virtualization": "kvm"
+  },
+  "mlInfo": {
+   "mlCapable": true,
+   "mlEnabled": true
+  },
+  "alarmCounters": {
+   "warning": 1,
+   "critical": 0,
+   "silencing_state": {
+    "state": "NONE"
+   }
+  },
+  "isDeleted": false,
+  "isPreferred": true,
+  "state": "reachable",
+  "eligibility": {
+   "is_eligible": true
+  }
+ },
+ {
+  "id": "00000000-0000-4000-8000-000000000009",
+  "name": "node-4",
+  "os": "linux",
+  "version": "v2.10.4",
+  "machineGUID": "00000000-0000-4000-8000-00000000000a",
+  "state": "reachable",
+  "isDeleted": false,
+  "alarmCounters": {
+   "warning": 1,
+   "critical": 0,
+   "silencing_state": {
+    "state": "NONE"
+   }
+  },
+  "eligibility": {
+   "is_eligible": true
+  }
+ },
+ {
+  "id": "00000000-0000-4000-8000-00000000000b",
+  "name": "node-2",
+  "os": "linux",
+  "version": "v2.10.4",
+  "machineGUID": "00000000-0000-4000-8000-00000000000c",
+  "state": "reachable",
+  "isDeleted": false,
+  "alarmCounters": {
+   "warning": 0,
+   "critical": 0,
+   "silencing_state": {
+    "state": "NONE"
+   }
+  },
+  "eligibility": {
+   "is_eligible": true
+  }
+ },
+ {
+  "id": "00000000-0000-4000-8000-00000000000d",
+  "name": "node-1",
+  "os": "linux",
+  "version": "v2.10.4",
+  "machineGUID": "00000000-0000-4000-8000-00000000000e",
+  "state": "reachable",
+  "isDeleted": false,
+  "alarmCounters": {
+   "warning": 0,
+   "critical": 0,
+   "silencing_state": {
+    "state": "NONE"
+   }
+  },
+  "eligibility": {
+   "is_eligible": true
+  }
+ }
+]
