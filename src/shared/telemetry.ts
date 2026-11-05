@@ -161,6 +161,31 @@ export function writeTelemetryFile(path: string, file: TelemetryFile): void {
   renameSync(tmp, path)
 }
 
+/**
+ * The fields a running process keeps up to date. The rest are set once (the id and the notice, at first run) or are the
+ * user's choice (`enabled`, `chosenAt`), which only `setTelemetryEnabled` writes.
+ */
+export type TelemetryPatch = Partial<Omit<TelemetryFile, 'id' | 'enabled' | 'chosenAt' | 'notifiedAt'>>
+
+/**
+ * Change some fields of the file and keep the rest as they are on disk now, not as this process read them: another process
+ * may have written it since (`watcher telemetry disable` while a server runs, another command's backoff). Writes nothing when
+ * the file is gone, does not parse or says `enabled: false`, so a stored disable is never written over. Returns what is on
+ * disk afterwards (null when there is no readable file); throws only when the write itself fails.
+ */
+export function updateTelemetryFile(path: string, patch: TelemetryPatch | ((file: TelemetryFile) => TelemetryPatch)): TelemetryFile | null {
+  let disk: TelemetryFile | null
+  try {
+    disk = readTelemetryFile(path)
+  } catch {
+    return null
+  }
+  if (disk === null || !disk.enabled) return disk
+  const file: TelemetryFile = { ...disk, ...(typeof patch === 'function' ? patch(disk) : patch) }
+  writeTelemetryFile(path, file)
+  return file
+}
+
 /** `watcher telemetry enable|disable`: the stored choice. Enabling by hand counts as having seen the notice. */
 export function setTelemetryEnabled(enabled: boolean, env: Env = process.env, now = new Date()): { path: string; file: TelemetryFile } {
   const path = telemetryConfigPath(env)
@@ -298,13 +323,14 @@ export interface TelemetryOptions {
 }
 
 export class Telemetry {
-  readonly decision: TelemetryDecision
   readonly debug: boolean
   readonly path: string
   /** Sends in this process that failed or timed out. Expected (offline, firewalled), and never shown to the user. */
   sendFailures = 0
+  private decided: TelemetryDecision
+  /** The file as last read from disk; re-read before every send and every write (see `recheck`). */
   private file: TelemetryFile | null
-  private readonly context: TelemetryContext | null
+  private context: TelemetryContext | null
   private readonly queue: TelemetryEvent[] = []
   private readonly env: Env
   private readonly print: (text: string) => void
@@ -312,6 +338,8 @@ export class Telemetry {
   private readonly now: () => Date
   private readonly timeoutMs: number
   private lastHeartbeatMs: number | null
+  /** This process's own backoff after a send that got no answer, which holds even when the file cannot be written. */
+  private pausedUntil = 0
   private readonly root: string
   /** Error signatures already reported by this process: a failure that repeats every tick is one event, not thousands. */
   private readonly reported = new Set<string>()
@@ -363,7 +391,7 @@ export class Telemetry {
         decision = { enabled: false, reason: 'config-unwritable' }
       }
     }
-    this.decision = decision
+    this.decided = decision
     this.file = file
     this.lastHeartbeatMs = file?.lastHeartbeatAt ? Date.parse(file.lastHeartbeatAt) : null
     // Debug mode builds the payload even when telemetry is off, so a user can read what would go before turning it on. It
@@ -373,8 +401,7 @@ export class Telemetry {
       this.queue.push(...file.pending)
       if (!this.debug) {
         try {
-          this.file = { ...file, pending: [] }
-          writeTelemetryFile(this.path, this.file)
+          this.file = updateTelemetryFile(this.path, { pending: [] })
         } catch {
           // Left in the file, the crash events would be sent again next time; dropping them here keeps one copy in flight.
           this.queue.length = 0
@@ -383,9 +410,40 @@ export class Telemetry {
     }
   }
 
+  /** On or off, and why. Decided at start; a later opt-out (see `recheck`) turns it off, and nothing turns it back on. */
+  get decision(): TelemetryDecision {
+    return this.decided
+  }
+
   /** Whether events are recorded at all (sent, or printed in debug mode). */
   get active(): boolean {
     return this.context !== null
+  }
+
+  /**
+   * Re-read the file before a send or a write: the user may have run `watcher telemetry disable` (or set DO_NOT_TRACK) since
+   * this process started, and a server runs for weeks. An opt-out found here turns telemetry off for the rest of the process
+   * and drops what is queued (debug mode keeps both, to print what would have gone). A tiny sync read; it never throws.
+   * Returns whether telemetry is still on.
+   */
+  private recheck(): boolean {
+    if (!this.decided.enabled) return false
+    let file: TelemetryFile | null = null
+    let unreadable = false
+    try {
+      file = readTelemetryFile(this.path)
+    } catch {
+      unreadable = true
+    }
+    const decision = decideTelemetry(this.env, file, unreadable)
+    this.file = file
+    if (decision.enabled) return true
+    this.decided = decision
+    if (!this.debug) {
+      this.queue.length = 0
+      this.context = null
+    }
+    return false
   }
 
   record(event: TelemetryEvent): void {
@@ -401,6 +459,8 @@ export class Telemetry {
 
   /** Send what is queued, once. Resolves within the timeout and never rejects. */
   async flush(): Promise<void> {
+    if (this.queue.length === 0) return
+    this.recheck()
     const batch = this.batch()
     if (!batch) return
     this.queue.length = 0
@@ -411,8 +471,9 @@ export class Telemetry {
       return
     }
     if (!this.decision.enabled) return
-    const blockedUntil = this.file?.backoffUntil ? Date.parse(this.file.backoffUntil) : Number.NaN
-    if (this.now().getTime() < blockedUntil) return
+    const now = this.now().getTime()
+    const storedUntil = this.file?.backoffUntil ? Date.parse(this.file.backoffUntil) : Number.NaN
+    if (now < storedUntil || now < this.pausedUntil) return
     try {
       const res = await this.doFetch(TELEMETRY_ENDPOINT, {
         method: 'POST',
@@ -426,13 +487,12 @@ export class Telemetry {
       // No answer at all (offline, or a firewall that drops the packets): stop trying for an hour, so a machine that cannot
       // reach the collector does not wait out the timeout on every command.
       this.sendFailures++
-      if (this.file) {
-        try {
-          this.file = { ...this.file, backoffUntil: new Date(this.now().getTime() + BACKOFF_MS).toISOString() }
-          writeTelemetryFile(this.path, this.file)
-        } catch {
-          // Without the file the backoff holds for this process only, which is still one timeout per process.
-        }
+      this.pausedUntil = this.now().getTime() + BACKOFF_MS
+      if (!this.recheck()) return
+      try {
+        this.file = updateTelemetryFile(this.path, { backoffUntil: new Date(this.pausedUntil).toISOString() })
+      } catch {
+        // Without the file the backoff holds for this process only (`pausedUntil`), which is still one timeout per process.
       }
     }
   }
@@ -467,10 +527,9 @@ export class Telemetry {
       this.print(`[telemetry] kept for the next run (debug: not stored): ${JSON.stringify(event)}`)
       return
     }
-    if (!this.decision.enabled || !this.file) return
+    if (!this.recheck()) return
     try {
-      this.file = { ...this.file, pending: [...this.file.pending, event].slice(-MAX_PENDING) }
-      writeTelemetryFile(this.path, this.file)
+      this.file = updateTelemetryFile(this.path, (disk) => ({ pending: [...disk.pending, event].slice(-MAX_PENDING) }))
     } catch {
       // The process is crashing and the file cannot be written: the event is lost, which costs nothing but the event.
     }
@@ -486,10 +545,9 @@ export class Telemetry {
   markHeartbeat(): void {
     const at = this.now()
     this.lastHeartbeatMs = at.getTime()
-    if (this.debug || !this.decision.enabled || !this.file) return
+    if (this.debug || !this.recheck()) return
     try {
-      this.file = { ...this.file, lastHeartbeatAt: at.toISOString() }
-      writeTelemetryFile(this.path, this.file)
+      this.file = updateTelemetryFile(this.path, { lastHeartbeatAt: at.toISOString() })
     } catch {
       // In-memory state still holds this process to one heartbeat a day.
     }
