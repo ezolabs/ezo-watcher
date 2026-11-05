@@ -18,6 +18,13 @@ Agentic LiveOps monitoring: self-hosted, MCP-native, no account, and every check
 
 [Live demo](https://ezo-watcher-demo.pages.dev) · [Quickstart](#quickstart) · [How it works](#how-it-works) · [The fix loop](#the-fix-loop) · [What agents see](#what-agents-see) · [MCP](#mcp) · [Hosting](#hosting) · [Docs](#docs)
 
+```sh
+npm i -g ezo-watcher
+watcher init
+```
+
+No global install: `npx -y ezo-watcher init`
+
 <br>
 
 <picture>

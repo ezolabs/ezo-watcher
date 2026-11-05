@@ -3,6 +3,8 @@
 # One name per line; a name accepts itself and every subdomain of it (`ntfy.sh` accepts `docs.ntfy.sh`).
 #   ip:<address>   accepts one IP address (documentation ranges need no entry: they are accepted already)
 #   hex:<value>    accepts one long hex run that is data, not a secret (a documented fixture id)
+#   commit:<sha>   accepts the tier-1 findings in one already-public commit's message, author and committer, by its full
+#                  40-hex sha only; tier 2 still reads that commit, and the scan prints how many findings it accepted
 #
 # The gate denies every other hostname, so this is the one place to add a public service. A private host, a machine name on
 # someone's LAN, a tenant's subdomain or an address that belongs to an owner is exactly what the list must never accept.
@@ -79,3 +81,8 @@ ip:1.3.5.17
 # A Sentry event id recorded in a fixture: opaque data, not a credential.
 hex:dc5e10386888aad564c275ab3c595f974b097871
 ezo-watcher-demo.pages.dev
+
+# Commits already public whose tier-1 findings are accepted (the messages cannot be unpublished; tier 2 still applies).
+# Each message carries a tooling trailer with a UUID.
+commit:5c009e50cfbc9ab24acf4f5f4755ceedd4e39fe2
+commit:cc7f3b75c90183ca69081d1832928a75dafc624b

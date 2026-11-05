@@ -15,13 +15,15 @@
 // a fork's pull request has no secret, so without the flag tier 2 is skipped with a printed note and tier 1 still runs.
 //
 // What is scanned: the tracked (and not ignored) files of the tree and, for every commit `--history` names (`all` by default),
-// its message and its author and committer name and e-mail — all in full. The built output under `dist/`, when a build has run, is read by tier 2 and by the config
-// rule below rather than by tier 1's shape heuristics: a minified third-party bundle is full of object properties that end in
-// a reserved machine-name suffix, documentation links and dependency commit ids, so tier 1 belongs on the sources that name a
-// value, while the exact denylist and the config rule are what a build artifact can be judged by. The config rule is the
-// UptimeFlare class of bug, where a build-time config module reaches the browser: every source host:port and every `*Env`
-// name the example config and its fixtures carry must not appear in `dist/web/**`, the one bundle a browser receives (the CLI
-// and server bundles under `dist/cli/` and `dist/server/` legitimately carry those names: they are the process that reads them).
+// its message and its author and committer name and e-mail — all in full, except that a commit the allowlist names as
+// `commit:<sha>` (already public) has its tier-1 findings counted and printed rather than reported. The built output under
+// `dist/`, when a build has run, is read by tier 2 and by the config rule below rather than by tier 1's shape heuristics: a
+// minified third-party bundle is full of object properties that end in a reserved machine-name suffix, documentation links
+// and dependency commit ids, so tier 1 belongs on the sources that name a value, while the exact denylist and the config rule
+// are what a build artifact can be judged by. The config rule is the UptimeFlare class of bug, where a build-time config
+// module reaches the browser: every source host:port and every `*Env` name the example config and its fixtures carry must not
+// appear in `dist/web/**`, the one bundle a browser receives (the CLI and server bundles under `dist/cli/` and `dist/server/`
+// legitimately carry those names: they are the process that reads them).
 //
 // The brand of this product is allowed in both tiers (`EZO Watcher`, `ezo-watcher`, `ezolabs`, `EZO Labs`): the gate denies
 // infrastructure identifiers, not the project's own name.
@@ -151,7 +153,8 @@ const USAGE = `leak-scan — the two-tier leak gate
   node scripts/leak-scan.mjs [options]
 
   --root <dir>              tree to scan (default: the working directory)
-  --allow <file>            hostname allowlist (default: <root>/scripts/leak-allow.txt)
+  --allow <file>            allowlist of hostnames and ip:, hex: and commit:<sha> entries
+                            (default: <root>/scripts/leak-allow.txt)
   --require-denylist        fail closed (exit 3) when LEAK_DENYLIST / LEAK_DENYLIST_FILE names no token
   --config <file>           example config whose source hosts and *Env names the bundle may not carry
                             (default: <root>/config/watch.example.json, when present)
@@ -172,17 +175,30 @@ Exit codes: 0 clean, 1 findings, 2 usage, 3 the gate could not load its allowlis
 //   example.com        a hostname; accepts the name itself and every subdomain of it
 //   ip:203.0.113.9     one IP address (RFC 5737 documentation addresses need no entry: they are accepted already)
 //   hex:<value>        one long hex run that is data, not a secret (a documented fixture id)
-const emptyAllow = () => ({ hosts: new Set(), ips: new Set(), hex: new Set() })
+//   commit:<sha>       one commit already public, by its full 40-hex sha: tier 1 accepts what that commit's message, author
+//                      and committer carry (a pushed commit cannot be unpublished, so re-flagging it says nothing new), while
+//                      tier 2 still reads them and reports. Every accepted finding is counted in the summary line and in
+//                      --json, so a green run never hides one. The sha itself is a public commit id, accepted as a hex run.
+const emptyAllow = () => ({ hosts: new Set(), ips: new Set(), hex: new Set(), commits: new Set() })
+
+const COMMIT_SHA_RE = /^[0-9a-f]{40}$/i
 
 function readAllowlist(file) {
   if (!existsSync(file)) throw new UnusableError('leak.allowlist-missing', `no allowlist at ${file}`)
   const allow = emptyAllow()
-  for (const raw of readFileSync(file, 'utf8').split(/\r?\n/)) {
-    const line = raw.trim()
+  const lines = readFileSync(file, 'utf8').split(/\r?\n/)
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim()
     if (line === '' || line.startsWith('#')) continue
     if (line.startsWith('ip:')) allow.ips.add(line.slice(3).trim())
     else if (line.startsWith('hex:')) allow.hex.add(line.slice(4).trim().toLowerCase())
-    else allow.hosts.add(line.toLowerCase())
+    else if (line.startsWith('commit:')) {
+      // Only the full sha: an abbreviation could come to name a second commit as the history grows.
+      const sha = line.slice(7).trim()
+      if (!COMMIT_SHA_RE.test(sha)) throw new UnusableError('leak.allowlist-invalid', `${file}:${i + 1}: ${JSON.stringify(line)} is not commit:<full 40-hex sha>`)
+      allow.commits.add(sha.toLowerCase())
+      allow.hex.add(sha.toLowerCase())
+    } else allow.hosts.add(line.toLowerCase())
   }
   if (allow.hosts.size === 0) throw new UnusableError('leak.allowlist-missing', `${file} lists no hostnames`)
   return allow
@@ -603,7 +619,7 @@ function scan(options = {}) {
   }
 
   const findings = []
-  const stats = { files: 0, bytes: 0, commits: 0, distFiles: 0, tier1: 0, tier2: 0, skipped: 0, denylistSkipped: envEntries.length === 0 }
+  const stats = { files: 0, bytes: 0, commits: 0, distFiles: 0, tier1: 0, tier2: 0, skipped: 0, acceptedCommits: 0, acceptedFindings: 0, denylistSkipped: envEntries.length === 0 }
 
   // The tree in full; then the built output by tier 2 and the config rule only (see the note at the top of the file).
   const distFiles = options.dist === false ? [] : listDistFiles(root)
@@ -628,8 +644,13 @@ function scan(options = {}) {
     const range = (options.history ?? 'all') === 'range' ? (options.range ?? env.LEAK_HISTORY_RANGE) : null
     for (const { sha, author, committer, body } of commits(root, range)) {
       stats.commits++
+      // A listed commit is already public: its tier-1 findings are counted, not reported. Tier 2 reads it as any other.
+      const listed = allow.commits.has(sha.toLowerCase())
+      if (listed) stats.acceptedCommits++
       for (const [label, text] of [[`<git-log>:${sha}`, body], [`<git-author>:${sha}`, author], [`<git-committer>:${sha}`, committer]]) {
-        findings.push(...scanTier1(text, label, allow))
+        const tier1 = scanTier1(text, label, allow)
+        if (listed) stats.acceptedFindings += tier1.length
+        else findings.push(...tier1)
         findings.push(...scanTier2(text, label, envEntries))
       }
     }
@@ -671,11 +692,14 @@ function report(result, opts) {
   if (!opts.quiet) {
     const where = `${stats.files} files (${stats.skipped} binary or unreadable skipped), ${stats.commits} commits`
     const dist = stats.distFiles > 0 ? `, ${stats.distFiles} built files` : ''
+    const accepted = stats.acceptedCommits > 0
+      ? `, ${stats.acceptedFindings} tier-1 finding${stats.acceptedFindings === 1 ? '' : 's'} accepted in ${stats.acceptedCommits} listed commit${stats.acceptedCommits === 1 ? '' : 's'}`
+      : ''
     const skipped = stats.denylistSkipped ? ', tier 2 skipped: LEAK_DENYLIST and LEAK_DENYLIST_FILE name no token' : ''
     process.stdout.write(
       findings.length === 0
-        ? `leak-scan: clean — ${where}${dist}${skipped}\n`
-        : `leak-scan: ${findings.length} finding${findings.length === 1 ? '' : 's'} (tier 1: ${stats.tier1}, tier 2: ${stats.tier2}) in ${where}${dist}${skipped}\n`
+        ? `leak-scan: clean — ${where}${dist}${accepted}${skipped}\n`
+        : `leak-scan: ${findings.length} finding${findings.length === 1 ? '' : 's'} (tier 1: ${stats.tier1}, tier 2: ${stats.tier2}) in ${where}${dist}${accepted}${skipped}\n`
     )
   }
 }

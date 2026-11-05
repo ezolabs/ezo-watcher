@@ -425,6 +425,77 @@ describe('the commit messages', () => {
     expect(report?.findings).toEqual([])
     expect(status).toBe(0)
   })
+
+  // A pushed commit cannot be unpublished, so an allowlist entry may accept its tier-1 findings: by full sha, for that commit
+  // only, never for tier 2, and never silently.
+  it('accepts the tier-1 findings of a commit listed as already public, in that commit only, and counts them', () => {
+    const dir = tempTree({
+      'scripts/leak-allow.txt': ALLOW,
+      'README.md': '# demo\n'
+    })
+    const git = (...args: string[]) =>
+      spawnSync('git', ['-c', 'user.email=t@example.com', '-c', 'user.name=T', '-C', dir, ...args], { encoding: 'utf8' })
+    const init = git('init', '-q')
+    if (init.status !== 0) return // no git on this machine: nothing to prove
+    git('add', '-A')
+    git('commit', '-q', '-m', `Record space ${PLANTED.uuid}`)
+    const listed = git('rev-parse', 'HEAD').stdout.trim()
+
+    const red = run(['--root', dir, '--json'])
+    expect(red.status).toBe(1)
+    expect(red.report?.findings.map((finding) => [finding.rule, finding.file])).toEqual([['uuid', `<git-log>:${listed}`]])
+
+    // The allowlist now carries the 40-hex sha itself: it is accepted as a hex run too, or the tree scan would report it.
+    writeFileSync(join(dir, 'scripts/leak-allow.txt'), `${ALLOW}commit:${listed}\n`)
+    const green = run(['--root', dir, '--json'])
+    expect(green.report?.findings).toEqual([])
+    expect(green.status).toBe(0)
+    expect(green.report?.stats).toMatchObject({ commits: 1, tier1: 0, acceptedCommits: 1, acceptedFindings: 1 })
+    const summary = run(['--root', dir])
+    expect(summary.status).toBe(0)
+    expect(summary.stdout).toContain('leak-scan: clean — ')
+    expect(summary.stdout).toContain(', 1 tier-1 finding accepted in 1 listed commit')
+
+    // The same UUID in a later commit the list does not name is a finding again.
+    writeFileSync(join(dir, 'README.md'), '# demo\nmore\n')
+    git('add', 'README.md')
+    git('commit', '-q', '-m', `Record space ${PLANTED.uuid} again`)
+    const next = git('rev-parse', 'HEAD').stdout.trim()
+    const narrow = run(['--root', dir, '--json'])
+    expect(narrow.status).toBe(1)
+    expect(narrow.report?.findings.map((finding) => [finding.rule, finding.file])).toEqual([['uuid', `<git-log>:${next}`]])
+    expect(narrow.report?.stats).toMatchObject({ commits: 2, acceptedCommits: 1, acceptedFindings: 1 })
+  })
+
+  it('still reports a denied token in a listed commit: the entry accepts tier 1 only', () => {
+    const dir = tempTree({
+      'scripts/leak-allow.txt': ALLOW,
+      'README.md': '# demo\n'
+    })
+    const git = (...args: string[]) =>
+      spawnSync('git', ['-c', 'user.email=t@example.com', '-c', 'user.name=T', '-C', dir, ...args], { encoding: 'utf8' })
+    const init = git('init', '-q')
+    if (init.status !== 0) return // no git on this machine: nothing to prove
+    git('add', '-A')
+    git('commit', '-q', '-m', `Add ${PLANTED.token} support for ${PLANTED.uuid}`)
+    const listed = git('rev-parse', 'HEAD').stdout.trim()
+    writeFileSync(join(dir, 'scripts/leak-allow.txt'), `${ALLOW}commit:${listed}\n`)
+    const { status, report } = run(['--root', dir, '--json'], { LEAK_DENYLIST: PLANTED.token })
+    expect(status).toBe(1)
+    expect(report?.findings.map((finding) => [finding.tier, finding.rule, finding.file])).toEqual([[2, 'denylist', `<git-log>:${listed}`]])
+    expect(report?.stats).toMatchObject({ tier1: 0, tier2: 1, acceptedCommits: 1, acceptedFindings: 1 })
+  })
+
+  it('refuses a commit entry that is not a full 40-hex sha', () => {
+    for (const entry of ['commit:', parts('commit:', 'abc1234'), parts('commit:', 'a'.repeat(39)), parts('commit:', 'g'.repeat(40))]) {
+      const dir = tempTree({ 'scripts/leak-allow.txt': `${ALLOW}${entry}\n`, 'src/clean.ts': 'export const ok = true\n' })
+      const { status, report } = run(['--root', dir, '--history', 'none', '--json'])
+      expect(status, entry).toBe(3)
+      expect(report?.code, entry).toBe('leak.allowlist-invalid')
+      // The entry sits on line 7, after the six names of ALLOW.
+      expect(report?.error, entry).toContain('leak-allow.txt:7')
+    }
+  })
 })
 
 describe('the gate keeps its own files clean', () => {
