@@ -1,6 +1,6 @@
 # EZO Watcher
 
-> Agent-first monitoring that lives in your project: an alert wall, a pager, and a `watcher` CLI whose install loop a coding agent runs end to end. Local by default; no account; config as code in `.watcher/`.
+> The open-source AI SRE for your project: agentic LiveOps monitoring that lives in your repo. An alert wall, a pager, and a `watcher` CLI whose install loop a coding agent runs end to end. Local by default; no account; config as code in `.watcher/`.
 
 EZO Watcher watches a project's real telemetry points — a dependency-gated readiness route first, heartbeats for every scheduled job, then error trackers, metrics and inbound webhooks — and proves each check can go red before calling the install done.
 
