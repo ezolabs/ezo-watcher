@@ -7,7 +7,7 @@
 // `npm i -g <tgz>` does, and runs the transcript with the installed bin: the install path, not the
 // checkout. Without it the transcript runs this tree's bin/watcher.mjs.
 //
-// `--from-git <spec>` installs a git ref the way the README's one-liner does — `npm i -g --install-links <spec>`
+// `--from-git <spec>` installs a git ref the way install.md's git install does — `npm i -g --install-links <spec>`
 // into a temporary prefix and cache — and runs the transcript with that bin. Point it at a local bare mirror
 // (`git+file:///path/to/repo.git`) or, once the branch is pushed, at `github:ezolabs/ezo-watcher`. It fails
 // loudly when the installed package is a symlink into npm's cache, which is the npm 11 git-install defect

@@ -5,21 +5,33 @@ EZO Watcher is one CLI (`watcher`) that runs one Node process and keeps its stat
 ## What you need
 
 - Node.js 24 or newer (`node --version`). An installed package runs bundled JavaScript (`dist/cli/main.mjs` and `dist/server/main.mjs`, built by the package's `prepack`); from a checkout the same files run as TypeScript under Node's type stripping. Either way there is no build step for you to run.
-- npm 10+ and git.
-- Network access to github.com: the CLI installs from `ezolabs/ezo-watcher` (not yet on npm; see below).
+- npm 10+.
+- Network access to the npm registry. The latest-main install below also needs git and github.com.
 
 Not needed: Docker, a database, a browser, or any credential. A credential is needed only when a source or channel you choose has one.
 
 ## Install the CLI
 
 ```bash
-CI=1 npm_config_yes=true GIT_TERMINAL_PROMPT=0 npm i -g --install-links github:ezolabs/ezo-watcher
+CI=1 npm_config_yes=true npm i -g ezo-watcher
 watcher --version
 ```
 
-The prefixes matter when an agent runs it: `CI=1` and `npm_config_yes=true` answer npm's confirmation prompts, and `GIT_TERMINAL_PROMPT=0` makes a missing GitHub credential fail immediately instead of waiting for a username that no agent will type.
+The prefixes matter when an agent runs it: `CI=1` and `npm_config_yes=true` answer npm's confirmation prompts.
 
-`--install-links` is part of the command, not a preference. A git dependency that declares a build script (`prepare`, `prepack`, `preinstall`, `build`, `install` or `postinstall` — this package has `prepare`) makes npm 11 run a nested global install of the clone it made under its cache, and with `install-links` off that nested install reifies the package as a symlink to the clone instead of packing it. npm deletes the clone when the install ends, so `<prefix>/lib/node_modules/ezo-watcher` is left a dangling symlink and `<prefix>/bin/watcher` with it. `--install-links` makes npm pack the prepared clone into a tarball and install a real package directory, which is what a global install should be.
+Without a global install, `npx -y ezo-watcher <verb>` runs the same CLI from the registry:
+
+```bash
+CI=1 npm_config_yes=true npx -y ezo-watcher init
+```
+
+Latest main, straight from GitHub (unreleased changes; needs git):
+
+```bash
+CI=1 npm_config_yes=true GIT_TERMINAL_PROMPT=0 npm i -g --install-links github:ezolabs/ezo-watcher
+```
+
+`GIT_TERMINAL_PROMPT=0` makes a missing GitHub credential fail immediately instead of waiting for a username that no agent will type. `--install-links` is part of the git command, not a preference. A git dependency that declares a build script (`prepare`, `prepack`, `preinstall`, `build`, `install` or `postinstall` — this package has `prepare`) makes npm 11 run a nested global install of the clone it made under its cache, and with `install-links` off that nested install reifies the package as a symlink to the clone instead of packing it. npm deletes the clone when the install ends, so `<prefix>/lib/node_modules/ezo-watcher` is left a dangling symlink and `<prefix>/bin/watcher` with it. `--install-links` makes npm pack the prepared clone into a tarball and install a real package directory, which is what a global install should be.
 
 From a checkout (contributing, or pinning a commit):
 
@@ -31,14 +43,12 @@ npm run build
 CI=1 npm_config_yes=true npm link      # puts `watcher` on PATH
 ```
 
-From a packed tarball — the path a release is tested through — any of these work before the package is published:
+From a packed tarball — the path a release is tested through — or the repository without the registry:
 
 ```bash
 CI=1 npm_config_yes=true npx -y ./ezo-watcher-0.1.0.tgz init     # a local `npm pack` artifact
 CI=1 npm_config_yes=true npx -y github:ezolabs/ezo-watcher init  # straight from the repository
 ```
-
-The package is **not yet on npm** as of 2026-11: the GitHub install and the packed tarball above are the two registry-free paths.
 
 ## First command in a project
 
@@ -89,9 +99,9 @@ Every read/report verb accepts `--json` (or `--output json|md|table`). Exit code
 ## Upgrading, stopping, removing
 
 ```bash
-CI=1 npm_config_yes=true npm i -g --install-links github:ezolabs/ezo-watcher   # upgrade in place
-watcher stop                                                    # stop a detached run
-watcher service uninstall                                       # remove the service, if installed
+CI=1 npm_config_yes=true npm i -g ezo-watcher@latest   # upgrade in place
+watcher stop                                            # stop a detached run
+watcher service uninstall                               # remove the service, if installed
 ```
 
 Deleting `.watcher/` removes the project's monitoring config and its history; `.watcher/config.json` is meant to be committed so the config survives a lost host. `.watcher/data/` holds the 30-day incident history and can be backed up like any sqlite file.
@@ -99,8 +109,8 @@ Deleting `.watcher/` removes the project's monitoring config and its history; `.
 ## Troubleshooting the first run
 
 - `watcher: command not found` — the global bin directory is not on `PATH`; check `npm prefix -g` (the bin is `<prefix>/bin`) or run through `npx`.
-- `watcher` exists but fails with "the CLI source is missing", or `<prefix>/lib/node_modules/ezo-watcher` is a symlink into npm's cache (`_cacache/tmp/git-clone…`) — that is a git install made without `--install-links` on npm 11: npm linked the clone and then deleted it. Reinstall with `npm i -g --install-links github:ezolabs/ezo-watcher`.
-- npm asks to confirm a git install — use the `CI=1 npm_config_yes=true` prefix shown above.
+- `watcher` exists but fails with "the CLI source is missing", or `<prefix>/lib/node_modules/ezo-watcher` is a symlink into npm's cache (`_cacache/tmp/git-clone…`) — that is a git install made without `--install-links` on npm 11: npm linked the clone and then deleted it. Reinstall with `npm i -g ezo-watcher`, or the git form with `--install-links` shown above.
+- npm asks to confirm an install — use the `CI=1 npm_config_yes=true` prefix shown above.
 - `secret.missing` — a source or channel names an env var that `.watcher/.env` does not set. Run `watcher doctor --json` and read that check's `next`; it names the variable. An optional source (`--optional`) is a `source.credential-skip` instead and does not fail the report; add the line to `.watcher/.env` when the credential arrives.
 - No credential for any channel — `watcher add channel file --id local` is the credential-free fallback, and `watcher test-alert --channel local` proves it.
 - `port.in-use` — something other than this Watcher holds `WATCHER_PORT`; pick another port in `.watcher/.env` or stop the other process.

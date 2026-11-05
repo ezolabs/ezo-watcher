@@ -84,7 +84,7 @@ The repository is public. Its history starts at one squashed snapshot, because t
 
 The one prompt for another project is in [`README.md`](README.md#give-this-to-your-agent). It installs the CLI, installs this skill into that project, and runs the loop until `watcher doctor --live --prove --json` returns `ok: true, live: true`.
 
-Every documented global install keeps `--install-links`. A git dependency with a build script makes npm 11 run a nested global install of its cache clone; with `install-links` off that install is a symlink to the clone, and npm deletes the clone when it finishes, leaving `<prefix>/lib/node_modules/ezo-watcher` and `<prefix>/bin/watcher` dangling. The flag is a workaround for npm's behaviour, not a preference: `test/acceptance/install-from-git.test.ts` fails without it, and a "cleanup" that drops it from README/SKILL/install.md breaks the documented one-liner.
+The documented install is the npm package: `npm i -g ezo-watcher`, or `npx -y ezo-watcher <verb>` with no install. The latest-main install from GitHub (`skills/ezo-watcher/references/install.md`) keeps `--install-links`. A git dependency with a build script makes npm 11 run a nested global install of its cache clone; with `install-links` off that install is a symlink to the clone, and npm deletes the clone when it finishes, leaving `<prefix>/lib/node_modules/ezo-watcher` and `<prefix>/bin/watcher` dangling. The flag is a workaround for npm's behaviour, not a preference: `test/acceptance/install-from-git.test.ts` fails a documented git install without it.
 
 ## Where to read more
 

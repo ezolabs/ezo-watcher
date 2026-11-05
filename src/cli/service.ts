@@ -211,7 +211,7 @@ export async function installService(input: { projectDir: string; withTunnel: bo
   const data = withDataDir(project, configRead.config)
   const name = serviceName(project.dir)
   const bin = join(packageRoot(), 'bin', 'watcher.mjs')
-  if (!existsSync(bin)) throw new CliError('service.bin-missing', `the CLI's bin file is missing: ${bin}`, { next: 'Reinstall the package (npm i -g --install-links github:ezolabs/ezo-watcher); its prepare step recreates bin/watcher.mjs.' })
+  if (!existsSync(bin)) throw new CliError('service.bin-missing', `the CLI's bin file is missing: ${bin}`, { next: 'Reinstall the package (npm i -g ezo-watcher); the install recreates bin/watcher.mjs.' })
   const dir = servicePaths(home, name).dir
   const path = servicePaths(home, name).path
   const main = process.platform === 'darwin'

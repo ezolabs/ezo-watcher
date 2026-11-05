@@ -1,10 +1,35 @@
 {
   "name": "ezo-watcher",
+  "mcpName": "io.github.ezolabs/ezo-watcher",
   "version": "0.1.0",
   "license": "MIT",
-  "private": true,
   "type": "module",
   "description": "Agentic LiveOps monitoring: your coding agent installs the checks, proves each one can fail, takes the page and ships the fix. Open source, self-hosted, MCP-native, no account.",
+  "author": "EZO Labs Inc.",
+  "homepage": "https://github.com/ezolabs/ezo-watcher#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ezolabs/ezo-watcher.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ezolabs/ezo-watcher/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "monitoring",
+    "uptime",
+    "alerting",
+    "sre",
+    "ai-sre",
+    "self-hosted",
+    "incident-management",
+    "heartbeat",
+    "cron-monitoring",
+    "ai-agents",
+    "claude-code",
+    "observability"
+  ],
   "engines": {
     "node": ">=24"
   },

@@ -8,6 +8,7 @@
 Agentic LiveOps monitoring: self-hosted, MCP-native, no account, and every check proven to go red before it counts.
 
 [![Live demo](https://img.shields.io/badge/live_demo-open_the_wall-141310?style=flat-square)](https://ezo-watcher-demo.pages.dev)
+[![npm](https://img.shields.io/npm/v/ezo-watcher?style=flat-square)](https://www.npmjs.com/package/ezo-watcher)
 [![Node 24+](https://img.shields.io/badge/node-24%2B-3c873a?style=flat-square&logo=nodedotjs&logoColor=white)](#quickstart)
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6?style=flat-square&logo=typescript&logoColor=white)](tsconfig.json)
 [![MCP](https://img.shields.io/badge/MCP-16_tools-6e56cf?style=flat-square)](docs/mcp.md)
@@ -78,7 +79,7 @@ flowchart LR
 
 ```text
 Set up EZO Watcher for this project. Install the CLI with
-`CI=1 npm_config_yes=true npm i -g --install-links github:ezolabs/ezo-watcher`, then run
+`CI=1 npm_config_yes=true npm i -g ezo-watcher`, then run
 `watcher init` and `watcher skills install --target all`, and follow the
 ezo-watcher skill end to end (read `.claude/skills/ezo-watcher/SKILL.md` or
 `.agents/skills/ezo-watcher/SKILL.md` if the skill is not listed in this session yet).
@@ -104,10 +105,8 @@ Claude Code users: after `watcher skills install`, run `/reload-skills` so the n
 ### Or by hand
 
 ```bash
-# Node 24+. Not on npm yet: this installs straight from GitHub.
-# Keep --install-links: on npm 11 a git dependency with a build step is otherwise linked to
-# npm's cache temp clone, which npm deletes after the install, leaving a dangling `watcher`.
-CI=1 npm_config_yes=true npm i -g --install-links github:ezolabs/ezo-watcher
+# Node 24+.
+npm i -g ezo-watcher
 watcher --version
 
 cd my-project
@@ -123,7 +122,7 @@ watcher doctor --live --prove --json    # {"ok": true, "live": true}
 watcher test-alert
 ```
 
-Open `http://127.0.0.1:7717` for the wall. `watcher init` writes `.watcher/config.json` (commit it), `.watcher/.env` and `.watcher/data/` (gitignored), and picks a free port from 7717.
+No global install: `npx -y ezo-watcher <verb>` runs any verb the same way (`npx -y ezo-watcher init`). Open `http://127.0.0.1:7717` for the wall. `watcher init` writes `.watcher/config.json` (commit it), `.watcher/.env` and `.watcher/data/` (gitignored), and picks a free port from 7717.
 
 ## What it sets up
 
@@ -295,7 +294,7 @@ Every input is in [docs/mcp.md](docs/mcp.md).
 ## Why it is different
 
 - **Assertion-proven, not status-proven.** A 200 proves a socket accepted a connection. The install is green only when each check carries a predicate that flips under mutation (`--prove`), so a broken database, a stalled queue or a dead job actually pages.
-- **Silence-first.** On real repositories a file scan finds most of the HTTP surface but only about a fifth of the silence: schedules generated inside install scripts, launchd/systemd units created at runtime, pull-queue workers, staleness declared in the product's own config, state-dir writability, dependency URLs held as code constants. The skill ships that checklist, and each item becomes a heartbeat or a webhook with a stale window.
+- **Silence-first.** In a prototype scan of four hand-labelled repositories, a file scan found most of the HTTP surface but only about a fifth of the silence: schedules generated inside install scripts, launchd/systemd units created at runtime, pull-queue workers, staleness declared in the product's own config, state-dir writability, dependency URLs held as code constants. The skill ships that checklist, and each item becomes a heartbeat or a webhook with a stale window.
 - **Local and account-free.** One Node process, `node:sqlite`, config in your git, secrets in a 0600 env file. Nothing to sign up for; it runs on a laptop, a server or behind a Cloudflare Tunnel.
 - **Agent-native.** The docs ship inside the CLI (`watcher skills <topic>`), the install loop is written for an agent, and the running Watcher speaks MCP so an agent can read the wall, acknowledge, comment, silence, park and recheck as itself.
 
@@ -330,7 +329,7 @@ The CLI and the server send anonymous usage data (the verb and flag names, exit 
 
 ## Status
 
-Public preview. The package is **not yet on npm**; install from GitHub as above. Hosting the wall for someone else's project is supported; multi-tenant hosting is not.
+Public preview, published on npm as [`ezo-watcher`](https://www.npmjs.com/package/ezo-watcher). Hosting the wall for someone else's project is supported; multi-tenant hosting is not.
 
 ## Develop
 

@@ -4,7 +4,7 @@
 
 EZO Watcher watches a project's real telemetry points — a dependency-gated readiness route first, heartbeats for every scheduled job, then error trackers, metrics and inbound webhooks — and proves each check can go red before calling the install done.
 
-Install (from GitHub; not yet on npm): `CI=1 npm_config_yes=true npm i -g --install-links github:ezolabs/ezo-watcher`. The one-prompt setup is in [README](README.md). The gate is `watcher doctor --live --prove --json` returning `{"ok": true, "live": true}`.
+Install: `CI=1 npm_config_yes=true npm i -g ezo-watcher` (or `npx -y ezo-watcher <verb>` with no install). The one-prompt setup is in [README](README.md). The gate is `watcher doctor --live --prove --json` returning `{"ok": true, "live": true}`.
 
 ## Agent entry points
 

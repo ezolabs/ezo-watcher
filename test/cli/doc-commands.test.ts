@@ -229,12 +229,25 @@ describe('every documented watcher command parses', () => {
     expect(() => run(['doctor', '--intervl', '60'])).toThrow(/unknown flag/)
   })
 
-  it('ships no npx published form in the docs', () => {
+  it('documents the npm package and its npx form, and no doc still says it is unpublished', () => {
     for (const file of files) {
       const text = readFileSync(join(ROOT, file), 'utf8')
-      expect(text.includes('npx -y ezo-watcher'), file).toBe(false)
-      expect(text.includes('published package'), file).toBe(false)
+      expect(/not (?:yet )?on npm/i.test(text), file).toBe(false)
     }
+    for (const file of ['README.md', 'skills/ezo-watcher/SKILL.md', 'skills/ezo-watcher/references/install.md']) {
+      const text = readFileSync(join(ROOT, file), 'utf8')
+      expect(text, file).toContain('npm i -g ezo-watcher')
+      expect(text, file).toContain('npx -y ezo-watcher')
+    }
+  })
+
+  it('keeps server.json (the MCP Registry entry) on the package name, mcpName and version', () => {
+    const pkg = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8'))
+    const server = JSON.parse(readFileSync(join(ROOT, 'server.json'), 'utf8'))
+    expect(server.name).toBe(pkg.mcpName)
+    expect(server.version).toBe(pkg.version)
+    expect(server.packages[0].identifier).toBe(pkg.name)
+    expect(server.packages[0].version).toBe(pkg.version)
   })
 
   it('names the doctor code the skill tells an agent to look for', () => {

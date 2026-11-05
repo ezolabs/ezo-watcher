@@ -21,7 +21,7 @@ node test/acceptance/run.mjs --from-git git+file:///path/to/ezo-watcher.git   # 
 `npm i -g <tgz>` does, and runs the whole transcript with the installed bin. Use it before a release:
 a package that only works from a checkout fails there, and nowhere else.
 
-`--from-git <spec>` is the same idea for the documented one-liner: it runs `npm i -g --install-links <spec>` (a temp
+`--from-git <spec>` is the same idea for the documented latest-main git install: it runs `npm i -g --install-links <spec>` (a temp
 prefix and cache) and the whole transcript with that bin. It refuses a package that arrived as a symlink into npm's
 cache — the npm 11 defect where a git dependency with a build script is linked to the clone npm then deletes, leaving
 `<prefix>/bin/watcher` dangling. Point it at a local bare mirror of a commit you have not pushed:

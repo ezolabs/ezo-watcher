@@ -1,0 +1,44 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.ezolabs/ezo-watcher",
+  "title": "EZO Watcher",
+  "description": "Self-hosted monitoring your coding agent installs, proves and fixes. Alert wall, pager, MCP.",
+  "repository": {
+    "url": "https://github.com/ezolabs/ezo-watcher",
+    "source": "github"
+  },
+  "websiteUrl": "https://ezo-watcher-demo.pages.dev",
+  "version": "0.1.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "ezo-watcher",
+      "version": "0.1.0",
+      "runtimeHint": "npx",
+      "transport": {
+        "type": "stdio"
+      },
+      "packageArguments": [
+        {
+          "type": "positional",
+          "value": "mcp"
+        },
+        {
+          "type": "named",
+          "name": "--dir",
+          "description": "The project directory that holds .watcher/ (watcher init writes it). Defaults to the working directory.",
+          "format": "filepath",
+          "isRequired": false
+        }
+      ],
+      "environmentVariables": [
+        {
+          "name": "WATCHER_MCP_TOKEN",
+          "description": "Token for the running Watcher's /mcp endpoint. When unset it is read from the project's .watcher/.env.",
+          "isRequired": false,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}

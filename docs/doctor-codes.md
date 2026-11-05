@@ -10,7 +10,7 @@ From a repo checkout, `bin/watcher.mjs` imports `src/cli/main.ts` and lets Node'
 stripping execute it. That is why `src/` stays inside the strip-only TypeScript subset (no `enum`, no
 constructor parameter properties): type stripping is unflagged from Node 22.18 and 23.6, and Node 24
 or newer is the supported line (`engines` in `package.json`). An installed package
-(`npm i -g --install-links github:ezolabs/ezo-watcher`, a tarball or `npx`) runs the esbuild bundles instead —
+(`npm i -g ezo-watcher`, a git install, a tarball or `npx`) runs the esbuild bundles instead —
 `dist/cli/main.mjs` and `dist/server/main.mjs` — because Node refuses type stripping under
 `node_modules`; the package's `prepack` builds them. From the checkout `watcher run` loads
 `.watcher/.env` with `process.loadEnvFile` and then imports `src/server/main.ts` directly; if the web

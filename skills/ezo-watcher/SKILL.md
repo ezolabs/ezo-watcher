@@ -9,18 +9,13 @@ The CLI is the source of truth. Every topic below prints from it: **`watcher ski
 
 ## Install the CLI
 
-Not yet on npm: install from GitHub (`github:ezolabs/ezo-watcher`).
-
 ```bash
-CI=1 npm_config_yes=true GIT_TERMINAL_PROMPT=0 npm i -g --install-links github:ezolabs/ezo-watcher
+CI=1 npm_config_yes=true npm i -g ezo-watcher
 watcher --version
 ```
 
-Keep `--install-links`: on npm 11 a git dependency with a build step (this one has `prepare`) is otherwise
-reified as a symlink to npm's cache temp clone, which npm deletes when the install ends, so `watcher`
-is left dangling. The flag makes npm pack the prepared clone and install a real package directory.
-
-From a checkout: `npm ci && npm run build && npm link`. Node 24+. Full detail: `watcher skills install`.
+No global install: `npx -y ezo-watcher <verb>` runs the same CLI. From a checkout: `npm ci && npm run build && npm link`.
+Node 24+. Full detail, including the latest-main install from GitHub: `watcher skills install`.
 
 ## The loop
 

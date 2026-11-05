@@ -129,7 +129,7 @@ export function installSkills(opts: InstallOptions): SkillsInstallResult {
   const files = skillFiles(opts.root)
   if (files.length === 0) {
     throw new CliError('skills.missing', `this package ships no skill files (${skillsDir(opts.root)} is empty)`, {
-      next: 'Reinstall ezo-watcher (npm i -g --install-links github:ezolabs/ezo-watcher); the skill ships with the package.'
+      next: 'Reinstall ezo-watcher (npm i -g ezo-watcher); the skill ships with the package.'
     })
   }
   const results: SkillsInstallResult['targets'] = []

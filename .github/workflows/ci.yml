@@ -60,7 +60,7 @@ jobs:
       - name: One-prompt acceptance from a packed tarball
         run: node test/acceptance/run.mjs --from-tarball
 
-      # The documented one-liner, against a local bare mirror of this checkout: `npm i -g --install-links <git url>`.
+      # The documented latest-main git install, against a local bare mirror of this checkout: `npm i -g --install-links <git url>`.
       # A git install is its own path: npm 11 otherwise reifies a git dependency that has a build script as a symlink
       # to its cache temp clone and deletes the clone when the install ends, leaving a dangling `<prefix>/bin/watcher`.
       # The mode fails on that symlink, so a documented command that loses --install-links fails here.

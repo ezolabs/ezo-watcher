@@ -42,6 +42,7 @@ cfargotunnel.com
 trycloudflare.com
 
 # Public documentation and content hosts cited in the skills, the CLI and the README.
+npmjs.com
 code.claude.com
 developers.openai.com
 llmstxt.org

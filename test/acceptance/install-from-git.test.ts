@@ -1,15 +1,17 @@
-// The global git install is its own install path, and on npm 11.20 it was broken for every package with a build
-// script: the git dependency is reified as a symlink to the clone npm keeps under its cache, npm deletes that clone
-// when the install ends, and `<prefix>/lib/node_modules/<name>` plus `<prefix>/bin/<name>` are left dangling. The
-// `--install-links` in the documented command is what makes npm pack the prepared clone instead, so this test pins
-// the documented recipe rather than any private helper: a fixture package (bin + `files` + a `prepare` script) is
-// served from a local bare git repository, installed with the exact npm flags README/SKILL.md give, and the result
-// must be a real package directory whose bin runs and whose prepare output shipped. A regression to the symlink
-// fails here, not in a user's terminal.
+// The global git install (the documented latest-main path beside `npm i -g ezo-watcher`) is its own install path,
+// and on npm 11.20 it was broken for every package with a build script: the git dependency is reified as a symlink to
+// the clone npm keeps under its cache, npm deletes that clone when the install ends, and
+// `<prefix>/lib/node_modules/<name>` plus `<prefix>/bin/<name>` are left dangling. The `--install-links` in the
+// documented git command is what makes npm pack the prepared clone instead, so this test pins the documented recipe
+// rather than any private helper: a fixture package (bin + `files` + a `prepare` script) is served from a local bare
+// git repository, installed with the exact npm flags install.md gives, and the result must be a real package
+// directory whose bin runs and whose prepare output shipped. A regression to the symlink fails here, not in a user's
+// terminal.
 //
 // It needs git and npm and nothing else: no registry dependency, so the install is a local clone, a `prepare` run,
-// a pack and an extract. The docs half of the file keeps the flag from being "cleaned up" out of the docs, because a
-// flag a doc drops is a broken install that no code test would notice.
+// a pack and an extract. The docs half of the file keeps the flag from being "cleaned up" out of any git install
+// line, because a flag a doc drops is a broken install that no code test would notice, and keeps the registry
+// one-liner the primary install on every copy surface.
 import { spawnSync } from 'node:child_process'
 import { existsSync, lstatSync, readFileSync, readlinkSync, mkdirSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
@@ -114,9 +116,12 @@ describe('the documented global git install', () => {
 })
 
 describe('the documented install lines', () => {
-  // llms.txt carries the same one-liner in the package index, and docs/doctor-codes.md describes the installed
-  // package: both are copy surfaces an agent reads, so both are checked here with the rest.
-  const DOCS = ['README.md', 'AGENTS.md', 'skills/ezo-watcher/SKILL.md', 'skills/ezo-watcher/references/install.md', 'llms.txt', 'docs/doctor-codes.md']
+  // llms.txt carries the same one-liner in the package index, docs/doctor-codes.md describes the installed package,
+  // and bin/watcher.mjs prints the reinstall line when a git install dangles: all are copy surfaces, so all are
+  // checked here with the rest.
+  const DOCS = ['README.md', 'AGENTS.md', 'skills/ezo-watcher/SKILL.md', 'skills/ezo-watcher/references/install.md', 'llms.txt', 'docs/doctor-codes.md', 'bin/watcher.mjs']
+  // The surfaces an agent copies its first install from: each must lead with the registry one-liner.
+  const PRIMARY = ['README.md', 'skills/ezo-watcher/SKILL.md', 'skills/ezo-watcher/references/install.md', 'llms.txt']
 
   it('every documented global git install passes --install-links', () => {
     const offenders: string[] = []
@@ -129,7 +134,25 @@ describe('the documented install lines', () => {
         if (!line.includes('--install-links')) offenders.push(`${file}:${i + 1}: ${line.trim()}`)
       })
     }
-    expect(found, 'no documented install line was found: the extractor or the docs moved').toBeGreaterThanOrEqual(3)
+    // install.md's latest-main block and bin/watcher.mjs's two reinstall hints.
+    expect(found, 'no documented git install line was found: the extractor or the docs moved').toBeGreaterThanOrEqual(3)
     expect(offenders.join('\n')).toBe('')
+  })
+
+  it('every primary surface installs the npm package, and none says it is unpublished', () => {
+    const missing: string[] = []
+    for (const file of PRIMARY) {
+      const text = readFileSync(join(ROOT, file), 'utf8')
+      if (!/npm i -g ezo-watcher(?![\w-])/.test(text)) missing.push(file)
+    }
+    expect(missing.join('\n'), 'a primary surface lost `npm i -g ezo-watcher`').toBe('')
+    const stale: string[] = []
+    for (const file of DOCS) {
+      const text = readFileSync(join(ROOT, file), 'utf8')
+      text.split('\n').forEach((line, i) => {
+        if (/not (?:yet )?on npm/i.test(line)) stale.push(`${file}:${i + 1}: ${line.trim()}`)
+      })
+    }
+    expect(stale.join('\n')).toBe('')
   })
 })
