@@ -12,6 +12,7 @@ Agentic LiveOps monitoring: self-hosted, MCP-native, no account, and every check
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6?style=flat-square&logo=typescript&logoColor=white)](tsconfig.json)
 [![MCP](https://img.shields.io/badge/MCP-16_tools-6e56cf?style=flat-square)](docs/mcp.md)
 [![No account](https://img.shields.io/badge/account-none-555?style=flat-square)](#why-it-is-different)
+[![MIT License](https://img.shields.io/badge/license-MIT-3b6ef6?style=flat-square)](LICENSE)
 [![CI](https://img.shields.io/github/actions/workflow/status/ezolabs/ezo-watcher/ci.yml?branch=main&style=flat-square&label=CI)](https://github.com/ezolabs/ezo-watcher/actions/workflows/ci.yml)
 
 [Live demo](https://ezo-watcher-demo.pages.dev) · [Quickstart](#quickstart) · [How it works](#how-it-works) · [The fix loop](#the-fix-loop) · [What agents see](#what-agents-see) · [MCP](#mcp) · [Hosting](#hosting) · [Docs](#docs)
@@ -341,3 +342,7 @@ npm test
 ```
 
 Node 24+, ESM, TypeScript. See [`AGENTS.md`](AGENTS.md) for the layout, the test rules and the leak gate, and [`docs/design.md`](docs/design.md) for the product decisions.
+
+## License
+
+[MIT](LICENSE) © EZO Labs Inc.

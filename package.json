@@ -1,6 +1,7 @@
 {
   "name": "ezo-watcher",
   "version": "0.1.0",
+  "license": "MIT",
   "private": true,
   "type": "module",
   "description": "Agentic LiveOps monitoring: your coding agent installs the checks, proves each one can fail, takes the page and ships the fix. Open source, self-hosted, MCP-native, no account.",
